@@ -117,6 +117,7 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
         try {
             State qNull = null;
             auto.isFinal(qNull);
+            fail();
         } catch (NullPointerException e) {
             assertTrue(true);
         }
@@ -125,6 +126,7 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
                     new NaiveDeterministicAutomatonSpecification();
             State qIllegal = wrongOne.addState();
             auto.isFinal(qIllegal);
+            fail();
         } catch (IllegalArgumentException e) {
             assertTrue(true);
         }
@@ -139,16 +141,21 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
         auto.addTransition(q1, q2, new AnyTransitionLabel());
         try {
             auto.addTransition(q1, q0, new EpsilonTransitionLabel());
+            fail();
         } catch (UnsupportedOperationException e) {
             assertTrue(true);
         }
-        auto.addTransition(q2, q0, new EpsilonTransitionLabel());
+        TransitionLabel epsilonik = new EpsilonTransitionLabel();
+        auto.addTransition(q2, q0, epsilonik);
         auto.markAsFinal(q2);
         assertTrue(auto.isFinal(q2));
         auto.unmarkAsFinalState(q2);
         assertFalse(auto.isFinal(q2));
         assertEquals(auto.allStates().size(), 3);
         assertEquals(auto.allOutgoingTransitions(q2).size(), 1);
+        assertTrue(((EffectiveDeterministicAutomaton.MyState) q2).hasEpsilonTransition());
+        assertTrue(((EffectiveDeterministicAutomaton.MyState) q2).getEpsilonTargetState()
+                .equals((EffectiveDeterministicAutomaton.MyState) q0));
     }
 }
 
