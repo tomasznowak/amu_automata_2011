@@ -124,7 +124,7 @@ public class AutomataOperations {
                 automatonC.markAsFinal(stateCn);
         return empty;
     }
-    
+
     /**
      * Metoda zwracajaca Automat akceptujacy jezyk bedacy dopelnieniem jezyka
      * akceptowanego przez Automat otrzymywany "na wejsciu".
@@ -142,7 +142,6 @@ public class AutomataOperations {
         }
         return returned;
     }
-
 
     /**
      * Metoda zwracająca automat akceptujący przecięcie języków akceptowanych przez
