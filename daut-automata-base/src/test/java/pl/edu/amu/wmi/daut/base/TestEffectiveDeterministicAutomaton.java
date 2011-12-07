@@ -131,11 +131,18 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
         auto.addLoop(q0, new EmptyTransitionLabel());
         State q1 = auto.addState();
         auto.addTransition(q0, q1, new CharRangeTransitionLabel('a', 'c'));
-        auto.addTransition(q1, q0, new EpsilonTransitionLabel());
         HashSet mySet = new HashSet();
         mySet.add('e');
         mySet.add('g');
         auto.addTransition(q0, q1, new CharSetTransitionLabel(mySet));
+        State q2 = auto.addState();
+        auto.addTransition(q1, q2, new AnyTransitionLabel());
+        try {
+            auto.addTransition(q1, q0, new EpsilonTransitionLabel());
+        } catch (UnsupportedOperationException e) {
+            assertTrue(true);
+        }
+        auto.addTransition(q2, q0, new EpsilonTransitionLabel());
     }
 }
 
