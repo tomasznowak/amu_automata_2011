@@ -143,6 +143,12 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
             assertTrue(true);
         }
         auto.addTransition(q2, q0, new EpsilonTransitionLabel());
+        auto.markAsFinal(q2);
+        assertTrue(auto.isFinal(q2));
+        auto.unmarkAsFinalState(q2);
+        assertFalse(auto.isFinal(q2));
+        assertEquals(auto.allStates().size(), 3);
+        assertEquals(auto.allOutgoingTransitions(q2).size(), 1);
     }
 }
 
