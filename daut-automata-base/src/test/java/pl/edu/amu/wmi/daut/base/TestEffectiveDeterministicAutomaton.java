@@ -1,5 +1,6 @@
 package pl.edu.amu.wmi.daut.base;
 
+import java.util.HashSet;
 import junit.framework.TestCase;
 
 /**
@@ -127,6 +128,14 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
         } catch (IllegalArgumentException e) {
             assertTrue(true);
         }
+        auto.addLoop(q0, new EmptyTransitionLabel());
+        State q1 = auto.addState();
+        auto.addTransition(q0, q1, new CharRangeTransitionLabel('a', 'c'));
+        auto.addTransition(q1, q0, new EpsilonTransitionLabel());
+        HashSet mySet = new HashSet();
+        mySet.add('e');
+        mySet.add('g');
+        auto.addTransition(q0, q1, new CharSetTransitionLabel(mySet));
     }
 }
 
