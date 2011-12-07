@@ -15,7 +15,7 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
         /**
          * st-> simple test.
          */
-        DeterministicAutomatonSpecification st = new NaiveDeterministicAutomatonSpecification();
+        DeterministicAutomatonSpecification st = new EffectiveDeterministicAutomaton();
         State q1 = st.addState();
         State q2 = st.addState();
         st.addTransition(q1, q2, new CharTransitionLabel('a'));
@@ -52,7 +52,7 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
         /**
          * os-> one state.
          */
-        DeterministicAutomatonSpecification os = new NaiveDeterministicAutomatonSpecification();
+        DeterministicAutomatonSpecification os = new EffectiveDeterministicAutomaton();
         State q1 = os.addState();
         State q2 = os.addState();
         os.addTransition(q1, q2, new CharTransitionLabel('a'));
@@ -78,7 +78,7 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
         /**
          * pch-> parity check.
          */
-        DeterministicAutomatonSpecification pch = new NaiveDeterministicAutomatonSpecification();
+        DeterministicAutomatonSpecification pch = new EffectiveDeterministicAutomaton();
         State qpp = pch.addState();
         State qnp = pch.addState();
         State qnn = pch.addState();
@@ -111,17 +111,17 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
     public final void testMakeMinimal() {
 
         DeterministicAutomatonSpecification automaton =
-                new NaiveDeterministicAutomatonSpecification();
+                new EffectiveDeterministicAutomaton();
         DeterministicAutomatonSpecification automaton2 =
-                new NaiveDeterministicAutomatonSpecification();
+                new EffectiveDeterministicAutomaton();
         DeterministicAutomatonSpecification automaton4 =
-                new NaiveDeterministicAutomatonSpecification();
+                new EffectiveDeterministicAutomaton();
         DeterministicAutomatonSpecification automaton5 =
-                new NaiveDeterministicAutomatonSpecification();
+                new EffectiveDeterministicAutomaton();
         DeterministicAutomatonSpecification automaton7 =
-                new NaiveDeterministicAutomatonSpecification();
+                new EffectiveDeterministicAutomaton();
         DeterministicAutomatonSpecification automaton8 =
-                new NaiveDeterministicAutomatonSpecification();
+                new EffectiveDeterministicAutomaton();
 
         //---------------------------------------------------------
         State state1 = automaton.addState();
