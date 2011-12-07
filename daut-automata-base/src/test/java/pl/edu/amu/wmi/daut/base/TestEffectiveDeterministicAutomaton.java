@@ -11,7 +11,7 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
     /**
      * prosty test automatu deterministycznego.
      */
-    public final void testSimpleDeterministicAutomaton() {
+    public final void testSimpleEffectiveDeterministicAutomaton() {
         /**
          * st-> simple test.
          */
@@ -74,7 +74,7 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
     /**
      * automat z wykladu, sprawdza czy a i b sa parzyste.
      */
-    public final void testDeterministicAutomatonParityCheck() {
+    public final void testEffectiveDeterministicAutomatonParityCheck() {
         /**
          * pch-> parity check.
          */
@@ -104,6 +104,29 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
         assertFalse(pct.accepts("abb"));
         assertFalse(pct.accepts("vabb"));
         assertFalse(pct.accepts("aabbh"));
+    }
+
+    /**
+     * automat z wykladu, sprawdza czy a i b sa parzyste.
+     */
+    public final void testThrowableEffectiveDeterministicAutomatons() {
+        EffectiveDeterministicAutomaton auto = new EffectiveDeterministicAutomaton();
+        State q0 = auto.addState();
+        auto.markAsInitial(q0);
+        try {
+            State qNull = null;
+            auto.isFinal(qNull);
+        } catch (NullPointerException e) {
+            assertTrue(true);
+        }
+        try {
+            NaiveDeterministicAutomatonSpecification wrongOne =
+                    new NaiveDeterministicAutomatonSpecification();
+            State qIllegal = wrongOne.addState();
+            auto.isFinal(qIllegal);
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
     }
 }
 
