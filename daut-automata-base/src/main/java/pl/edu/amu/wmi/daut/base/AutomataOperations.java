@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
+
 
 /**
  * Klasa zwierająca operacje na automatach.
@@ -293,6 +295,58 @@ public class AutomataOperations {
         return automaton;
     }
 
+  /**
+  * Zwraca automat akceptujący język powstały w wyniku zastosowania homomorfizmu h na
+  * języku akceptowanym przez automat automaton. Homomorfizm jest dany jako mapa, w której
+  * kluczami są znaki, a wartościami - napisy.
+  * @param alphabet alfabet w postaci String, np. abc
+  * @param automaton automat wejściowy
+  * @param h homomorfizm języka
+
+  */
+ AutomatonSpecification homomorphism(AutomatonSpecification automaton,
+         Map<Character, String> h, String alphabet) {
+     if (automaton.isEmpty()) {
+         return automaton;
+     }
+
+     char[] tablica;
+     tablica = alphabet.toCharArray();
+     AutomatonSpecification homoautomaton = new NaiveDeterministicAutomatonSpecification();
+     List<State> states = new ArrayList<State>();
+     states.addAll(automaton.allStates());
+     HashMap<State, State> connectedStates = new HashMap<State, State>();
+      for (State current : states) {
+          if (!connectedStates.containsKey(current))
+              connectedStates.put(current, homoautomaton.addState());
+        for (OutgoingTransition currenttrans : automaton.allOutgoingTransitions(current)) {
+          TransitionLabel tl = currenttrans.getTransitionLabel();
+          for (char znak : tablica) {
+            if (tl.canAcceptCharacter(znak)) {
+                 String napis = h.get(znak);
+                 int dlugosc = napis.length();
+                 char[] znaki = napis.toCharArray();
+                 State docelowy = currenttrans.getTargetState();
+                 State prev = current;
+                 if (dlugosc == 0) {
+                     homoautomaton.addTransition(prev, docelowy, new EpsilonTransitionLabel());
+                 }
+                 for (int i = 0; i < dlugosc - 1; i++) {
+                     State next = homoautomaton.addState();
+                     homoautomaton.addTransition(prev, next, new CharTransitionLabel(znaki[i]));
+                     prev = next;
+                 }
+                 homoautomaton.addTransition(prev, docelowy,
+                         new CharTransitionLabel(znaki[dlugosc]));
+                 connectedStates.put(docelowy, homoautomaton.addState());
+              }
+          }
+      }
+     }
+     return homoautomaton;
+ }
+
+
     /**
      * Klasa pomocnicza do determinize2(). Rekuprezentuje "zbiór stanów" będący stanem automatu dfa.
      */
@@ -553,9 +607,10 @@ public class AutomataOperations {
                 }
             }
             PowerSetElement.resetNumber();
-            resultDfa.deleteUselessStates();
+            //resultDfa.deleteUselessStates();
         } else {
             throw new StructureException();
         }
     }
+
 }

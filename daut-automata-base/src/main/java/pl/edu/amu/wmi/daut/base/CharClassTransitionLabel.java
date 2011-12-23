@@ -18,11 +18,11 @@ public class CharClassTransitionLabel extends TransitionLabel {
      */
     public CharClassTransitionLabel(String s) {
         charClass = s;
+        if (s.charAt(0) == '-' || s.charAt(s.length() - 1) == '-') {
+            addChar(s.charAt(0));
+        }
         for (int i = 0; i < s.length(); ++i) {
-            if (s.charAt(i) == '-') {
-                addChar(s.charAt(i - 1), s.charAt(i + 1));
-                i++;
-            } else if (i + 1 < s.length() && s.charAt(i + 1) == '-') {
+            if (i + 2 < s.length() && s.charAt(i + 1) == '-') {
                 addChar(s.charAt(i), s.charAt(i + 2));
                 i += 2;
             } else {

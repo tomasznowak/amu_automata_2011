@@ -2,6 +2,8 @@ package pl.edu.amu.wmi.daut.base;
 import java.util.List;
 import java.util.Arrays;
 
+import java.util.HashSet;
+import java.util.Set;
 import junit.framework.TestCase;
 
 /**
@@ -107,7 +109,7 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Test metody countStates.
+     * Test metody countTransitions.
      */
     public final void testCountTransitions() {
         NaiveAutomatonSpecification spec = new NaiveAutomatonSpecification();
@@ -1015,5 +1017,70 @@ public class TestAutomatonSpecification extends TestCase {
         assertEquals(clon2.accepts("cc"), mini2.accepts("cc"));
         assertEquals(clon2.accepts("bca"), mini2.accepts("bca"));
         assertEquals(clon2.accepts("acc"), mini2.accepts("acc"));
+    }
+
+    /**
+     * Prosty test metody getEpsilonClosure(State).
+     */
+    public final void testSimpleGetEpsilonClosure() {
+        // Automat z tylko jednym stanem (początkowy i końcowy).
+        // Tylko jedne możliwe przejście (czytanie znaku pustego
+        // i wracanie na ten sam stan).
+        NaiveAutomatonSpecification automat = new NaiveAutomatonSpecification();
+        // Nowy automat ma już stan początkowy i ustawiamy przejście.
+        automat.addTransition(automat.getInitialState(),
+                automat.getInitialState(),
+                new EpsilonTransitionLabel());
+        // Zaznaczamy stan początkowy jako końcowy.
+        automat.markAsFinal(automat.getInitialState());
+        Set<State> zbior = new HashSet<State>();
+        zbior.add(automat.getInitialState());
+        assertEquals(zbior,
+                automat.getEpsilonClosure(automat.getInitialState()));
+    }
+
+    /**
+     * Trudniejszy test metody getEpsilonClosure(State).
+     */
+    public final void testHardGetEpsilonClosure() {
+        // Prosty automat z czterema stanami.
+        NaiveAutomatonSpecification automat = new NaiveAutomatonSpecification();
+        State s0, s1, s2, s3;
+        s0 = automat.getInitialState();
+        s1 = automat.addState();
+        s2 = automat.addState();
+        s3 = automat.addState();
+        automat.markAsFinal(s3);
+
+        // Dodajmy jakieś "normalne" przejścia.
+        automat.addTransition(s0, s1, new CharTransitionLabel('a'));
+        automat.addTransition(s0, s2, new CharTransitionLabel('b'));
+        automat.addTransition(s1, s3, new CharTransitionLabel('a'));
+        automat.addTransition(s1, s3, new CharTransitionLabel('b'));
+        automat.addTransition(s2, s1, new CharTransitionLabel('b'));
+
+        // Dodajemy epsilon przejścia.
+        automat.addTransition(s2, s3, new EpsilonTransitionLabel());
+        automat.addTransition(s3, s1, new EpsilonTransitionLabel());
+        automat.addTransition(s3, s0, new EpsilonTransitionLabel());
+        automat.addTransition(s0, s3, new EpsilonTransitionLabel());
+
+        Set<State> zbior = new HashSet<State>();
+        zbior.add(s1);
+        assertEquals(zbior, automat.getEpsilonClosure(s1));
+
+        zbior = automat.getEpsilonClosure(s1);
+        zbior.add(s0);
+        zbior.add(s1);
+        zbior.add(s2);
+        zbior.add(s3);
+        assertEquals(zbior, automat.getEpsilonClosure(s2));
+
+        // Tu jest pętla.
+        zbior = new HashSet<State>();
+        zbior.add(s0);
+        zbior.add(s1);
+        zbior.add(s3);
+        assertEquals(zbior, automat.getEpsilonClosure(s3));
     }
 }

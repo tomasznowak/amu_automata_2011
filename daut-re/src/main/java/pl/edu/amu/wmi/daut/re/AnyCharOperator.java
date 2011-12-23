@@ -5,50 +5,34 @@ import pl.edu.amu.wmi.daut.base.NaiveAutomatonSpecification;
 import java.util.List;
 
 /**
- *
- * @author Adam
- *
- * klasa reprezentująca operator jednego znaku z wyrażeń regularnych. Na przykład "a" albo "%"
+ * Klasa reprezentująca operator '.' z wyrażeń regularnych (dowolny znak).
  */
-public class SingleCharacterOperator extends NullaryRegexpOperator {
-
+public class AnyCharOperator extends NullaryRegexpOperator {
     private char character;
 
     /**
-     * Konstruktor jaki jest każdy widzi. Ten akurat pobiera chara :)
+     * Metoda, ustawia pożądany znak.
      */
-    public SingleCharacterOperator(char a) {
-        character = a;
+    public void setCharacter(char c) {
+        this.character = c;
     }
-
-    /**
-     * Funkcja zwracajaca znak akceptowany przez automat.
-     */
-    public char getCharacter() {
-        return character;
-    }
-
-    /**
-     * Generuje automat składający się tylko z jednego znaku.
-     */
     @Override
     public AutomatonSpecification createFixedAutomaton() {
-
         return new NaiveAutomatonSpecification().makeOneTransitionAutomaton(character);
     }
 
-    /**
+     /**
      * Fabryka operatora.
      */
     public static class Factory extends NullaryRegexpOperatorFactory {
 
         @Override
         public int numberOfParams() {
-            return 1;
+            return 0;
         }
 
         protected RegexpOperator doCreateOperator(List<String> params) {
-            return new SingleCharacterOperator(params.get(0).charAt(0));
+            return new AnyCharOperator();
         }
     }
 }
