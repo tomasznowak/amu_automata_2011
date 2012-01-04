@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
-
 /**
  * Klasa zwierająca operacje na automatach.
  */
@@ -149,6 +148,7 @@ public class AutomataOperations {
      * Metoda zwracająca automat akceptujący przecięcie języków akceptowanych przez
      * dwa podane automaty.
      */
+
     public static AutomatonSpecification intersection(
             AutomatonSpecification automatonA, AutomatonSpecification automatonB) {
 
@@ -279,8 +279,9 @@ public class AutomataOperations {
     }
 
      /**
-     * Metoda tworzaca automat akceptujacy sume 2 jezykow.
-     */
+      * Metoda tworzaca automat akceptujacy sume 2 jezykow.
+      */
+
     public static AutomatonSpecification sum(
         AutomatonSpecification automatonA, AutomatonSpecification automatonB) {
         AutomatonSpecification automaton = new NaiveAutomatonSpecification();
@@ -296,14 +297,14 @@ public class AutomataOperations {
     }
 
   /**
-  * Zwraca automat akceptujący język powstały w wyniku zastosowania homomorfizmu h na
-  * języku akceptowanym przez automat automaton. Homomorfizm jest dany jako mapa, w której
-  * kluczami są znaki, a wartościami - napisy.
-  * @param alphabet alfabet w postaci String, np. abc
-  * @param automaton automat wejściowy
-  * @param h homomorfizm języka
+   * Zwraca automat akceptujący język powstały w wyniku zastosowania homomorfizmu h na
+   * języku akceptowanym przez automat automaton. Homomorfizm jest dany jako mapa, w której
+   * kluczami są znaki, a wartościami - napisy.
+   * @param alphabet alfabet w postaci String, np. abc
+   * @param automaton automat wejściowy
+   * @param h homomorfizm języka
 
-  */
+   */
  AutomatonSpecification homomorphism(AutomatonSpecification automaton,
          Map<Character, String> h, String alphabet) {
      if (automaton.isEmpty()) {
@@ -613,4 +614,25 @@ public class AutomataOperations {
         }
     }
 
+    /**
+     * Metoda tworząca automat akcpetujący konkatenację dwóch języków,
+     * akceptowanych przez dwa dane automaty L i R.
+     */
+    public static AutomatonSpecification concatenation(
+            final AutomatonSpecification automatonL, final AutomatonSpecification automatonR) {
+
+        AutomatonSpecification wsa;
+        wsa = automatonL.clone();
+        List<State> statesL = new ArrayList<State>();
+        statesL.addAll(wsa.allStates());
+
+        for (State state : statesL) {
+            if (wsa.isFinal(state)) {
+                wsa.insert(state, automatonR);
+                wsa.unmarkAsFinalState(state);
+            }
+        }
+
+        return wsa;
+    }
 }

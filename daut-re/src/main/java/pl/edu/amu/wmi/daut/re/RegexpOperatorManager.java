@@ -91,7 +91,8 @@ public class RegexpOperatorManager {
 
         if (currentOperator != null)
             return currentOperator.separators;
-        else return null;
+        else
+            return null;
     }
 
 
@@ -104,7 +105,8 @@ public class RegexpOperatorManager {
 
         if (currentOperator != null)
             return currentOperator.operatorFactory;
-        else return null;
+        else
+            return null;
     }
 
 
@@ -117,7 +119,8 @@ public class RegexpOperatorManager {
 
         if (currentOperator != null)
             return currentOperator.priority;
-        else return -1;
+        else
+            return -1;
     }
 
     /**
@@ -145,33 +148,24 @@ public class RegexpOperatorManager {
         List<String> returnedId = new ArrayList<String>();
         List<OperatorData> potentialOperators = new ArrayList<OperatorData>();
         String firstSeparator;
-        int max = 0, tested = 0;
+        int max = 0;
 
         for (OperatorData operator : definedOperators) {
             firstSeparator = operator.separators.get(0);
 
-            if (s.startsWith(firstSeparator) && !firstSeparator.equals("")) {
+            if (s.startsWith(firstSeparator) && firstSeparator.length() >= max) {
+                if (firstSeparator.length() > max) {
+                    max = firstSeparator.length();
+                    potentialOperators.clear();
+                }
                 potentialOperators.add(operator);
-                tested = operator.separators.get(0).length();
-                if (tested > max)
-                    max = tested;
             }
         }
 
-        if (potentialOperators.isEmpty()) {
-            for (OperatorData operator : definedOperators) {
-                firstSeparator = operator.separators.get(0);
-
-                if (firstSeparator.equals(""))
-                    returnedId.add(operator.id);
-            }
-        } else {
-            for (OperatorData operator : potentialOperators) {
-                tested = operator.separators.get(0).length();
-                if (tested == max)
-                    returnedId.add(operator.id);
-            }
+        for (OperatorData operator : potentialOperators) {
+            returnedId.add(operator.id);
         }
+
         return returnedId;
     }
 }

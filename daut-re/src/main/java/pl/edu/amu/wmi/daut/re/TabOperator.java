@@ -1,16 +1,17 @@
 package pl.edu.amu.wmi.daut.re;
 
-import java.util.List;
 import pl.edu.amu.wmi.daut.base.AutomatonSpecification;
 import pl.edu.amu.wmi.daut.base.NaiveAutomatonSpecification;
+import java.util.List;
 
 /**
- * Klasa reprezentująca znak "dźwiękowy" (znak o kodzie 7, \a w wyrażeniach regularnych).
+ * Klasa reprezentujaca znak tabulacji.
  */
-public class BellCharacterOperator extends NullaryRegexpOperator {
+public class TabOperator extends NullaryRegexpOperator {
+
     @Override
     public AutomatonSpecification createFixedAutomaton() {
-        return new NaiveAutomatonSpecification().makeOneTransitionAutomaton('\7');
+        return new NaiveAutomatonSpecification().makeOneTransitionAutomaton('\t');
     }
 
     /**
@@ -23,9 +24,8 @@ public class BellCharacterOperator extends NullaryRegexpOperator {
             return 0;
         }
 
-        @Override
         protected RegexpOperator doCreateOperator(List<String> params) {
-            return new BellCharacterOperator();
+            return new TabOperator();
         }
     }
 }

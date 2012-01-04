@@ -49,7 +49,7 @@ public class AsciiCharacterClassOperator extends NullaryRegexpOperator {
      * konstruktor ASCII character classes.
      */
     public AsciiCharacterClassOperator(String a) {
-        if (!(a.substring(0, 1).equals("[:")))
+        if (!(a.substring(0, 2).equals("[:")))
             throw new InvalidStringException();
         a = a.substring(2);
         if (!(a.endsWith(":]")))
