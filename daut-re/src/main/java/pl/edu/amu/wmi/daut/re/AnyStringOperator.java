@@ -38,4 +38,14 @@ public class AnyStringOperator extends NullaryRegexpOperator {
             return new AnyStringOperator();
         }
     }
+
+    /**
+     * Metoda toString().
+     */
+
+    @Override
+    public String toString() {
+        return "ANY_STRING";
+    }
+
 }

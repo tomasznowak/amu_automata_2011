@@ -32,4 +32,13 @@ public class KleeneStarOperator extends UnaryRegexpOperator {
         }
     }
 
+    /**
+     * Metoda toString().
+     */
+
+    @Override
+    public String toString() {
+        return "KLEENE_STAR";
+    }
+
 }

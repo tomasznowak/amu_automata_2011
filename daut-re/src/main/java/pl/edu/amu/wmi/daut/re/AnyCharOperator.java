@@ -35,4 +35,14 @@ public class AnyCharOperator extends NullaryRegexpOperator {
             return new AnyCharOperator();
         }
     }
+
+    /**
+     * Metoda toString().
+     */
+
+    @Override
+    public String toString() {
+        return "ANY_CHAR_" + character;
+    }
+
 }

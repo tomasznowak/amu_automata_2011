@@ -28,7 +28,6 @@ public class TestNewLineOperator extends TestCase {
         assertFalse(automaton.accepts("\t"));
         assertFalse(automaton.accepts(" "));
         assertFalse(automaton.accepts(""));
-        assertFalse(automaton.accepts("\r"));
     }
 
     /**
