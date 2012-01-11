@@ -1,4 +1,4 @@
-﻿package pl.edu.amu.wmi.daut.base;
+package pl.edu.amu.wmi.daut.base;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -279,6 +279,7 @@ public class AutomataOperations {
     }
 
 
+
     /*
      *  dla automatu z epsilon-przejsciami tworzy rownowazny automat bez epsilon-przejsc
      */ 	
@@ -302,8 +303,6 @@ public class AutomataOperations {
           }
         }  
     }
-
-
 
      /**
      * Metoda tworzaca automat akceptujacy sume 2 jezykow.
@@ -331,47 +330,6 @@ public class AutomataOperations {
   * @param h homomorfizm języka
 
   */
- AutomatonSpecification homomorphism(AutomatonSpecification automaton,
-         Map<Character, String> h, String alphabet) {
-     if (automaton.isEmpty()) {
-         return automaton;
-     }
-
-     char[] tablica;
-     tablica = alphabet.toCharArray();
-     AutomatonSpecification homoautomaton = new NaiveDeterministicAutomatonSpecification();
-     List<State> states = new ArrayList<State>();
-     states.addAll(automaton.allStates());
-     HashMap<State, State> connectedStates = new HashMap<State, State>();
-      for (State current : states) {
-          if (!connectedStates.containsKey(current))
-              connectedStates.put(current, homoautomaton.addState());
-        for (OutgoingTransition currenttrans : automaton.allOutgoingTransitions(current)) {
-          TransitionLabel tl = currenttrans.getTransitionLabel();
-          for (char znak : tablica) {
-            if (tl.canAcceptCharacter(znak)) {
-                 String napis = h.get(znak);
-                 int dlugosc = napis.length();
-                 char[] znaki = napis.toCharArray();
-                 State docelowy = currenttrans.getTargetState();
-                 State prev = current;
-                 if (dlugosc == 0) {
-                     homoautomaton.addTransition(prev, docelowy, new EpsilonTransitionLabel());
-                 }
-                 for (int i = 0; i < dlugosc - 1; i++) {
-                     State next = homoautomaton.addState();
-                     homoautomaton.addTransition(prev, next, new CharTransitionLabel(znaki[i]));
-                     prev = next;
-                 }
-                 homoautomaton.addTransition(prev, docelowy,
-                         new CharTransitionLabel(znaki[dlugosc]));
-                 connectedStates.put(docelowy, homoautomaton.addState());
-              }
-          }
-      }
-     }
-     return homoautomaton;
- }
 
 
     /**
@@ -634,10 +592,11 @@ public class AutomataOperations {
                 }
             }
             PowerSetElement.resetNumber();
-            resultDfa.deleteUselessStates();
+           // resultDfa.deleteUselessStates();
         } else {
             throw new StructureException();
         }
+
     }
 
 }
