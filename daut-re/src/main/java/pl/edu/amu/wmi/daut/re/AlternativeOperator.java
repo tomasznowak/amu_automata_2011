@@ -6,7 +6,6 @@ import java.util.List;
 
 /**
  * Klasa reprezentująca operator '|' z wyrażeń regularnych (alternatywa).
- * 
  */
 public class AlternativeOperator extends BinaryRegexpOperator {
 
