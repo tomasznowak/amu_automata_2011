@@ -282,13 +282,14 @@ public class AutomataOperations {
         }
         return kleeneautomaton;
     }
-	
+
+
     /*
     *  dla automatu z epsilon-przejsciami tworzy rownowazny automat bez epsilon-przejsc
-    */ 	
+    */
     public void getRidOfEpsilonTransitions(AutomatonSpecification epsilonAutomaton, AutomatonSpecification resultAutomaton){
         List<State> loadedStates = epsilonAutomaton.allStates();
-        HashMap<State, State> connectedStates = new HashMap<State, State>();  
+        HashMap<State, State> connectedStates = new HashMap<State, State>();
         for (State currentState : loadedStates)
           connectedStates.put(currentState, resultAutomaton.addState());
         resultAutomaton.markAsInitial(epsilonAutomaton.getInitialState());
@@ -304,7 +305,7 @@ public class AutomataOperations {
                   resultAutomaton.addTransition(connectedStates.get(currentState), connectedStates.get(state), transition.getTransitionLabel());
               }
           }
-        }  
+        }
     }
 	
 
