@@ -304,7 +304,7 @@ public class AutomataOperations {
                 connectedStates.get(transition.getTargetState()),
                 transition.getTransitionLabel());
                 Set<State> epsilonClosure = epsilonAutomaton.
-				getEpsilonClosure(transition.getTargetState());
+                getEpsilonClosure(transition.getTargetState());
                 for (State state : epsilonClosure)
                   resultAutomaton.addTransition(connectedStates.get(currentState),
                   connectedStates.get(state), transition.getTransitionLabel());
