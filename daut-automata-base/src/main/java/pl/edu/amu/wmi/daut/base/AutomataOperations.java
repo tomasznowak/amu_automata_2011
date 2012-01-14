@@ -282,14 +282,13 @@ public class AutomataOperations {
         }
         return kleeneautomaton;
     }
-
-
+	
     /*
-     *  dla automatu z epsilon-przejsciami tworzy rownowazny automat bez epsilon-przejsc
-     */ 	
+    *  dla automatu z epsilon-przejsciami tworzy rownowazny automat bez epsilon-przejsc
+    */
     public void getRidOfEpsilonTransitions(AutomatonSpecification epsilonAutomaton, AutomatonSpecification resultAutomaton){
         List<State> loadedStates = epsilonAutomaton.allStates();
-        HashMap<State, State> connectedStates = new HashMap<State, State>(); 
+        HashMap<State, State> connectedStates = new HashMap<State, State>();
         for (State currentState : loadedStates)
           connectedStates.put(currentState, resultAutomaton.addState());
         resultAutomaton.markAsInitial(epsilonAutomaton.getInitialState());
@@ -305,13 +304,8 @@ public class AutomataOperations {
                   resultAutomaton.addTransition(connectedStates.get(currentState), connectedStates.get(state), transition.getTransitionLabel());
               }
           }
-        }
-    }
-	
-
         }  
     }
-
 
      /**
       * Metoda tworząca automat akceptujący sumę 2 jezyków.
@@ -332,7 +326,6 @@ public class AutomataOperations {
     }
 
   /**
-<<<<<<< HEAD
    * Zwraca automat akceptujący język powstały w wyniku zastosowania homomorfizmu h na
    * języku akceptowanym przez automat automaton. Homomorfizm jest dany jako mapa, w której
    * kluczami są znaki, a wartościami - napisy.
@@ -382,16 +375,6 @@ public class AutomataOperations {
      }
      return homoautomaton;
  }
-=======
-  * Zwraca automat akceptujący język powstały w wyniku zastosowania homomorfizmu h na
-  * języku akceptowanym przez automat automaton. Homomorfizm jest dany jako mapa, w której
-  * kluczami są znaki, a wartościami - napisy.
-  * @param alphabet alfabet w postaci String, np. abc
-  * @param automaton automat wejściowy
-  * @param h homomorfizm języka
-
-  */
->>>>>>> c8bca4edf27b46af80d68092dfe6958b32dccb2d
 
 
     /**
@@ -682,17 +665,14 @@ public class AutomataOperations {
                 }
             }
             PowerSetElement.resetNumber();
-
             //Nie zadziała zmniejszanie automatu, bo nie dostajemy alfabetu "na wejściu".
             //Można co prawda wygenerować ze zbioru T, ale dla choć jednego wystąpienia
             //etykiety przejścia ComplementCharClassTransitionLabel generowanie to nie będzie
             //poprawnie działało.
             //resultDfa.deleteUselessStates();
-           // resultDfa.deleteUselessStates();
         } else {
             throw new StructureException();
         }
-
     }
 
     /**
