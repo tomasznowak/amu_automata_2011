@@ -284,22 +284,12 @@ public class AutomataOperations {
     }
 
 
-<<<<<<< HEAD
-    /*
-    *  dla automatu z epsilon-przejsciami tworzy rownowazny automat bez epsilon-przejsc
-    */
-    public void getRidOfEpsilonTransitions(AutomatonSpecification epsilonAutomaton, AutomatonSpecification resultAutomaton){
-        List<State> loadedStates = epsilonAutomaton.allStates();
-        HashMap<State, State> connectedStates = new HashMap<State, State>();
-=======
-
     /*
      *  dla automatu z epsilon-przejsciami tworzy rownowazny automat bez epsilon-przejsc
      */ 	
     public void getRidOfEpsilonTransitions(AutomatonSpecification epsilonAutomaton, AutomatonSpecification resultAutomaton){
         List<State> loadedStates = epsilonAutomaton.allStates();
-        HashMap<State, State> connectedStates = new HashMap<State, State>();  
->>>>>>> c8bca4edf27b46af80d68092dfe6958b32dccb2d
+        HashMap<State, State> connectedStates = new HashMap<State, State>(); 
         for (State currentState : loadedStates)
           connectedStates.put(currentState, resultAutomaton.addState());
         resultAutomaton.markAsInitial(epsilonAutomaton.getInitialState());
@@ -315,14 +305,13 @@ public class AutomataOperations {
                   resultAutomaton.addTransition(connectedStates.get(currentState), connectedStates.get(state), transition.getTransitionLabel());
               }
           }
-<<<<<<< HEAD
         }
     }
 	
-=======
+
         }  
     }
->>>>>>> c8bca4edf27b46af80d68092dfe6958b32dccb2d
+
 
      /**
       * Metoda tworząca automat akceptujący sumę 2 jezyków.
@@ -693,15 +682,13 @@ public class AutomataOperations {
                 }
             }
             PowerSetElement.resetNumber();
-<<<<<<< HEAD
+
             //Nie zadziała zmniejszanie automatu, bo nie dostajemy alfabetu "na wejściu".
             //Można co prawda wygenerować ze zbioru T, ale dla choć jednego wystąpienia
             //etykiety przejścia ComplementCharClassTransitionLabel generowanie to nie będzie
             //poprawnie działało.
             //resultDfa.deleteUselessStates();
-=======
            // resultDfa.deleteUselessStates();
->>>>>>> c8bca4edf27b46af80d68092dfe6958b32dccb2d
         } else {
             throw new StructureException();
         }
