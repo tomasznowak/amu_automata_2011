@@ -283,9 +283,9 @@ public class AutomataOperations {
         return kleeneautomaton;
     }
 
-    /*
-    *  dla automatu z epsilon-przejsciami tworzy rownowazny automat bez epsilon-przejsc
-    */
+    /**
+     *  dla automatu z epsilon-przejsciami tworzy rownowazny automat bez epsilon-przejsc
+     */
     public void getRidOfEpsilonTransitions(AutomatonSpecification epsilonAutomaton,
                 AutomatonSpecification resultAutomaton) {
         List<State> loadedStates = epsilonAutomaton.allStates();
@@ -296,14 +296,17 @@ public class AutomataOperations {
         for (State currentState : loadedStates) {
           if (epsilonAutomaton.isFinal(currentState))
             resultAutomaton.markAsFinal(connectedStates.get(currentState));
-          for (OutgoingTransition transition : epsilonAutomaton.allOutgoingTransitions(currentState)) {
+          for (OutgoingTransition transition :
+            epsilonAutomaton.allOutgoingTransitions(currentState)) {
             TransitionLabel label = transition.getTransitionLabel();
-              if (!(label.canBeEpsilon())){
-                epsilonAutomaton.addTransition(connectedStates.get(currentState),connectedStates.get(transition.getTargetState()),
+              if (!(label.canBeEpsilon())) {
+                epsilonAutomaton.addTransition(connectedStates.get(currentState),
+                connectedStates.get(transition.getTargetState()),
                 transition.getTransitionLabel());
                 Set<State> epsilonClosure = epsilonAutomaton.getEpsilonClosure(transition.getTargetState());
                 for (State state : epsilonClosure)
-                  resultAutomaton.addTransition(connectedStates.get(currentState), connectedStates.get(state), transition.getTransitionLabel());
+                  resultAutomaton.addTransition(connectedStates.get(currentState),
+                  connectedStates.get(state), transition.getTransitionLabel());
               }
           }
         }
