@@ -33,7 +33,6 @@ public class DoNothingOperator extends UnaryRegexpOperator {
     /**
      * Metoda toString().
      */
-
     @Override
     public String toString() {
         return "DO_NOTHING";

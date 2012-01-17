@@ -34,7 +34,6 @@ public class NewLineOperator extends NullaryRegexpOperator {
     /**
      * Metoda toString().
      */
-
     @Override
     public String toString() {
         return "NEW_LINE";

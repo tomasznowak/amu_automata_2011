@@ -47,7 +47,6 @@ public class DigitOperator extends NullaryRegexpOperator {
     /**
      * Metoda toString().
      */
-
     @Override
     public String toString() {
         return "DIGIT";

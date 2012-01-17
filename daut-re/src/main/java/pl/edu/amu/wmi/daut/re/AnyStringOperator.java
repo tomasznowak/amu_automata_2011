@@ -42,7 +42,6 @@ public class AnyStringOperator extends NullaryRegexpOperator {
     /**
      * Metoda toString().
      */
-
     @Override
     public String toString() {
         return "ANY_STRING";

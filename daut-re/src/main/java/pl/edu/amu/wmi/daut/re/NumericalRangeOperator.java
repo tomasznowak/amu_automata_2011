@@ -71,7 +71,6 @@ public class NumericalRangeOperator extends NullaryRegexpOperator {
     /**
      * Metoda toString().
      */
-
     @Override
     public String toString() {
         return "NUMERICAL_FROM_" + from + "_TO_" + to;

@@ -44,7 +44,6 @@ public class OptionalityOperator extends UnaryRegexpOperator {
     /**
      * Metoda toString().
      */
-
     @Override
     public String toString() {
         return "OPTIONALITY";

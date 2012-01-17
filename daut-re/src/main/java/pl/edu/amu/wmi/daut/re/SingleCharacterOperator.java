@@ -55,7 +55,6 @@ public class SingleCharacterOperator extends NullaryRegexpOperator {
     /**
      * Metoda toString().
      */
-
     @Override
     public String toString() {
         return "SINGLE_OPERATOR_" + character;

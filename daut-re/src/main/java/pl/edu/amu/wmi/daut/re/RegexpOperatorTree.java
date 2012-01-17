@@ -48,7 +48,14 @@ public class RegexpOperatorTree {
     }
 
     /**
-     * Zwraca drzewo w formie bardziej czytelnej.
+     * Zwraca drzewo w formie bardziej czytelnej,
+     * np. dla wyrażenia (ab)*|c wypisze:
+     * ALTERNATIVE
+     * |_KLEENE_STAR
+     * |  |_CONCATENATION
+     * |     |_SINGLE_CHAR_a
+     * |     |_SINGLE_CHAR_b
+     * |_SINGLE_CHAR_c
      */
     String getHumanReadableFormat() {
         StringBuffer toString = new StringBuffer();

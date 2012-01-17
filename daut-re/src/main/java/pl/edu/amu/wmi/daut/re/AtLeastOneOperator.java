@@ -46,7 +46,6 @@ public class AtLeastOneOperator extends UnaryRegexpOperator {
     /**
      * Metoda toString().
      */
-
     @Override
     public String toString() {
         return "AT_LEAST_ONE";

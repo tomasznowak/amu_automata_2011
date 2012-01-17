@@ -32,7 +32,6 @@ public class BellCharacterOperator extends NullaryRegexpOperator {
     /**
      * Metoda toString().
      */
-
     @Override
     public String toString() {
         return "BELL";
