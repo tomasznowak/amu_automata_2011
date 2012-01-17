@@ -1,7 +1,8 @@
 package pl.edu.amu.wmi.daut.base;
+
 import java.util.List;
 import java.util.Arrays;
-
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import junit.framework.TestCase;
@@ -224,36 +225,33 @@ public class TestAutomatonSpecification extends TestCase {
         // (oczekujemy a)
         sOuts = spec.allOutgoingTransitions(s);
         assertEquals(1, sOuts.size());
-        assertEquals('a', ((CharTransitionLabel)
-                sOuts.get(0).getTransitionLabel()).getChar());
-        assertTrue(((CharTransitionLabel)
-                sOuts.get(0).getTransitionLabel()).canAcceptCharacter('a'));
-        assertFalse(((CharTransitionLabel)
-                sOuts.get(0).getTransitionLabel()).canAcceptCharacter('c'));
+        assertEquals('a', ((CharTransitionLabel) sOuts.get(0).getTransitionLabel()).getChar());
+        assertTrue(((CharTransitionLabel) sOuts.get(0).getTransitionLabel())
+                .canAcceptCharacter('a'));
+        assertFalse(((CharTransitionLabel) sOuts.get(0).getTransitionLabel())
+                .canAcceptCharacter('c'));
 
         // Kolejne przejście (oczekujemy b)
         s = sOuts.get(0).getTargetState();
         sOuts = spec.allOutgoingTransitions(s);
         assertEquals(1, sOuts.size());
-        assertEquals('b', ((CharTransitionLabel)
-                sOuts.get(0).getTransitionLabel()).getChar());
-        assertTrue(((CharTransitionLabel)
-                sOuts.get(0).getTransitionLabel()).canAcceptCharacter('b'));
-        assertFalse(((CharTransitionLabel)
-                sOuts.get(0).getTransitionLabel()).canAcceptCharacter('a'));
-        assertFalse(((CharTransitionLabel)
-                sOuts.get(0).getTransitionLabel()).canAcceptCharacter('c'));
+        assertEquals('b', ((CharTransitionLabel) sOuts.get(0).getTransitionLabel()).getChar());
+        assertTrue(((CharTransitionLabel) sOuts.get(0).getTransitionLabel())
+                .canAcceptCharacter('b'));
+        assertFalse(((CharTransitionLabel) sOuts.get(0).getTransitionLabel())
+                .canAcceptCharacter('a'));
+        assertFalse(((CharTransitionLabel) sOuts.get(0).getTransitionLabel())
+                .canAcceptCharacter('c'));
 
         // Kolejne przejście (oczekujemy c)
         s = sOuts.get(0).getTargetState();
         sOuts = spec.allOutgoingTransitions(s);
         assertEquals(1, sOuts.size());
-        assertEquals('c', ((CharTransitionLabel)
-                sOuts.get(0).getTransitionLabel()).getChar());
-        assertTrue(((CharTransitionLabel)
-                sOuts.get(0).getTransitionLabel()).canAcceptCharacter('c'));
-        assertFalse(((CharTransitionLabel)
-                sOuts.get(0).getTransitionLabel()).canAcceptCharacter('a'));
+        assertEquals('c', ((CharTransitionLabel) sOuts.get(0).getTransitionLabel()).getChar());
+        assertTrue(((CharTransitionLabel) sOuts.get(0).getTransitionLabel())
+                .canAcceptCharacter('c'));
+        assertFalse(((CharTransitionLabel) sOuts.get(0).getTransitionLabel())
+                .canAcceptCharacter('a'));
     }
 
     /**
@@ -267,10 +265,9 @@ public class TestAutomatonSpecification extends TestCase {
         spec.markAsInitial(s0);
         List<TransitionLabel> transitions =
                 Arrays.<TransitionLabel>asList(
-            new CharTransitionLabel('a'),
-            new CharTransitionLabel('b'),
-            new CharTransitionLabel('c')
-            );
+                new CharTransitionLabel('a'),
+                new CharTransitionLabel('b'),
+                new CharTransitionLabel('c'));
         State s3 = spec.addBranch(s0, transitions);
         spec.markAsFinal(s3);
 
@@ -314,6 +311,7 @@ public class TestAutomatonSpecification extends TestCase {
 
         assertEquals(states.size(), 4);
     }
+
     /**
      * Test metody addBranch(). Automat o 1 stanie.
      */
@@ -324,8 +322,7 @@ public class TestAutomatonSpecification extends TestCase {
         State st0 = spec2.addState();
         spec2.markAsInitial(st0);
         List<TransitionLabel> transitions2 =
-                Arrays.<TransitionLabel>asList(
-            );
+                Arrays.<TransitionLabel>asList();
         State st1 = spec2.addBranch(st0, transitions2);
         spec2.markAsFinal(st0);
 
@@ -340,7 +337,6 @@ public class TestAutomatonSpecification extends TestCase {
 
     }
 
-
     /**
      * Testuje działanie metody toString().
      */
@@ -351,6 +347,7 @@ public class TestAutomatonSpecification extends TestCase {
          * Imitacja działania metody toString() dla automatu.
          */
         class AutomatonString {
+
             private String states, transitions, istates, fstates;
 
             /**
@@ -458,6 +455,7 @@ public class TestAutomatonSpecification extends TestCase {
      * Klasa pomocnicza do testów funkcji getDotGraph().
      */
     class FakeDotGraphGenerator {
+
         private String states, transitions, begin, ends;
         private boolean isBeginTheEnd;
 
@@ -483,8 +481,8 @@ public class TestAutomatonSpecification extends TestCase {
             if (isBeginTheEnd)
                 dotGraphString.append("double");
             dotGraphString.append("circle];\n    \"State #" + begin + "\";\n"
-                           + "    node [shape = doublecircle style=filled "
-                           + "fillcolor=\"#00000000\"];\n    ");
+                    + "    node [shape = doublecircle style=filled "
+                    + "fillcolor=\"#00000000\"];\n    ");
 
             //Stany końcowe
             String[] endStates = ends.split(" ");
@@ -500,7 +498,7 @@ public class TestAutomatonSpecification extends TestCase {
                 dotGraphString.append("    \"State #" + splitedTransition[0] + "\"");
                 dotGraphString.append(" -> \"State #" + splitedTransition[2] + "\"");
                 if ((splitedTransition[1].length() > 2) && (splitedTransition[1].contains(",")
-                            && (!(splitedTransition[1].matches("[*,*]"))))) {
+                        && (!(splitedTransition[1].matches("[*,*]"))))) {
                     String[] transitionLabel = splitedTransition[1].split(",");
                     dotGraphString.append(" [ label = \"" + transitionLabel[0]);
                     for (int i = 1; i < transitionLabel.length; i++) {
@@ -715,6 +713,7 @@ public class TestAutomatonSpecification extends TestCase {
         assertFalse(spec.prefixChecker(q4));
         assertFalse(spec.prefixChecker(q5));
     }
+
     /**
      * Testuje działanie metody checkPrefix().
      * Bazuje bezpośrednio na teście metody prefixChecker()
@@ -786,6 +785,7 @@ public class TestAutomatonSpecification extends TestCase {
         AutomatonSpecification automat = new NaiveAutomatonSpecification();
         assertTrue(automat.isEmpty());
     }
+
     /**
      *test automatu niepustego.
      */
@@ -828,8 +828,8 @@ public class TestAutomatonSpecification extends TestCase {
         firstAutomaton.markAsInitial(firstState);
         AutomatonSpecification second = new NaiveAutomatonSpecification();
         String fromString = "Automaton:\n-States: q0 q1 q2 q3 q4 \n-Transitions:\n  q0 -a-> "
-            + "q1\n  q1 -a-> q0\n  q2 -epsilon-> q4"
-            + "\n  q3 -ANY-> q4\n-Initial state: q0\n-Final states: q1 ";
+                + "q1\n  q1 -a-> q0\n  q2 -epsilon-> q4"
+                + "\n  q3 -ANY-> q4\n-Initial state: q0\n-Final states: q1 ";
         try {
             second.fromString(fromString);
         } catch (Exception e) {
@@ -844,7 +844,7 @@ public class TestAutomatonSpecification extends TestCase {
      * test funkcji insert: dodaje do automatu pusty automat.
      */
     public final void testInsertEmptyAutomaton() {
-        AutomatonSpecification base =  new NaiveAutomatonSpecification();
+        AutomatonSpecification base = new NaiveAutomatonSpecification();
         State s1 = base.addState();
         State s2 = base.addState();
         State s3 = base.addState();
@@ -1083,4 +1083,195 @@ public class TestAutomatonSpecification extends TestCase {
         zbior.add(s3);
         assertEquals(zbior, automat.getEpsilonClosure(s3));
     }
+
+    /**
+     * Testuje metodę isNotEmpty.
+     */
+    public final void testIsNotEmpty() {
+        NaiveAutomatonSpecification spec = new NaiveAutomatonSpecification();
+
+        assertFalse(spec.isNotEmpty());
+
+        State s0 = spec.addState();
+        State s1 = spec.addState();
+        State s2 = spec.addState();
+
+        assertFalse(spec.isNotEmpty());
+
+        spec.markAsInitial(s0);
+        spec.markAsFinal(s2);
+
+        assertFalse(spec.isNotEmpty());
+
+        spec.addTransition(s0, s1, new CharTransitionLabel('a'));
+        spec.addTransition(s0, s2, new CharTransitionLabel('b'));
+        spec.addTransition(s1, s2, new CharTransitionLabel('c'));
+
+        assertTrue(spec.isNotEmpty());
+    }
+
+    /**
+     * Test metody getEpsilonClosureWithContext.
+     */
+    public final void testGetEpsilonClosureWithContext() {
+        NaiveAutomatonSpecification spec = new NaiveAutomatonSpecification();
+
+        State q0 = spec.addState();
+        State q1 = spec.addState();
+        State q2 = spec.addState();
+        State q3 = spec.addState();
+        State q4 = spec.addState();
+
+        spec.addTransition(q0, q1, new EpsilonTransitionLabel());
+        spec.addTransition(q1, q2, new EpsilonTransitionLabel());
+        spec.addTransition(q0, q3, new EndOfTextOrLineTransitionLabel());
+        spec.addTransition(q2, q4, new EndOfTextOrLineTransitionLabel());
+
+        List<State> expectedList = new ArrayList<State>();
+        expectedList.addAll(spec.allStates());
+        assertEquals(expectedList.size(),
+                spec.getEpsilonClosureWithContext(q0, "s", 1).size());
+        assertFalse(expectedList.size()
+             == spec.getEpsilonClosureWithContext(q1, "s", 1).size());
+    }
+
+    //Testy do nierozwiazanego jeszcze zadania (#223).
+    /**
+     * Test metody makeAutomatonFromScheme.
+     */
+    /*
+    public final void testmakeAutomatonFromSimpleScheme () {
+        AutomatonSpecification spec = new NaiveAutomatonSpecification();
+        NondeterministicAutomatonByThompsonApproach automaton =
+                NondeterministicAutomatonByThompsonApproach(spec.makeAutomatonFromScheme("abncm"));
+        assertTrue(automaton.accepts("abbccccccc"));
+        assertTrue(automaton.accepts("abbbbbbb"));
+        assertTrue(automaton.accepts("ac"));
+        assertTrue(automaton.accepts("ab"));
+        assertTrue(automaton.accepts("abbbbc"));
+        assertTrue(automaton.accepts("abbbbcccccccccc"));
+        assertFalse(automaton.accepts("aaaabbbbc"));
+        assertFalse(automaton.accepts("abc"));
+        assertFalse(automaton.accepts("abbbccc"));
+        assertFalse(automaton.accepts(""));
+        assertFalse(automaton.accepts("aaaabbbbcddd"));
+        assertFalse(automaton.accepts("aaccccbbbbb"));
+        assertFalse(automaton.accepts("abccd"));
+    }
+    */
+    /**
+     * Test metody makeAutomatonFromScheme ciekawszego schematu.
+     */
+    /*
+    public final void testmakeAutomatonFromScheme () {
+        AutomatonSpecification spec = new NaiveAutomatonSpecification();
+        NondeterministicAutomatonByThompsonApproach automaton =
+                NondeterministicAutomatonByThompsonApproach
+                (spec.makeAutomatonFromScheme("anbcdmefgz"));
+
+        assertTrue(automaton.accepts("bcdefgg"));
+        assertTrue(automaton.accepts("abcdefg"));
+        assertTrue(automaton.accepts("aaaabcdddefgg"));
+        assertTrue(automaton.accepts("aabcefg"));
+        assertTrue(automaton.accepts("aaa"));
+        assertTrue(automaton.accepts("ab"));
+        assertTrue(automaton.accepts("abbbbc"));
+        assertTrue(automaton.accepts("abbbbc"));
+        assertFalse(automaton.accepts(""));
+        assertFalse(automaton.accepts("bcdf"));
+        assertFalse(automaton.accepts("aabcddefggg"));
+        assertFalse(automaton.accepts("bcddefgg"));
+    }
+     */
+   /**
+     * Test metody makeAutomatonFromScheme ciekawszego schematu.
+     */
+    /*
+    public final void testmakeAutomatonFromScheme2 () {
+        AutomatonSpecification spec = new NaiveAutomatonSpecification();
+        NondeterministicAutomatonByThompsonApproach automaton =
+                NondeterministicAutomatonByThompsonApproach
+                (spec.makeAutomatonFromScheme("anbcdmeofgphirjsklt"));
+
+        assertTrue(automaton.accepts("abcddeeefgggghiiiiijjjjjjjkllllllllll"));
+        assertTrue(automaton.accepts("bcdddddddddeefggghiiiiijjjjklllllll"));
+        assertTrue(automaton.accepts("aaaaaaabcdeeefgghiiiijjjjjjjjjjjjjk"));
+        assertTrue(automaton.accepts("aaaabcdddeefhiiiiiiiiijkllllll"));
+        assertFalse(automaton.accepts(""));
+        assertFalse(automaton.accepts("abcdefghijkl"));
+        assertFalse(automaton.accepts("bcfhk"));
+        assertFalse(automaton.accepts("aabcccddeeefgghiiijjjjkll"));
+    }
+     */
+
+    /**
+     * Test metody maxWordLength().
+     */
+    public final void testMaxWordLength() {
+        NaiveAutomatonSpecification spec = new NaiveAutomatonSpecification();
+        //test 1 - brak stanow i przejsc
+        assertEquals(spec.maxWordLength(), -1);
+        //test 1.1 - brak przejsc 3 stany
+        State q0 = spec.addState();
+        State q1 = spec.addState();
+        State q2 = spec.addState();
+        spec.markAsInitial(q0);
+        spec.markAsFinal(q2);
+        assertEquals(spec.maxWordLength(), -1);
+        //test 2 - 3 stany 1 przejscie brak polaczenia z koncowym
+        spec.addTransition(q0, q1, new CharTransitionLabel('a'));
+        assertEquals(spec.maxWordLength(), -1);
+        //test2.1 - normalny na 3 stanach z pojedynczymi przejsciami
+        spec.addTransition(q1, q2, new CharTransitionLabel('b'));
+        assertEquals(spec.maxWordLength(), 2);
+        //test 3 - pętla w ramach jednego stanu.
+        NaiveAutomatonSpecification specLoop = new NaiveAutomatonSpecification();
+        State loop = specLoop.addState();
+        specLoop.markAsInitial(loop);
+        specLoop.markAsFinal(loop);
+        specLoop.addLoop(loop, new CharTransitionLabel('c'));
+        assertEquals(specLoop.maxWordLength(), -2);
+        //test 4 same epsilon przejścia
+        NaiveAutomatonSpecification spec2 = new NaiveAutomatonSpecification();
+        State q7 = spec2.addState();
+        State q8 = spec2.addState();
+        State q9 = spec2.addState();
+        spec2.markAsInitial(q7);
+        spec2.markAsFinal(q9);
+        spec2.addTransition(q7, q8, new EpsilonTransitionLabel());
+        spec2.addTransition(q8, q9, new EpsilonTransitionLabel());
+        assertEquals(spec2.maxWordLength(), 0);
+        //test 4.1 - 2 epsilon i 2 normalne
+        State q10 = spec2.addState();
+        State q11 = spec2.addState();
+        spec2.markAsFinal(q11);
+        spec2.addTransition(q9, q10, new CharTransitionLabel('a'));
+        spec2.addTransition(q10, q11, new CharTransitionLabel('b'));
+        assertEquals(spec2.maxWordLength(), 2);
+        //test 4.2 - droga z epsilon przejsciami wiedzie przez wiecej stanów
+        //wiec liczac epsilony jest dłuzsza.
+        State q12 = spec2.addState();
+        State q13 = spec2.addState();
+        spec2.addTransition(q9, q12, new EpsilonTransitionLabel());
+        spec2.addTransition(q12, q13, new EpsilonTransitionLabel());
+        spec2.addTransition(q13, q11, new EpsilonTransitionLabel());
+        assertEquals(spec2.maxWordLength(), 2);
+        //test 6 jedna z galezi automatu wysuwa się dalej niz stan koncowy.
+        NaiveAutomatonSpecification spec4 = new NaiveAutomatonSpecification();
+        State q17 = spec4.addState();
+        State q18 = spec4.addState();
+        State q19 = spec4.addState();
+        State q20 = spec4.addState();
+        State q21 = spec4.addState();
+        State q22 = spec4.addState();
+        spec4.markAsInitial(q17);
+        spec4.markAsFinal(q18);
+        spec4.addTransition(q17, q18, new CharTransitionLabel('a'));
+        spec4.addTransition(q17, q19, new CharTransitionLabel('b'));
+        spec4.addTransition(q19, q20, new CharTransitionLabel('a'));
+        spec4.addTransition(q20, q21, new CharTransitionLabel('b'));
+        spec4.addTransition(q21, q22, new CharTransitionLabel('a'));
+        assertEquals(spec4.maxWordLength(), 1);
+    }
+
 }
