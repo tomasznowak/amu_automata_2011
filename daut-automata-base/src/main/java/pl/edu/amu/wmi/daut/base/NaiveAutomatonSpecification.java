@@ -9,7 +9,7 @@ import java.util.LinkedList;
  *
  * Wszystkie przejścia są przechowywane na jednej liście.
  */
-class NaiveAutomatonSpecification extends AutomatonSpecification {
+public class NaiveAutomatonSpecification extends AutomatonSpecification {
 
     /**
      * Stan to po prostu pusta klasa. Liczy się tylko tożsamość instancji.
@@ -32,64 +32,75 @@ class NaiveAutomatonSpecification extends AutomatonSpecification {
         /**
          * Konstruuje przejście.
          */
-        public NaiveTransition(NaiveState from, NaiveState to, TransitionLabel transitionLabel) {
-            from_ = from;
-            to_ = to;
-            transitionLabel_ = transitionLabel;
+        public NaiveTransition(NaiveState aFrom, NaiveState aTo, TransitionLabel aTransitionLabel) {
+            from = aFrom;
+            to = aTo;
+            transitionLabel = aTransitionLabel;
         }
 
         /**
          * Zwraca stan źródłowy.
          */
         public NaiveState getSourceState() {
-            return from_;
+            return from;
         }
 
         /**
          * Zwraca stan docelowy.
          */
         public NaiveState getTargetState() {
-            return to_;
+            return to;
         }
 
         /**
          * Zwraca etykietę przejścia.
          */
         public TransitionLabel getTransitionLabel() {
-            return transitionLabel_;
+            return transitionLabel;
         }
 
-        private NaiveState from_;
-        private NaiveState to_;
-        private TransitionLabel transitionLabel_;
+        private NaiveState from;
+        private NaiveState to;
+        private TransitionLabel transitionLabel;
     }
 
+    @Override
     public NaiveState addState() {
         NaiveState newState = new NaiveState();
-        allStates_.add(newState);
+        allStates.add(newState);
         return newState;
     }
 
+    @Override
     public void addTransition(State from, State to, TransitionLabel transitionLabel) {
-        transitions_.add(new NaiveTransition((NaiveState)from, (NaiveState)to, transitionLabel));
+        transitions.add(new NaiveTransition((NaiveState) from, (NaiveState) to, transitionLabel));
     }
 
+    @Override
     public void markAsInitial(State state) {
-        initialState_ = (NaiveState)state;
+        initialState = (NaiveState) state;
     }
 
+    @Override
     public void markAsFinal(State state) {
-        finalStates_.add((NaiveState)state);
+        finalStates.add((NaiveState) state);
     }
 
+    @Override
+    public void unmarkAsFinalState(State state) {
+        finalStates.remove((NaiveState) state);
+    }
+
+    @Override
     public List<State> allStates() {
-        return allStates_;
+        return allStates;
     }
 
+    @Override
     public List<OutgoingTransition> allOutgoingTransitions(State from) {
         LinkedList<OutgoingTransition> returnedList = new LinkedList<OutgoingTransition>();
 
-        for (NaiveTransition transition : transitions_) {
+        for (NaiveTransition transition : transitions) {
             if (transition.getSourceState() == from)
                 returnedList.add(convertNaiveTransitionToOutgoingTransition(transition));
         }
@@ -97,12 +108,14 @@ class NaiveAutomatonSpecification extends AutomatonSpecification {
         return returnedList;
     }
 
+    @Override
     public State getInitialState() {
-        return initialState_;
+        return initialState;
     }
 
+    @Override
     public boolean isFinal(State state) {
-        for (NaiveState someState : finalStates_) {
+        for (NaiveState someState : finalStates) {
             if (someState == state)
                 return true;
         }
@@ -110,14 +123,16 @@ class NaiveAutomatonSpecification extends AutomatonSpecification {
         return false;
     }
 
-    private OutgoingTransition convertNaiveTransitionToOutgoingTransition(NaiveTransition transition) {
+    private OutgoingTransition convertNaiveTransitionToOutgoingTransition(
+        NaiveTransition transition) {
+
         return new OutgoingTransition(
             transition.getTransitionLabel(),
             transition.getTargetState());
     }
 
-    private LinkedList<State> allStates_ = new LinkedList<State>();
-    private LinkedList<NaiveTransition> transitions_ = new LinkedList<NaiveTransition>();
-    private NaiveState initialState_;
-    private LinkedList<NaiveState> finalStates_ = new LinkedList<NaiveState>();
+    private LinkedList<State> allStates = new LinkedList<State>();
+    private LinkedList<NaiveTransition> transitions = new LinkedList<NaiveTransition>();
+    private NaiveState initialState;
+    private LinkedList<NaiveState> finalStates = new LinkedList<NaiveState>();
 }
