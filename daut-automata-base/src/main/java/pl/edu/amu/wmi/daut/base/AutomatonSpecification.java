@@ -809,7 +809,7 @@ public abstract class AutomatonSpecification implements Cloneable  {
 
         boolean result = false;
         for (OutgoingTransition child : allOutgoingTransitions(state)) {
-            if(!child.getTransitionLabel().canBeEpsilon())
+            if (!child.getTransitionLabel().canBeEpsilon())
                 flag = true;
             List<State> newHistory = new ArrayList<State>();
             for (State s : history)
@@ -827,11 +827,8 @@ public abstract class AutomatonSpecification implements Cloneable  {
         if (isFinal(state)) {
             for (OutgoingTransition transition : allOutgoingTransitions(state))
                 if (transition.getTargetState() == state)
-                    if (!transition.getTransitionLabel().canBeEpsilon())
-                        return true;
-                    else
-                        return false;
-            return true && flag;
+                    return !(transition.getTransitionLabel().canBeEpsilon());
+            return flag;
         }
 
 
