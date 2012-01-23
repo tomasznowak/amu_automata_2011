@@ -17,7 +17,7 @@ public class NotWordBoundaryTransitionLabel extends ZeroLengthConditionalTransit
         if (s.length() < position || position < 0)
              throw new PositionOutOfStringBordersException();
 
-        if (position == s.length())
+        if (position == s.length() - 1)
             return false;
 
         if (position == 0)
