@@ -5,13 +5,14 @@
 package pl.edu.amu.wmi.daut.base;
 
 /**
- * Klasa przejścia, które odpowiada operatorowi \B z wyrażeń regularnych
+ *
+ * Klasa przejścia, które odpowiada operatorowi \B z wyrażeń regularnych.
+ *
  */
 public class NotWordBoundaryTransitionLabel extends ZeroLengthConditionalTransitionLabel {
 
     @Override
-    protected boolean doCheckContext(String s, int position)
-    {
+    protected boolean doCheckContext(String s, int position) {
 
         if (s.length() < position || position < 0)
              throw new PositionOutOfStringBordersException();
