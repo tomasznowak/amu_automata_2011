@@ -24,7 +24,7 @@ public class NotWordBoundaryTransitionLabel extends ZeroLengthConditionalTransit
             return false;
 
         if (isCharacter(s.charAt(position))) {
-            if (!isCharacter(s.charAt(position - 1)) || !isCharacter(s.charAt(position +1)))
+            if (!isCharacter(s.charAt(position - 1)) || !isCharacter(s.charAt(position + 1)))
                 return false;
         }
 

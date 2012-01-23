@@ -14,7 +14,7 @@ abstract class ZeroLengthConditionalTransitionLabel extends TransitionLabel {
             return true;
         return false;
     }
-    
+
     @Override
     public boolean canBeEpsilon() {
         return true;
