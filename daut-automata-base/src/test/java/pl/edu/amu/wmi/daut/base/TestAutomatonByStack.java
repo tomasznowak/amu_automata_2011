@@ -6,6 +6,35 @@ import junit.framework.TestCase;
  * Test klasy AutomatonStack.
  */
 public class TestAutomatonByStack extends TestCase {
+	
+	/**
+    * Test automatu deterministycznego badz niedeterministycznego
+    * akceptujacy napis pusty oraz napisy 'aa' i 'aaa'
+    */
+    public final void test7() {
+    
+	final AutomatonSpecification spec = new NaiveAutomatonSpecification();
+	
+	State q0 = spec.addState();
+	State q1 = spec.addState();
+	State q2 = spec.addState();
+	
+	spec.addTransition(q0, q1, new CharTransitionLabel('a'));
+	spec.addTransition(q1, q2, new CharTransitionLabel('a'));
+	spec.addTransition(q2, q0, new CharTransitionLabel('a'));
+	
+	spec.markAsInitial(q0);
+	spec.markAsFinal(q0);
+	spec.markAsFinal(q2);
+	
+	final AutomatonByStack automaton = new AutomatonByStack(spec);
+	assertTrue(automaton.accepts(""));
+	assertTrue(automaton.accepts("aa"));
+	assertTrue(automaton.accepts("aaa"));
+	assertFalse(automaton.accepts("a"));
+	assertFalse(automaton.accepts("aaaa"));
+	assertFalse(automaton.accepts("aaaaaaaaaaaa"));
+    }
 /**
  * Pierwszy test.
  */
@@ -328,4 +357,5 @@ public class TestAutomatonByStack extends TestCase {
         assertFalse(automaton.accepts("bcaca"));
         assertFalse(automaton.accepts("acca"));
     }
+
 }
