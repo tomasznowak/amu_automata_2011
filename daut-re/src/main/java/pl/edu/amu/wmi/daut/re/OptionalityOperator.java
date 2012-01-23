@@ -50,3 +50,4 @@ public class OptionalityOperator extends UnaryRegexpOperator {
     }
 
 }
+

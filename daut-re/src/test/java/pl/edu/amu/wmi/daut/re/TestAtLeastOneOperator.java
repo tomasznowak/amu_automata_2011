@@ -1,24 +1,24 @@
 package pl.edu.amu.wmi.daut.re;
 
+import java.util.ArrayList;
 import pl.edu.amu.wmi.daut.base.AutomatonSpecification;
 import pl.edu.amu.wmi.daut.base.NaiveAutomatonSpecification;
 import pl.edu.amu.wmi.daut.base.State;
 import pl.edu.amu.wmi.daut.base.CharTransitionLabel;
 import pl.edu.amu.wmi.daut.base.NondeterministicAutomatonByThompsonApproach;
-import pl.edu.amu.wmi.daut.re.OptionalityOperator.Factory;
-import java.util.ArrayList;
 import junit.framework.TestCase;
+import pl.edu.amu.wmi.daut.re.AtLeastOneOperator.Factory;
+
 
 /**
-*
-* Test klasy OptionalityOperator.
-*/
-public class TestOptionalityOperator extends TestCase {
-
+ *
+ * Test klasy AtLeastOneOperator.
+ */
+public class TestAtLeastOneOperator extends TestCase {
     /**
-* Test metody createAutomatonFromOneAutomaton.
-*/
-    public final void testCreateAutomatonFromOneAutomaton() {
+     * Test metody createAutomatonFromOneAutomaton.
+     */
+        public final void testCreateAutomatonFromOneAutomaton() {
 
         AutomatonSpecification automaton = new NaiveAutomatonSpecification();
 
@@ -33,34 +33,31 @@ public class TestOptionalityOperator extends TestCase {
         automaton.markAsInitial(q0);
         automaton.markAsFinal(q2);
 
-        OptionalityOperator operator = new OptionalityOperator();
+        AtLeastOneOperator operator = new AtLeastOneOperator();
         NondeterministicAutomatonByThompsonApproach result =
-            new NondeterministicAutomatonByThompsonApproach(
+        new NondeterministicAutomatonByThompsonApproach(
                 operator.createAutomatonFromOneAutomaton(automaton));
 
-        assertTrue(result.accepts("aaabbb"));
-        assertTrue(result.accepts("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbb"));
-        assertTrue(result.accepts("aabbbbbbbbbbbbb"));
-        assertTrue(result.accepts("ab"));
-        assertTrue(automaton.acceptEmptyWord());
+        assertTrue(result.accepts("aaaab"));
+        assertTrue(result.accepts("abbbbb"));
+        assertTrue(result.accepts("aaaaaaaaaaaabb"));
+        assertTrue(result.accepts("abbbaaaab"));
+        assertTrue(result.accepts("abababb"));
 
-        assertFalse(result.accepts("aaabbbbaabbbbab"));
-        assertFalse(result.accepts("aaaaaaaaaaa"));
-        assertFalse(result.accepts("cojapacze"));
-        assertFalse(result.accepts("macrimnatueshzanc"));
-        assertFalse(result.accepts("katrayzniaedc"));
-        assertFalse(result.accepts("jestemglupimstringieminicnieznacze"));
-        assertFalse(result.accepts("jestemautomateminieakceptuje"));
-    }
-
+        assertFalse(automaton.acceptEmptyWord());
+        assertFalse(result.accepts("baba"));
+        assertFalse(result.accepts("baaaaaaaaa"));
+        assertFalse(result.accepts("cojatestujem"));
+        assertFalse(result.accepts("bartlomiejburczymucha"));
+        }
     /**
 * Test fabryki.
 */
-    public final void testFactory() {
+public final void testFactory() {
 
         Factory factory = new Factory();
         ArrayList<String> params = new ArrayList<String>();
         assertEquals(factory.createOperator(params).getClass(),
-            new OptionalityOperator().getClass());
+            new AtLeastOneOperator().getClass());
     }
 }
