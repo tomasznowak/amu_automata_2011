@@ -39,7 +39,7 @@ public class GrammarUtils {
                ) {
                 return false;
             }
-            else {
+            else if (rule.getArity() >= 2) {
                 List<GrammarSymbol> rhsSymbols = rule.getRhsSymbols();
                 for (int i = 1; i < rhsSymbols.size(); i++) {
                     if (rhsSymbols.get(i).isTerminalSymbol()) {
