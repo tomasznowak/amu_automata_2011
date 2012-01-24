@@ -174,5 +174,5 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
         EffectiveDeterministicAutomaton auto = new EffectiveDeterministicAutomaton();
         auto.addState();
 
-    } 
+    }
 }
