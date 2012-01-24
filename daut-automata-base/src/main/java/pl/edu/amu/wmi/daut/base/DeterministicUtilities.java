@@ -1,3 +1,4 @@
+
 package pl.edu.amu.wmi.daut.base;
 import java.util.Set;
 
@@ -12,43 +13,36 @@ public class DeterministicUtilities {
      * i nie akceptuje żadnych innych napisów. Automat powstaje przez
      * rozbudowanie pustego automatu deterministycznego przekazanego jako argument `automaton`.
      */
-    public void createAutomatonForFiniteLanguage(DeterministicAutomatonSpecification
-automaton, Set<String> language) {
-    int symbolsCounter = 1;
-    for (String s : language) {
-        symbolsCounter += s.length();
-    }
+    public void createAutomatonForFiniteLanguage(
+        DeterministicAutomatonSpecification automaton, Set<String> language) {
 
-    State[] q;
-    q = new State[symbolsCounter];
-    q[0] = automaton.addState();
-    automaton.markAsInitial(q[0]);
-    int statesCounter = 0;
+        State q0 = automaton.addState();
+        automaton.markAsInitial(q0);
 
-    for (String s : language) {
-        if (s.equals("")) {
-            automaton.markAsFinal(q[0]);
-        } else {
-            State activeState = q[0];
-            int letter = 0;
+        for (String s : language) {
+            if (s.equals("")) {
+                automaton.markAsFinal(q0);
 
-            for ( ; letter < s.length(); letter++) {
+            } else {
+                State activeState = q0;
+                int letter = 0;
+
+                for ( ; letter < s.length(); letter++) {
 
                     if (automaton.targetState(activeState, s.charAt(letter)) != null) {
                         activeState = automaton.targetState(activeState, s.charAt(letter));
 
                     } else {
-                    statesCounter++;
-                    q[statesCounter] = automaton.addState();
-                    automaton.addTransition(activeState, q[statesCounter],
-new CharTransitionLabel(s.charAt(letter)));
-                    activeState = q[statesCounter];
+                        State newState = automaton.addState();
+                        automaton.addTransition(activeState, newState,
+                            new CharTransitionLabel(s.charAt(letter)));
+                        activeState = newState;
                     }
 
+                }
+                automaton.markAsFinal(activeState);
             }
-            automaton.markAsFinal(activeState);
         }
-    }
     }
 
 }

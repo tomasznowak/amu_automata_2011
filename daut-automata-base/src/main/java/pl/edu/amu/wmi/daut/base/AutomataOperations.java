@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
@@ -44,61 +45,66 @@ public class AutomataOperations {
      *Metoda zwraca automat akceptujący odwrócenie języka,
      * akceptowanego przez dany automat "parent".
      */
-    public AutomatonSpecification reverseLanguageAutomat(
-            NaiveAutomatonSpecification parent) {
+    public static AutomatonSpecification reverseLanguageAutomaton(
+            NaiveAutomatonSpecification parentAutomaton) {
 
-        NaiveAutomatonSpecification son = new NaiveAutomatonSpecification();
+        NaiveAutomatonSpecification childAutomaton = new NaiveAutomatonSpecification();
 
-        if (parent.isEmpty()) { return son; }
+        if (parentAutomaton.isEmpty()) { return childAutomaton; }
 
-        List<State> pstates = new ArrayList<State>();
-        List<State> sstates = new ArrayList<State>();
-        pstates.addAll(parent.allStates());
+        List<State> parentStates = new ArrayList<State>();
+        List<State> childStates = new ArrayList<State>();
+        parentStates.addAll(parentAutomaton.allStates());
 
-        List<OutgoingTransition> outtransitions =
-                new ArrayList<OutgoingTransition>();
+        //utwórz sztucznie stan początkowy.
+        //bedzie łączony przez epsilon ze stanami końcowymi automatu wejściowego.
+        State initialChildState = childAutomaton.addState();
+        childStates.add(initialChildState);
+        childAutomaton.markAsInitial(initialChildState);
 
-        sstates.add(son.addState());
-        son.markAsInitial(sstates.get(0));
+        //zadeklaruj tabelkę translacji stanów z automatu wejściowego
+        //na stany z automatu wyjściowego.
+        Map<State, State> parentToSonStates = new HashMap<State, State>();
 
-        for (State state : pstates) {
-            sstates.add(son.addState());
-            if (state == parent.getInitialState())
-                son.markAsFinal(sstates.get(sstates.size() - 1));
-            else if (parent.isFinal(state)) {
+        //krok 1. utwórz stany, oraz zaznacz je jako początkowe lub końcowe.
+        for (State parentState : parentStates) {
+            State childState = childAutomaton.addState();
+            childStates.add(childState);
+            //dodaj do tabelki translacji stanów
+            parentToSonStates.put(parentState, childState);
+
+            //jeśli stan jest początkowym, zaznacz go jako końcowy.
+            if (parentState == parentAutomaton.getInitialState())
+                childAutomaton.markAsFinal(childStates.get(childStates.size() - 1));
+            //jeśli stan jest końcowym, utwórz połączenie z jedynym możliwym stanem początkowym.
+            else if (parentAutomaton.isFinal(parentState)) {
                 EpsilonTransitionLabel eps = new EpsilonTransitionLabel();
-                son.addTransition(
-                        sstates.get(0), sstates.get(sstates.size() - 1), eps);
-            }
-
-            outtransitions.addAll(parent.allOutgoingTransitions(state));
-
-            for (OutgoingTransition outtransition : outtransitions) {
-
-                State targetstate = outtransition.getTargetState();
-                State currentstate = null;
-                boolean exist = false;
-                for (State tmpstate : son.allStates()) {
-                    if (tmpstate == targetstate) {
-                        exist = true; currentstate = tmpstate; break;
-                    }
-                }
-                if (exist)
-                    son.addTransition(
-                            targetstate, currentstate, outtransition.getTransitionLabel());
-                else {
-                    sstates.add(son.addState());
-                    son.addTransition(targetstate, sstates.get(sstates.size() - 1),
-                            outtransition.getTransitionLabel());
-                }
+                childAutomaton.addTransition(initialChildState, childState, eps);
             }
         }
 
-        return son;
+        //krok 2. utwórz krawędzie.
+        //z każdego stanu w automacie wejściowym...
+        for (State parentState : parentStates) {
+            //pobierz każdą wychodzącą krawędź...
+            for (OutgoingTransition parentTransition
+                : parentAutomaton.allOutgoingTransitions(parentState)) {
+                //pobierz stan wyjściowy z krawędzi
+                State targetState = parentTransition.getTargetState();
+                //pobierz z tabelki translacji stanów stany: wejściowy i początkowy
+                State childStateFrom = parentToSonStates.get(parentState);
+                State childStateTo = parentToSonStates.get(targetState);
+                //dodaj do listy krawędzi krawędź między stanami w kierunku odwrotnym niż oryginalny
+                childAutomaton.addTransition(childStateTo,
+                    childStateFrom, parentTransition.getTransitionLabel());
+            }
+        }
+
+        return childAutomaton;
     }
 
     /**
-     * Metoda tworzy przejscie od stanu stateC do nowego stanu utworzonego przez pare A i B w
+     * Metoda tworzy przejście od stanu stateC do nowego stanu utworzonego przez parę A i B w
      * combinedC po etykiecie transition. Dodanie nowo utworzonego stanu stateCn do listy newStates
      * wraz z wpisaniem jej oraz jej kombinacji stanów do HashMap.
      * hashMaps - 0 - statesC, 1 - statesCHandle, 2 - combinedStatesC
@@ -126,9 +132,28 @@ public class AutomataOperations {
     }
 
     /**
+     * Metoda zwracajaca Automat akceptujacy jezyk bedacy dopelnieniem jezyka
+     * akceptowanego przez Automat otrzymywany "na wejsciu".
+     */
+    static AutomatonSpecification
+            complementLanguageAutomaton(DeterministicAutomatonSpecification automaton,
+            Set<Character> alfabet) {
+        AutomatonSpecification returned = automaton.clone();
+        returned.makeFull(alfabet.toString());
+        for (State obecny : returned.allStates()) {
+            if (returned.isFinal(obecny))
+                returned.unmarkAsFinalState(obecny);
+            else
+                returned.markAsFinal(obecny);
+        }
+        return returned;
+    }
+
+    /**
      * Metoda zwracająca automat akceptujący przecięcie języków akceptowanych przez
      * dwa podane automaty.
      */
+
     public static AutomatonSpecification intersection(
             AutomatonSpecification automatonA, AutomatonSpecification automatonB) {
 
@@ -200,7 +225,7 @@ public class AutomataOperations {
                         }
                     }
                 }
-                //Epsilon przejscia
+                //Epsilon przejścia
                 for (OutgoingTransition transitionToAn : lA) {
                     if (transitionToAn.getTransitionLabel().canBeEpsilon()) {
                         combinedC = new CombinedState();
@@ -249,8 +274,8 @@ public class AutomataOperations {
             State state2 = kleeneautomaton.addState();
             kleeneautomaton.addTransition(state1, state2, new EpsilonTransitionLabel());
             kleeneautomaton.insert(state2, automaton);
-            for (State state : automaton.allStates()) {
-                if (automaton.isFinal(state)) {
+            for (State state : kleeneautomaton.allStates()) {
+                if (kleeneautomaton.isFinal(state)) {
                     kleeneautomaton.addTransition(state, state1, new EpsilonTransitionLabel());
                 }
             }
@@ -259,8 +284,9 @@ public class AutomataOperations {
     }
 
      /**
-     * Metoda tworzaca automat akceptujacy sume 2 jezykow.
-     */
+      * Metoda tworząca automat akceptujący sumę 2 jezyków.
+      */
+
     public static AutomatonSpecification sum(
         AutomatonSpecification automatonA, AutomatonSpecification automatonB) {
         AutomatonSpecification automaton = new NaiveAutomatonSpecification();
@@ -275,8 +301,60 @@ public class AutomataOperations {
         return automaton;
     }
 
+  /**
+   * Zwraca automat akceptujący język powstały w wyniku zastosowania homomorfizmu h na
+   * języku akceptowanym przez automat automaton. Homomorfizm jest dany jako mapa, w której
+   * kluczami są znaki, a wartościami - napisy.
+   * @param alphabet alfabet w postaci String, np. abc
+   * @param automaton automat wejściowy
+   * @param h homomorfizm języka
+
+   */
+ AutomatonSpecification homomorphism(AutomatonSpecification automaton,
+         Map<Character, String> h, String alphabet) {
+     if (automaton.isEmpty()) {
+         return automaton;
+     }
+
+     char[] tablica;
+     tablica = alphabet.toCharArray();
+     AutomatonSpecification homoautomaton = new NaiveDeterministicAutomatonSpecification();
+     List<State> states = new ArrayList<State>();
+     states.addAll(automaton.allStates());
+     HashMap<State, State> connectedStates = new HashMap<State, State>();
+      for (State current : states) {
+          if (!connectedStates.containsKey(current))
+              connectedStates.put(current, homoautomaton.addState());
+        for (OutgoingTransition currenttrans : automaton.allOutgoingTransitions(current)) {
+          TransitionLabel tl = currenttrans.getTransitionLabel();
+          for (char znak : tablica) {
+            if (tl.canAcceptCharacter(znak)) {
+                 String napis = h.get(znak);
+                 int dlugosc = napis.length();
+                 char[] znaki = napis.toCharArray();
+                 State docelowy = currenttrans.getTargetState();
+                 State prev = current;
+                 if (dlugosc == 0) {
+                     homoautomaton.addTransition(prev, docelowy, new EpsilonTransitionLabel());
+                 }
+                 for (int i = 0; i < dlugosc - 1; i++) {
+                     State next = homoautomaton.addState();
+                     homoautomaton.addTransition(prev, next, new CharTransitionLabel(znaki[i]));
+                     prev = next;
+                 }
+                 homoautomaton.addTransition(prev, docelowy,
+                         new CharTransitionLabel(znaki[dlugosc]));
+                 connectedStates.put(docelowy, homoautomaton.addState());
+              }
+          }
+      }
+     }
+     return homoautomaton;
+ }
+
+
     /**
-     * Klasa pomocnicza do determinize2(). Rekuprezentuje "zbiór stanów" będący stanem automatu dfa.
+     * Klasa pomocnicza do determinize2(). Reprezentuje "zbiór stanów" będący stanem automatu dfa.
      */
     private static class PowerSetElement {
         private Set<State> nfaStates;
@@ -300,21 +378,21 @@ public class AutomataOperations {
         public static void giveAllPowerSetElements(List<PowerSetElement> listOfStates,
             List<State> dfaStatesRemote, List<State> nfaStatesRemote) {
             Set<State> nfaStates = new HashSet<State>();
-            giveAllPowerSetElementsRecurent(listOfStates, dfaStatesRemote, nfaStatesRemote,
+            giveAllPowerSetElementsRecursive(listOfStates, dfaStatesRemote, nfaStatesRemote,
                     nfaStates, 0);
         }
 
-        private static void giveAllPowerSetElementsRecurent(List<PowerSetElement> listOfStates,
+        private static void giveAllPowerSetElementsRecursive(List<PowerSetElement> listOfStates,
             List<State> dfaStatesRemote, List<State> nfaStatesRemote, Set<State> nfaStates,
             int depth) {
             if (depth < nfaStatesRemote.size()) {
                 //Gałąź dla false(Obecnie rozpatrywany stan NFA nie jest brany)
-                giveAllPowerSetElementsRecurent(listOfStates, dfaStatesRemote,
+                giveAllPowerSetElementsRecursive(listOfStates, dfaStatesRemote,
                         nfaStatesRemote, nfaStates, depth + 1);
 
                 //Gałąź dla true(Obecnie rozpatrywany stan NFA jest brany)
                 nfaStates.add(nfaStatesRemote.get(depth));
-                giveAllPowerSetElementsRecurent(listOfStates, dfaStatesRemote,
+                giveAllPowerSetElementsRecursive(listOfStates, dfaStatesRemote,
                         nfaStatesRemote, nfaStates, depth + 1);
                 nfaStates.remove(nfaStatesRemote.get(depth));
             } else {
@@ -336,17 +414,31 @@ public class AutomataOperations {
         }
     };
 
-    /*
-     * Metoda pomocnicza dla determiinize2. Tworzy podstawowy zbiór etykiet przejścia używanych
+    /**
+     * Metoda pomocnicza dla determinize2(). Tworzy podstawowy zbiór etykiet przejścia używanych
      * przez oba automaty - niedeterministyczny i deterministyczny.
+     * Na wejściu otrzymuje zbiór T oraz nową "unikalną" etykietę przejścia.
+     * Dla wszystkich etykiet przejścia poza AnyTransitionLabel
+     * i ComplementCharClassTransitionLabel metoda dodaje to T przejścia znakowe
+     * (CharTransitionLabel). Dla tych dwóch zaś tworzy JEDNO przejście
+     * ComplementCharClassTransitionLabel będące przecięciem wszystkich otrzymanych
+     * przejść "dopełnieniowych".
+     *
+     * UWAGA! Metoda nie obsługuje przejścia CharClassTransitionLabel.
+     *
+     * @throws StructureException "Nieznana etykieta przejścia."
      */
     private static void putTransitionLabelInSet(HashSet<TransitionLabel> tSet,
             TransitionLabel transitionLabel) throws StructureException {
+        //Sprawdzenie, czy etykieta przejścia nie jest pusta.
         if (!transitionLabel.isEmpty())
+            //Sprawdzenie, czy jest to AnyTransitionLabel.
             if (transitionLabel instanceof AnyTransitionLabel) {
                 putTransitionLabelInSet(tSet, new ComplementCharClassTransitionLabel(""));
+            //Sprawdzenie, czy jest to CharTransitionLabel.
             } else if (transitionLabel instanceof CharTransitionLabel) {
                 tSet.add(transitionLabel);
+            //Sprawdzenie, czy jest to CharSetTransitionLabel.
             } else if (transitionLabel instanceof CharSetTransitionLabel) {
                 for (char sign : ((CharSetTransitionLabel) transitionLabel).getCharSet()) {
                     tSet.add(new CharTransitionLabel(sign));
@@ -356,12 +448,17 @@ public class AutomataOperations {
                         }
                     }
                 }
+            //Sprawdzenie, czy jest to CharRangeTransitionLabel.
             } else if (transitionLabel instanceof CharRangeTransitionLabel) {
                 for (char k = ((CharRangeTransitionLabel) transitionLabel)
                     .getFirstChar(); k <= ((CharRangeTransitionLabel) transitionLabel)
                     .getSecondChar(); k++) {
                         tSet.add(new CharTransitionLabel(k));
                 }
+            //Sprawdzenie, czy jest to CharClassTransitionLabel.
+            } else if (transitionLabel instanceof CharClassTransitionLabel) {
+                throw new StructureException();
+            //Sprawdzenie, czy jest to ComplementCharClassTransitionLabel.
             } else if (transitionLabel instanceof ComplementCharClassTransitionLabel) {
                 ComplementCharClassTransitionLabel newOne
                         = (ComplementCharClassTransitionLabel) transitionLabel;
@@ -394,6 +491,7 @@ public class AutomataOperations {
                 tSet.add(newOne);
                 if (oldOne != null)
                     tSet.remove(oldOne);
+            //Pozostałe są nieobsługiwane i powodują wyrzucenie wyjątku.
             } else
                 throw new StructureException();
     }
@@ -409,12 +507,18 @@ public class AutomataOperations {
         //Sprawdzenie, czy resultDfa na pewno jest pusty.
         if (resultDfa.isEmpty()) {
 
+            //Sprawdzenie, czy język akceptowany przez nfa nie jest pusty.
+            //Niestety, przy użyciu metody isNotEmpty wyskakuje WIELKI BRZYDKI BŁĄD.
+            //Coś szwankuje w tamtej metodzie. Gdy będzie naprawione - można zamienić
+            //na zakomentowaną wersję.
+            //if (!(nfa.isNotEmpty())) {
             if (!nfa.prefixChecker(nfa.getInitialState())) {
                 State one = resultDfa.addState();
                 resultDfa.markAsInitial(one);
                 return;
             }
 
+            //Sprawdzenie, czy nfa nie jest już deterministyczny.
             if (nfa.isDeterministic()) {
                 resultDfa.fromString(nfa.toString());
                 return;
@@ -428,6 +532,8 @@ public class AutomataOperations {
             List<State> kList = nfa.allStates();
 
             //Uzupełnienie zbioru przejść, aby był zbiorem przejść automatu NFA. Oznaczenie: T.
+            //Dla każdej unikalnej etykiety przejścia umieszczamy ją w T za pomocą metody
+            //putTransitionLabelInSet()
             for (State s : kList) {
                 for (OutgoingTransition oT : nfa.allOutgoingTransitions(s)) {
                     if ((oT.getTransitionLabel() instanceof ComplementCharClassTransitionLabel)
@@ -497,9 +603,6 @@ public class AutomataOperations {
                         if (targetStructure.getnfaStates().isEmpty())
                             resultDfa.addTransition(structure.getdfaState(),
                                 targetStructure.getdfaState(), new AnyTransitionLabel());
-                        else
-                            resultDfa.addTransition(structure.getdfaState(),
-                                targetStructure.getdfaState(), new EmptyTransitionLabel());
                     }
                 } else {
                     for (TransitionLabel t : tSet) {
@@ -538,10 +641,36 @@ public class AutomataOperations {
                 }
             }
             PowerSetElement.resetNumber();
-            //Gdy metoda będzie gotowa - odkomentować!
+            //Nie zadziała zmniejszanie automatu, bo nie dostajemy alfabetu "na wejściu".
+            //Można co prawda wygenerować ze zbioru T, ale dla choć jednego wystąpienia
+            //etykiety przejścia ComplementCharClassTransitionLabel generowanie to nie będzie
+            //poprawnie działało.
             //resultDfa.deleteUselessStates();
         } else {
             throw new StructureException();
         }
     }
+
+    /**
+     * Metoda tworząca automat akcpetujący konkatenację dwóch języków,
+     * akceptowanych przez dwa dane automaty L i R.
+     */
+    public static AutomatonSpecification concatenation(
+            final AutomatonSpecification automatonL, final AutomatonSpecification automatonR) {
+
+        AutomatonSpecification wsa;
+        wsa = automatonL.clone();
+        List<State> statesL = new ArrayList<State>();
+        statesL.addAll(wsa.allStates());
+
+        for (State state : statesL) {
+            if (wsa.isFinal(state)) {
+                wsa.insert(state, automatonR);
+                wsa.unmarkAsFinalState(state);
+            }
+        }
+
+        return wsa;
+    }
 }
+

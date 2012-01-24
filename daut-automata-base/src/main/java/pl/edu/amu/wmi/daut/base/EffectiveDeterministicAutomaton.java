@@ -1,4 +1,5 @@
 package pl.edu.amu.wmi.daut.base;
+import java.util.HashSet;
 import java.util.Vector;
 import java.util.List;
 
@@ -10,7 +11,7 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
         private MyState[] mCharacterTargetState;
         private int mCharacterTargetStateLength;
         private MyState mEpsilonTargetState;
-        private int mHasCharacterTransition;
+        private boolean mHasCharacterTransition;
         private boolean mIsFinal;
         private Vector<OutgoingTransition> mOutgoingTransitions;
         private EffectiveDeterministicAutomaton mOwner;
@@ -23,7 +24,7 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
                 mCharacterTargetState[i] = null;
             }
             mEpsilonTargetState = null;
-            mHasCharacterTransition = 0;
+            mHasCharacterTransition = false;
             mIsFinal = false;
             mOutgoingTransitions = new Vector<OutgoingTransition>();
             mOwner = owner;
@@ -56,7 +57,7 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
 
 
         public boolean hasCharacterTransition() {
-            return (mHasCharacterTransition > 0);
+            return mHasCharacterTransition;
         }
 
 
@@ -71,6 +72,9 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
 
 
         public void setEpsilonTargetState(MyState state) {
+            if (mHasCharacterTransition
+               || (mEpsilonTargetState != null && mEpsilonTargetState != state))
+                throw new UnsupportedOperationException();
             mEpsilonTargetState = state;
         }
 
@@ -81,10 +85,22 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
 
 
         public void setTargetState(char c, MyState state) {
+            if (mEpsilonTargetState != null)
+                throw new UnsupportedOperationException();
+
             if (c >= mCharacterTargetStateLength) {
                 MyState[] oldArray = mCharacterTargetState;
                 int oldArrayLength = mCharacterTargetStateLength;
-                mCharacterTargetStateLength = c + 1;
+                if (mCharacterTargetStateLength == 0)
+                    mCharacterTargetStateLength = c + 1;
+                else while (true) {
+                    mCharacterTargetStateLength *= 2;
+                    if (mCharacterTargetStateLength >= c + 1) {
+                        if (mCharacterTargetStateLength > Character.MAX_VALUE)
+                            mCharacterTargetStateLength = Character.MAX_VALUE + 1;
+                        break;
+                    }
+                }
                 mCharacterTargetState = new MyState[mCharacterTargetStateLength];
                 for (int j = 0; j < oldArrayLength; ++j)
                     mCharacterTargetState[j] = oldArray[j];
@@ -92,13 +108,11 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
                     mCharacterTargetState[j] = null;
             }
 
-            if (state != mCharacterTargetState[c]) {
-                if (mCharacterTargetState[c] == null)
-                    ++mHasCharacterTransition;
-                else if (state == null)
-                    --mHasCharacterTransition;
-                mCharacterTargetState[c] = state;
-            }
+            if (mCharacterTargetState[c] != null && mCharacterTargetState[c] != state)
+                throw new UnsupportedOperationException();
+
+            mCharacterTargetState[c] = state;
+            mHasCharacterTransition = true;
         }
     }
 
@@ -122,27 +136,27 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
 
         MyState myFrom = assertStateValid(from);
         MyState myTo = assertStateValid(to);
-        for (int i = 0; i <= Character.MAX_VALUE; ++i) {
+
+        if (label instanceof CharTransitionLabel) {
+            CharTransitionLabel l = (CharTransitionLabel) label;
+            myFrom.setTargetState(l.getChar(), myTo);
+        } else if (label instanceof CharRangeTransitionLabel) {
+            CharRangeTransitionLabel l = (CharRangeTransitionLabel) label;
+            for (int i = l.getSecondChar(); i >= l.getFirstChar(); --i)
+                myFrom.setTargetState((char) i, myTo);
+        } else if (label instanceof CharSetTransitionLabel) {
+            CharSetTransitionLabel l = (CharSetTransitionLabel) label;
+            HashSet<Character> characters = l.getCharSet();
+            for (Character c : characters)
+                myFrom.setTargetState(c, myTo);
+        } else for (int i = 0; i <= Character.MAX_VALUE; ++i) {
             char c = (char) i;
-            if (label.canAcceptCharacter(c)) {
-                MyState currentTargetState = myFrom.getTargetState(c);
-                if (currentTargetState == null)
+            if (label.canAcceptCharacter(c))
                     myFrom.setTargetState(c, myTo);
-                else if (currentTargetState != myTo)
-                    throw new IllegalArgumentException();
-            }
         }
 
-        if (label.canBeEpsilon()) {
-            MyState epsilonTargetState = myFrom.getEpsilonTargetState();
-            if (epsilonTargetState == null)
-                myFrom.setEpsilonTargetState(myTo);
-            else if (epsilonTargetState != myTo)
-                throw new IllegalArgumentException();
-        }
-
-        if (myFrom.hasCharacterTransition() && myFrom.hasEpsilonTransition())
-            throw new IllegalArgumentException();
+        if (label.canBeEpsilon())
+            myFrom.setEpsilonTargetState(myTo);
 
         myFrom.addOutgoingTransition(new OutgoingTransition(label, to));
     }
