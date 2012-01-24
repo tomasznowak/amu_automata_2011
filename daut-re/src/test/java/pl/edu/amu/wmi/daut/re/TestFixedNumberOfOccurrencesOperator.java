@@ -148,7 +148,7 @@ public class TestFixedNumberOfOccurrencesOperator extends TestCase {
     public final void testMultiplierEqualsZero() {
  
         AutomatonSpecification automaton = new NaiveAutomatonSpecification();
-        
+
         State q0 = automaton.addState();
         State q1 = automaton.addState();
         automaton.addTransition(q0, q1, new CharTransitionLabel('x'));
@@ -167,7 +167,7 @@ public class TestFixedNumberOfOccurrencesOperator extends TestCase {
         assertFalse(result.accepts("ManchesterUnited"));
         assertFalse(result.accepts("b"));
         assertFalse(result.accepts("bbbb"));
-     }    
+     }
 
     /**
      * Test fabryki.
