@@ -296,7 +296,6 @@ public class TestAutomataOperations extends TestCase {
         assertTrue(automatonKleeneStar.accepts("abacabacabacabacabac"));
         assertFalse(automatonKleeneStar.accepts("abacabacabacabbbbacabac"));
         assertFalse(automatonKleeneStar.accepts("aba"));
-        
         assertFalse(automatonKleeneStar.accepts("bababc"));
     }
 
