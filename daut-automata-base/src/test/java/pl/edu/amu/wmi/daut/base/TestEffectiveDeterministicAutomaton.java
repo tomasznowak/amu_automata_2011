@@ -156,9 +156,6 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
         assertTrue(((EffectiveDeterministicAutomaton.MyState) q2).hasEpsilonTransition());
         assertTrue(((EffectiveDeterministicAutomaton.MyState) q2).getEpsilonTargetState()
                 .equals((EffectiveDeterministicAutomaton.MyState) q0));
-        assertFalse(((EffectiveDeterministicAutomaton.MyState) q2).hasEpsilonTransition());
-        assertFalse(((EffectiveDeterministicAutomaton.MyState) q2).getEpsilonTargetState()
-                .equals((EffectiveDeterministicAutomaton.MyState) q0));
         try {
             auto.addTransition(q2, q0, new CharTransitionLabel('O'));
             fail();
