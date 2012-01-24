@@ -7,13 +7,13 @@ import junit.framework.TestCase;
 /**
  * Klasa, testuje klasę CharClassOperator.
  */
-public class TestCharClassOperator extends TestCase{
+public class TestCharClassOperator extends TestCase {
 
     /**
      * Konstruuje przykładowy automat, a następnie go testuje.
      */
     public void testAutomatonFirst() {
-        
+
         AutomatonByRecursion tmp = new AutomatonByRecursion(
             new CharClassOperator("1-3").createFixedAutomaton());
         
@@ -22,14 +22,17 @@ public class TestCharClassOperator extends TestCase{
         assertTrue(tmp.accepts("3"));
     }
 
+    /**
+     * Konstruuje przykładowy automat, a następnie go testuje.
+     */
     public void testAutomatonSecond() {
-        
+
         AutomatonByRecursion tmp = new AutomatonByRecursion(
             new CharClassOperator("1-3a-c-").createFixedAutomaton());
-        
+
         assertTrue(tmp.accepts("1"));
         assertFalse(tmp.accepts("4"));
-        assertTrue(tmp.accepts("-"));;
+        assertTrue(tmp.accepts("-"));
         assertFalse(tmp.accepts("d"));
         assertFalse(tmp.accepts("ą"));
         assertTrue(tmp.accepts("b"));       
