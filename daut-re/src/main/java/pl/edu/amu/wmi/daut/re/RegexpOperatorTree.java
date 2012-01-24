@@ -87,13 +87,13 @@ public class RegexpOperatorTree {
         }
 
     }
-    
+
     /**
      * Zwraca  drzewo w formie bardziej czytelnej,
      * np. dla wyrażenia (ab)*|c wypisze:
      * ALTERNATIVE [KLEENE_STAR [CONCATENATION [SINGLE_CHAR_a SINGLE_CHAR_b]] SINGLE_CHAR_c]
      */
-    
+
     String getNaiveHumanReadableFormat() {
         StringBuffer buffer = new StringBuffer();
         List<RegexpOperatorTree> sub = new ArrayList<RegexpOperatorTree>();
