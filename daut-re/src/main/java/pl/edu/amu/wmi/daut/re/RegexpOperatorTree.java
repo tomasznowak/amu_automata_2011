@@ -99,31 +99,27 @@ public class RegexpOperatorTree {
         StringBuffer buffer = new StringBuffer();
         List<RegexpOperatorTree> sub = new ArrayList<RegexpOperatorTree>();
 
-        buffer.append(this.getRoot().toString() + " ");
+        buffer.append(this.getRoot().toString() + " [ ");
 
         sub.addAll(getSubtrees());
         for (RegexpOperatorTree tree : sub) {
-            doGetHumanReadableFormat(tree, 1, buffer);
+            doGetNaiveHumanReadableFormat(tree, buffer);
+            buffer.append(", ");
         }
+        buffer.append(" ] ");
 
         return buffer.toString();
     }
 
-    void doGetNaiveHumanReadableFormat(RegexpOperatorTree tree, int i, StringBuffer buffer) {
+    void doGetNaiveHumanReadableFormat(RegexpOperatorTree tree, StringBuffer buffer) {
 
-        if (i > 1) {
-            buffer.append("[ ");
-            
-        }
+        buffer.append(tree.getRoot().toString() + " [ ");
 
-        buffer.append("[ " + tree.getRoot().toString() + "]");
-
-        i++;
 
         for (int j = 0; j < tree.getRoot().arity(); j++) {
-            doGetHumanReadableFormat(tree.getSubtrees().get(j), i, buffer);
+            doGetNaiveHumanReadableFormat(tree.getSubtrees().get(j), buffer);
             
-        buffer.append("]");    
+        buffer.append(" ] ");    
         }
 
     }
