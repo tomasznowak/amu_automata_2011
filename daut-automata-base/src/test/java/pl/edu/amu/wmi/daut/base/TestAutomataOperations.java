@@ -269,7 +269,7 @@ public class TestAutomataOperations extends TestCase {
         assertFalse(automaton.accepts("aaabbbb"));
         assertFalse(automaton.accepts(""));
     }
-    
+
     /**
      * Testuje automat akceptujący domknięcie Kleene'ego
      * języka akceptowanego przez dany automat.
