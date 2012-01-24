@@ -94,4 +94,60 @@ public class TestNotNaiveAutomatonSpecification extends TestCase {
         assertEquals(spec.countStates(), 4);
         assertTrue(spec.isFull("ab"));
     }
+
+     /**
+     * Test metody testUnmark.
+     */
+    public final void testUnmark() {
+        final AutomatonSpecification spec = new NaiveAutomatonSpecification();
+
+        //Test 1
+        State q0a = spec.addState();
+        State q1a = spec.addState();
+
+        spec.addTransition(q1a, q0a, new CharTransitionLabel(' '));
+
+        spec.markAsFinal(q1a);
+        spec.markAsInitial(q0a);
+
+        spec.unmarkAsFinalState(q1a);
+        assertFalse(spec.isFinal(q1a));
+
+        //test 2
+        State q0b = spec.addState();
+        State q1b = spec.addState();
+
+        spec.addTransition(q1b, q0b, new CharTransitionLabel(' '));
+
+        spec.markAsFinal(q0b);
+        spec.markAsInitial(q1b);
+
+        spec.unmarkAsFinalState(q1b);
+        assertTrue(spec.isFinal(q0b));
+
+        //test 3
+        State q0c = spec.addState();
+        State q1c = spec.addState();
+        State q2c = spec.addState();
+        State q3c = spec.addState();
+        State q4c = spec.addState();
+        State q5c = spec.addState();
+
+        spec.addTransition(q0c, q2c, new CharTransitionLabel('a'));
+        spec.addTransition(q3c, q4c, new CharTransitionLabel('a'));
+        spec.addTransition(q1c, q5c, new CharTransitionLabel('a'));
+
+
+        spec.markAsFinal(q5c);
+        spec.markAsInitial(q0c);
+
+        spec.unmarkAsFinalState(q5c);
+        assertFalse(spec.isFinal(q0c));
+
+        spec.markAsFinal(q1c);
+        spec.markAsInitial(q3c);
+
+        spec.unmarkAsFinalState(q3c);
+        assertTrue(spec.isFinal(q1c));
+    }
 }

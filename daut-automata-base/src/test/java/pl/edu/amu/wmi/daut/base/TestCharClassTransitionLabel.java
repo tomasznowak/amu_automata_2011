@@ -49,6 +49,43 @@ public class TestCharClassTransitionLabel extends TestCase {
         assertFalse(test2.canAcceptCharacter('h'));
         assertFalse(test2.canAcceptCharacter('5'));
         assertEquals(test2.toString(), "[6a-fA-Zq]");
+
+        //budujemy
+        TransitionLabel test3 = new CharClassTransitionLabel("-4-9");
+
+        //testujemy
+        assertTrue(test3.canAcceptCharacter('-'));
+        assertTrue(test3.canAcceptCharacter('4'));
+        assertTrue(test3.canAcceptCharacter('5'));
+        assertFalse(test3.canAcceptCharacter('a'));
+        assertTrue(test3.canAcceptCharacter('9'));
+        assertEquals(test3.toString(), "[-4-9]");
+        assertFalse(test3.canBeEpsilon());
+        assertFalse(test3.isEmpty());
+        assertFalse(test3.canAcceptCharacter('b'));
+
+        //budujemy
+        TransitionLabel test4 = new CharClassTransitionLabel("3a-fA-Zq-");
+
+        //testujemy
+        assertTrue(test4.canAcceptCharacter('-'));
+        assertTrue(test4.canAcceptCharacter('3'));
+        assertTrue(test4.canAcceptCharacter('a'));
+        assertTrue(test4.canAcceptCharacter('b'));
+        assertTrue(test4.canAcceptCharacter('f'));
+        assertTrue(test4.canAcceptCharacter('A'));
+        assertTrue(test4.canAcceptCharacter('C'));
+        assertTrue(test4.canAcceptCharacter('G'));
+        assertTrue(test4.canAcceptCharacter('Y'));
+        assertTrue(test4.canAcceptCharacter('3'));
+        assertFalse(test4.canAcceptCharacter('g'));
+        assertTrue(test4.canAcceptCharacter('q'));
+        assertEquals(test4.toString(), "[3a-fA-Zq-]");
+        assertFalse(test4.canBeEpsilon());
+        assertFalse(test4.isEmpty());
+        assertFalse(test4.canAcceptCharacter('h'));
+        assertFalse(test4.canAcceptCharacter('5'));
+        assertEquals(test4.toString(), "[3a-fA-Zq-]");
     }
 
     /**

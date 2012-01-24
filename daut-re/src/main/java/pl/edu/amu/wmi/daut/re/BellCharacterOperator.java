@@ -8,12 +8,9 @@ import pl.edu.amu.wmi.daut.base.NaiveAutomatonSpecification;
  * Klasa reprezentująca znak "dźwiękowy" (znak o kodzie 7, \a w wyrażeniach regularnych).
  */
 public class BellCharacterOperator extends NullaryRegexpOperator {
-
-    private static final int NUMBER_SEVEN = 7;
-
     @Override
     public AutomatonSpecification createFixedAutomaton() {
-        return new NaiveAutomatonSpecification().makeOneTransitionAutomaton(((char) NUMBER_SEVEN));
+        return new NaiveAutomatonSpecification().makeOneTransitionAutomaton('\7');
     }
 
     /**
@@ -31,4 +28,13 @@ public class BellCharacterOperator extends NullaryRegexpOperator {
             return new BellCharacterOperator();
         }
     }
+
+    /**
+     * Metoda toString().
+     */
+    @Override
+    public String toString() {
+        return "BELL";
+    }
+
 }

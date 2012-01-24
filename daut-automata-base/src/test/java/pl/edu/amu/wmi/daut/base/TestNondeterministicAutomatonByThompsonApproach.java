@@ -184,6 +184,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         assertTrue(automaton.accepts("b"));
         assertFalse(automaton.accepts("uam"));
     }
+
     /**
      * Szósty test (tylko jeden stan, brak przejść).
      */
@@ -208,7 +209,6 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
     /**
      * Siódmy test (dwa stany, epsilon-przejście pomiędzy nimi).
      */
-
     public final void testTwoStatesOneEpsilonTrasitionLabel() {
         final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
@@ -228,5 +228,117 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         assertFalse(automaton.accepts("aaaaaaaaaaa"));
         assertFalse(automaton.accepts("bcccccc"));
         assertFalse(automaton.accepts("z"));
+    }
+
+    /**
+     * Ósmy test (automat akceptuje starego typu tablice
+     * rejestracyjne tj. 3 litery i 4 cyfry)
+     */
+    public final void testOldFashionRegistationPlates() {
+        final AutomatonSpecification spec = new NaiveAutomatonSpecification();
+
+        State q0a = spec.addState();
+        State q1a = spec.addState();
+        State q2a = spec.addState();
+        State q3a = spec.addState();
+        State q4a = spec.addState();
+        State q5a = spec.addState();
+        State q6a = spec.addState();
+        State q7a = spec.addState();
+
+        TransitionLabel letterLabel = new CharRangeTransitionLabel('A', 'Z');
+        TransitionLabel digitLabel = new CharRangeTransitionLabel('0', '9');
+
+        spec.addTransition(q0a, q1a, letterLabel);
+        spec.addTransition(q1a, q2a, letterLabel);
+        spec.addTransition(q2a, q3a, letterLabel);
+        spec.addTransition(q3a, q4a, digitLabel);
+        spec.addTransition(q4a, q5a, digitLabel);
+        spec.addTransition(q5a, q6a, digitLabel);
+        spec.addTransition(q6a, q7a, digitLabel);
+
+        spec.markAsInitial(q0a);
+        spec.markAsFinal(q7a);
+
+        final NondeterministicAutomatonByThompsonApproach automaton =
+                new NondeterministicAutomatonByThompsonApproach(spec);
+
+        assertTrue(automaton.accepts("AAA9999"));
+        assertTrue(automaton.accepts("WXT5692"));
+        assertFalse(automaton.accepts(""));
+        assertFalse(automaton.accepts("AA99999"));
+        assertFalse(automaton.accepts("AAAA999"));
+    }
+
+
+   /**
+     * Dziewiąty test (automat akceptuje liczby nieujemne
+     * podzielne przez 3 i pomija nieznaczące zera).
+     */
+    public final void testNonnegativeNumberDivisibleByThree() {
+        final AutomatonSpecification spec = new NaiveAutomatonSpecification();
+
+        State q0a = spec.addState();
+        State q1a = spec.addState();
+        State q2a = spec.addState();
+        State q3a = spec.addState();
+
+        spec.addTransition(q0a, q1a, new CharTransitionLabel('1'));
+        spec.addTransition(q0a, q1a, new CharTransitionLabel('4'));
+        spec.addTransition(q0a, q1a, new CharTransitionLabel('7'));
+        spec.addTransition(q0a, q2a, new CharTransitionLabel('2'));
+        spec.addTransition(q0a, q2a, new CharTransitionLabel('5'));
+        spec.addTransition(q0a, q2a, new CharTransitionLabel('8'));
+        spec.addTransition(q1a, q0a, new CharTransitionLabel('2'));
+        spec.addTransition(q1a, q0a, new CharTransitionLabel('5'));
+        spec.addTransition(q1a, q0a, new CharTransitionLabel('8'));
+        spec.addTransition(q1a, q2a, new CharTransitionLabel('1'));
+        spec.addTransition(q1a, q2a, new CharTransitionLabel('4'));
+        spec.addTransition(q1a, q2a, new CharTransitionLabel('7'));
+        spec.addTransition(q2a, q1a, new CharTransitionLabel('2'));
+        spec.addTransition(q2a, q1a, new CharTransitionLabel('5'));
+        spec.addTransition(q0a, q1a, new CharTransitionLabel('8'));
+        spec.addTransition(q2a, q0a, new CharTransitionLabel('1'));
+        spec.addTransition(q2a, q0a, new CharTransitionLabel('4'));
+        spec.addTransition(q2a, q0a, new CharTransitionLabel('7'));
+
+        spec.addTransition(q0a, q3a, new EpsilonTransitionLabel());
+        spec.addTransition(q0a, q3a, new CharTransitionLabel('-'));
+
+        spec.addLoop(q0a, new CharTransitionLabel('0'));
+        spec.addLoop(q0a, new CharTransitionLabel('3'));
+        spec.addLoop(q0a, new CharTransitionLabel('6'));
+        spec.addLoop(q0a, new CharTransitionLabel('9'));
+        spec.addLoop(q1a, new CharTransitionLabel('0'));
+        spec.addLoop(q1a, new CharTransitionLabel('3'));
+        spec.addLoop(q1a, new CharTransitionLabel('6'));
+        spec.addLoop(q1a, new CharTransitionLabel('9'));
+        spec.addLoop(q2a, new CharTransitionLabel('0'));
+        spec.addLoop(q2a, new CharTransitionLabel('3'));
+        spec.addLoop(q2a, new CharTransitionLabel('6'));
+        spec.addLoop(q2a, new CharTransitionLabel('9'));
+        spec.addLoop(q3a, new CharTransitionLabel('0'));
+        spec.addLoop(q3a, new CharTransitionLabel('1'));
+        spec.addLoop(q3a, new CharTransitionLabel('2'));
+        spec.addLoop(q3a, new CharTransitionLabel('3'));
+        spec.addLoop(q3a, new CharTransitionLabel('4'));
+        spec.addLoop(q3a, new CharTransitionLabel('5'));
+        spec.addLoop(q3a, new CharTransitionLabel('6'));
+        spec.addLoop(q3a, new CharTransitionLabel('7'));
+        spec.addLoop(q3a, new CharTransitionLabel('8'));
+        spec.addLoop(q3a, new CharTransitionLabel('9'));
+
+        spec.markAsInitial(q0a);
+        spec.markAsFinal(q0a);
+
+        final NondeterministicAutomatonByThompsonApproach automaton =
+                new NondeterministicAutomatonByThompsonApproach(spec);
+
+        assertTrue(automaton.accepts("0"));
+        assertTrue(automaton.accepts("003"));
+        assertTrue(automaton.accepts("12523212"));
+        assertTrue(automaton.accepts("111"));
+        assertFalse(automaton.accepts("-0301"));
+        assertFalse(automaton.accepts("-0302"));
     }
 }
