@@ -26,7 +26,7 @@ public class GrammarUtils {
         }
         return true;
     }
-    
+
     /**
      * Metoda sprawdzająca, czy podana gramatyka jest w postaci normalnej
      * Greibach.
@@ -39,8 +39,7 @@ public class GrammarUtils {
             }
             if (!(rule.getRhsFirstSymbol().isTerminalSymbol())) {
                 return false;
-            }
-            else if (rule.getArity() >= 2) {
+            } else if (rule.getArity() >= 2) {
                 List<GrammarSymbol> rhsSymbols = rule.getRhsSymbols();
                 for (int i = 1; i < rhsSymbols.size(); i++) {
                     if (rhsSymbols.get(i).isTerminalSymbol()) {
