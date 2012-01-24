@@ -2,6 +2,8 @@ package pl.edu.amu.wmi.daut.re;
 
 import java.util.ArrayList;
 import java.util.List;
+import pl.edu.amu.wmi.daut.base.AutomatonSpecification;
+import pl.edu.amu.wmi.daut.base.NaiveAutomatonSpecification;
 
 /**
  * Klasa reprezentujaca.
