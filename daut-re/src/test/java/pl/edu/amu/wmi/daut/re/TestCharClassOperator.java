@@ -16,7 +16,7 @@ public class TestCharClassOperator extends TestCase {
 
         AutomatonByRecursion tmp = new AutomatonByRecursion(
             new CharClassOperator("1-3").createFixedAutomaton());
-        
+
         assertTrue(tmp.accepts("2"));
         assertFalse(tmp.accepts("4"));
         assertTrue(tmp.accepts("3"));
@@ -35,7 +35,7 @@ public class TestCharClassOperator extends TestCase {
         assertTrue(tmp.accepts("-"));
         assertFalse(tmp.accepts("d"));
         assertFalse(tmp.accepts("ą"));
-        assertTrue(tmp.accepts("b"));       
+        assertTrue(tmp.accepts("b"));
     }
 
     /**
