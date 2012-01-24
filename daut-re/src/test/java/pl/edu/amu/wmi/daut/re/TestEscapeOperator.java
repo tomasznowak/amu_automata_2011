@@ -3,6 +3,8 @@ package pl.edu.amu.wmi.daut.re;
 import pl.edu.amu.wmi.daut.base.AutomatonSpecification;
 import pl.edu.amu.wmi.daut.base.NondeterministicAutomatonByThompsonApproach;
 import junit.framework.TestCase;
+import pl.edu.amu.wmi.daut.re.EscapeOperator.Factory;
+import java.util.ArrayList;
 
 /**
  * Test klasy EscapeOperator.
@@ -120,5 +122,18 @@ public class TestEscapeOperator extends TestCase {
         assertTrue(result6.accepts("\13"));
         assertFalse(result6.accepts("\\1313"));
         assertFalse(result6.accepts("13"));
+    }
+
+    /**
+     * Test fabryki.
+     */
+    public void testFactory() {
+        Factory factory = new Factory();
+        assertEquals(factory.numberOfParams(), 1);
+        ArrayList list = new ArrayList<String>();
+        list.add("\13");
+        RegexpOperator operator = factory.createOperator(list);
+        int arity = operator.arity();
+        assertEquals(arity, 0);
     }
 }

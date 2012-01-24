@@ -1,4 +1,4 @@
-package pl.edu.amu.wmi.daut.base;
+package pl.edu.amu.wmi.daut.re;
 
 import java.nio.CharBuffer;
 import java.util.List;
