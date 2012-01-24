@@ -7,49 +7,55 @@ package pl.edu.amu.wmi.daut.base;
  */
 public class WordBoundaryTransitionLabel extends ZeroLengthConditionalTransitionLabel {
 
+    /**
+     * Metoda ta sprawdza czy char a jest z zakresu [a-zA-Z0-9_].
+     */
+    public boolean isCharacter(char a) {
+        if (a >= 'a' && a <= 'z' || a >= 'A' && a <= 'Z' || a >= '0' && a <= '9' || a == '_')
+            return true;
+        return false;
+    }
+
     @Override
     public boolean doCheckContext(String s, int position) {
-        String str;
-        boolean character, leftCharacter;
+        char a;
         if (s.length() < position || position < 0)
              throw new PositionOutOfStringBordersException();
         if (position == s.length()) {
-            str = String.valueOf(s.charAt(position - 1));
-            character = str.matches("\\w");
-            if (character)
+            a = s.charAt(position - 1);
+            if (isCharacter(a))
                 return true;
             return false;
         }
         if (position == 0) {
-            str = String.valueOf(s.charAt(position));
-            character = str.matches("\\w");
-            if (character)
+            a = s.charAt(position);
+            if (isCharacter(a))
                 return true;
             return false;
         }
-        str = String.valueOf(s.charAt(position));
-        character = str.matches("\\w");
-        if (character) {
-            str = String.valueOf(s.charAt(position - 1));
-            leftCharacter = str.matches("\\W");
-            if (leftCharacter)
+        a = s.charAt(position);
+        if (isCharacter(a)) {
+            a = s.charAt(position - 1);
+            if (!isCharacter(a))
                 return true;
         } else {
-            str = String.valueOf(s.charAt(position - 1));
-            leftCharacter = str.matches("\\w");
-            if (leftCharacter)
+            a = s.charAt(position - 1);
+            if (isCharacter(a))
                 return true;
         }
         return false;
     };
+
     @Override
     public boolean canAcceptCharacter(char c) {
         return false;
     };
+
     @Override
     public boolean isEmpty() {
         return false;
     }
+
     @Override
     public String toString() {
         return "WordBoundary";

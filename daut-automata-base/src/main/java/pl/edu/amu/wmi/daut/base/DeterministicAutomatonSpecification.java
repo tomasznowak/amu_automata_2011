@@ -65,8 +65,6 @@ abstract class DeterministicAutomatonSpecification extends AutomatonSpecificatio
 
         while (!startStates.isEmpty()) {
             for (int i = 0; i < startStates.size(); i++) {
-                if (i > startStates.size())
-                    break;
                 for (OutgoingTransition transition : allOutgoingTransitions(
                         startStates.get(i))) {
                     if (uselessStates.contains(transition.getTargetState())) {
@@ -171,13 +169,16 @@ abstract class DeterministicAutomatonSpecification extends AutomatonSpecificatio
     }
 
     /**
-     * Pobiera automat na wejsciu.
-     * Zwraca zminimalizowany automat
+     * Pobiera automat na wejściu.
+     * Zwraca zminimalizowany automat. Jeżeli automat był nie pełny, zostanie
+     * dodany stan śmietnik. W takiej sytuacji funkcja zwróci automat
+     * o liczbie stanów o jeden większej.
      */
     public void makeMinimal(
             DeterministicAutomatonSpecification automatonToBeMinimized,
             String alphabet) {
 
+        automatonToBeMinimized.makeFull(alphabet);
         List<State> states = automatonToBeMinimized.allStates();
         List<State> uselessStates =  automatonToBeMinimized.returnUselessStates();
         HashMap<State, Integer> indexStates = new HashMap<State, Integer>();

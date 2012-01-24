@@ -36,9 +36,8 @@ public class TestOctSingleCharacterOperator extends TestCase {
 
     /**
      * Test CreateFixedAutomaton.
-     * @throws Exception
      */
-    public final void testCreateFixedAutomaton() throws Exception {
+    public final void testCreateFixedAutomaton() {
 
         OctSingleCharacterOperator operator = new OctSingleCharacterOperator(120);
         AutomatonSpecification automaton = operator.createFixedAutomaton();

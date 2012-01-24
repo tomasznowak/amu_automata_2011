@@ -23,6 +23,10 @@ public class TestEndOfTextOrLineTransitionLabel extends TestCase {
         assertTrue(testowana.checkContext("ma\nka", 2));
         assertFalse(testowana.checkContext("ma\nka", 4));
         assertTrue(testowana.checkContext("ma\nka", 5));
+        assertFalse(testowana.checkContext("foo\n", 2));
+        assertTrue(testowana.checkContext("foo\n", 3));
+        assertTrue(testowana.checkContext("foo\n", 4));
+
         try {
             testowana.checkContext("ma\nka", 7);
             fail();

@@ -1,5 +1,6 @@
 package pl.edu.amu.wmi.daut.re;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
@@ -10,13 +11,14 @@ import java.util.Vector;
 public class Grammar {
 
     private GrammarNonterminalSymbol startSymbol;
-    private List<GrammarRule> rules;
+    private List<GrammarRule> rules = new ArrayList<GrammarRule>();
 
     /**
      * Konstruktor - rules to lista reguł, startSymbol - symbol początkowy.
      */
     public Grammar(List<GrammarRule> rules, GrammarNonterminalSymbol startSymbol) {
         this.startSymbol = startSymbol;
+        this.rules = new Vector<GrammarRule>();
         for (GrammarRule rule : rules) {
             this.rules.add(rule);
         }

@@ -5,9 +5,9 @@ import pl.edu.amu.wmi.daut.base.AutomatonSpecification;
 import pl.edu.amu.wmi.daut.base.NaiveAutomatonSpecification;
 
 /**
-*
-* Obsługa wyjątków.
-*/
+ *
+ * Obsługa wyjątków.
+ */
 class InvalidEscapeOperatorException extends RuntimeException {
     public InvalidEscapeOperatorException(String message) {
         super(message);
@@ -15,22 +15,22 @@ class InvalidEscapeOperatorException extends RuntimeException {
 }
 
 /**
-*
-* Klasa EscapeOperator reprezentująca znak poprzedzony znakiem ucieczki
-* (w wyrażeniach regularnych POSIX - odwrócony ukośnik).
-*/
+ *
+ * Klasa EscapeOperator reprezentująca znak poprzedzony znakiem ucieczki
+ * (w wyrażeniach regularnych POSIX - odwrócony ukośnik).
+ */
 public class EscapeOperator extends NullaryRegexpOperator {
 
     private char znak;
 
     @Override
     public AutomatonSpecification createFixedAutomaton() {
-        return new NaiveAutomatonSpecification().makeOneTransitionAutomaton(tlumacz());
+        return new NaiveAutomatonSpecification().makeOneTransitionAutomaton(translate());
     }
     /**
-* Konstruktor klasy.
-* @param a znak poprzedzony symbolem ucieczki
-*/
+     * Konstruktor klasy.
+     * @param a znak poprzedzony symbolem ucieczki
+     */
     public EscapeOperator(char a) {
         this.setChar(a);
 
@@ -40,7 +40,7 @@ public class EscapeOperator extends NullaryRegexpOperator {
         this.znak = b;
     }
 
-    private char tlumacz() {
+    private char translate() {
         switch (znak) {
             case 'n':
                 return ('\n');
@@ -55,13 +55,13 @@ public class EscapeOperator extends NullaryRegexpOperator {
             case 'v':
                 return ('\13');
             default:
-                return (znak);
+                return znak;
 
         }
     }
     /**
-* Fabryka operatora.
-*/
+     * Fabryka operatora.
+     */
     public static class Factory extends NullaryRegexpOperatorFactory {
 
         @Override

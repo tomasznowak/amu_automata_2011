@@ -55,10 +55,14 @@ public class NondeterministicAutomatonByThompsonApproach implements Acceptor {
                     List<OutgoingTransition> someStateTransitions = new
                             LinkedList<OutgoingTransition>(
                             automaton.allOutgoingTransitions(someState));
-
                     for (OutgoingTransition transition : someStateTransitions) {
-                        if (transition.getTransitionLabel().canAcceptCharacter(text.charAt(i))
-                                && !temporaryStates.contains(transition.getTargetState())) {
+                        if (transition.getTransitionLabel().isContextual()) {
+                            temporaryStates.addAll(
+                                    automaton.getEpsilonClosureWithContext(
+                                    someState, text, i));
+                        } else if (transition.getTransitionLabel().canAcceptCharacter(
+                                text.charAt(i)) && !temporaryStates.contains(
+                                transition.getTargetState())) {
                             temporaryStates.add(transition.getTargetState());
                         }
                     }
