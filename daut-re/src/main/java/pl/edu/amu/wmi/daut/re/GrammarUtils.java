@@ -34,9 +34,10 @@ public class GrammarUtils {
     public boolean isGreibach(Grammar g) {
         List<GrammarRule> rules = g.allRules();
         for (GrammarRule rule : rules) {
-            if (rule.getArity() == 0
-                    || !(rule.getRhsFirstSymbol().isTerminalSymbol())  
-               ) {
+            if (rule.getArity() == 0) {
+                return false;
+            }
+            if (!(rule.getRhsFirstSymbol().isTerminalSymbol())) {
                 return false;
             }
             else if (rule.getArity() >= 2) {
