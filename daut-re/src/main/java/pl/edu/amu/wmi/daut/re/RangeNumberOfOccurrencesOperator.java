@@ -2,6 +2,7 @@ package pl.edu.amu.wmi.daut.re;
 
 import java.util.List;
 import pl.edu.amu.wmi.daut.base.AutomatonSpecification;
+import pl.edu.amu.wmi.daut.base.NaiveAutomatonSpecification;
 import pl.edu.amu.wmi.daut.base.EpsilonTransitionLabel;
 import pl.edu.amu.wmi.daut.base.State;
 
@@ -19,32 +20,43 @@ public class RangeNumberOfOccurrencesOperator extends UnaryRegexpOperator {
     * Konstruktor klasy.
     */
     public RangeNumberOfOccurrencesOperator(int n, int m) {
-       this.max = m;
-       this.min = n;
-   }
+        this.max = m;
+        this.min = n;
+    }
 
    /**
     * Glowna metoda klasy.
     */
     public AutomatonSpecification createAutomatonFromOneAutomaton(
             AutomatonSpecification subautomaton) {
- 
-        AutomatonSpecification finalAutomaton = subautomaton.clone();
 
-        if (this.min == 0)
-            finalAutomaton.markAsFinal(finalAutomaton.getInitialState());
-
-        for (int i = 1; i < this.max; i++) {
-            State newState = finalAutomaton.addState();
-
-            for (State state : finalAutomaton.allStates()) {
-                if (finalAutomaton.isFinal(state)) {
-                    finalAutomaton.addTransition(state, newState, new EpsilonTransitionLabel());
-                    if (i < this.min)
+        AutomatonSpecification finalAutomaton = new NaiveAutomatonSpecification();
+        if (this.min > this.max) {
+            return finalAutomaton;
+        } else {
+            finalAutomaton = subautomaton.clone();
+            if (this.min == 0) {
+                finalAutomaton.markAsFinal(finalAutomaton.getInitialState());
+                if (this.max == 0) {
+                    for (State state : finalAutomaton.allStates()) {
                         finalAutomaton.unmarkAsFinalState(state);
+                    }
+                    finalAutomaton.markAsFinal(finalAutomaton.getInitialState());
                 }
             }
-            finalAutomaton.insert(newState, subautomaton);
+
+            for (int i = 1; i < this.max; i++) {
+                State newState = finalAutomaton.addState();
+
+                for (State state : finalAutomaton.allStates()) {
+                    if (finalAutomaton.isFinal(state)) {
+                        finalAutomaton.addTransition(state, newState, new EpsilonTransitionLabel());
+                        if (i < this.min)
+                            finalAutomaton.unmarkAsFinalState(state);
+                    }
+                }
+                finalAutomaton.insert(newState, subautomaton);
+            }
         }
         return finalAutomaton;
     }

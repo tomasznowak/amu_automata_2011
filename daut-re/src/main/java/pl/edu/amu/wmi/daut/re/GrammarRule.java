@@ -1,5 +1,6 @@
 package pl.edu.amu.wmi.daut.re;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -106,7 +107,7 @@ public class GrammarRule {
         if (rhsSymbols == null) {
             return new Vector<GrammarSymbol>();
         } else {
-            return rhsSymbols;
+            return Collections.unmodifiableList(rhsSymbols);
         }
     };
 

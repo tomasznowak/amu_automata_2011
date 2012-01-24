@@ -13,14 +13,14 @@ public class BasicPosixRegexpOperatorManager extends PosixRegexpOperatorManager 
      */
     public BasicPosixRegexpOperatorManager() {
         addOperator("*", new KleeneStarOperator.Factory(),
-                    Arrays.<String>asList("", "*"), PRIORITY_3);
+                    Arrays.<String>asList("", "*"), PRIORITY_MEDIUM);
         addOperator(".", new AnyCharOperator.Factory(),
-                    Arrays.<String>asList("."), PRIORITY_4);
+                    Arrays.<String>asList("."), PRIORITY_HIGH);
         addOperator("\\(\\)", new DoNothingOperator.Factory(),
-                    Arrays.<String>asList("\\(", "\\)"), PRIORITY_4);
+                    Arrays.<String>asList("\\(", "\\)"), PRIORITY_HIGH);
         addOperator("\\{m,n\\}", new RangeNumberOfOccurrencesOperator.Factory(),
-                    Arrays.<String>asList("", "\\{", ",", "\\}"), PRIORITY_3);
+                    Arrays.<String>asList("", "\\{", ",", "\\}"), PRIORITY_MEDIUM);
         addOperator("\\{m\\}", new FixedNumberOfOccurrencesOperator.Factory(),
-                    Arrays.<String>asList("", "\\{", "\\}"), PRIORITY_3);
+                    Arrays.<String>asList("", "\\{", "\\}"), PRIORITY_MEDIUM);
     }
 }

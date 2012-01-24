@@ -9,13 +9,14 @@ import java.util.Arrays;
  */
 class PosixRegexpOperatorManager extends RegexpOperatorManager {
 
-    public static final int PRIORITY_4 = 4;
-    public static final int PRIORITY_3 = 3;
+    public static final int PRIORITY_HIGH = 4;
+    public static final int PRIORITY_MEDIUM = 3;
+    public static final int PRIORITY_LOW = 1;
 
     PosixRegexpOperatorManager() {
         addOperator("*", new KleeneStarOperator.Factory(),
-                    Arrays.<String>asList("", "*"), PRIORITY_3);
+                    Arrays.<String>asList("", "*"), PRIORITY_MEDIUM);
         addOperator(".", new AnyCharOperator.Factory(),
-                    Arrays.<String>asList("."), PRIORITY_4);
+                    Arrays.<String>asList("."), PRIORITY_HIGH);
     }
 }

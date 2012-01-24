@@ -4,9 +4,15 @@ import java.util.Vector;
 import java.util.List;
 
 
-class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecification
+/**
+ * Szybka, ale dość pamięciożerna, implementacja automatu deterministycznego.
+ */
+public class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecification
 {
-    static class MyState implements State {
+    /**
+     * Klasa reprezentująca stan.
+     */
+    private static class MyState implements State {
         private static final int DEFAULT_ARRAY_LENGTH = 256;
         private MyState[] mCharacterTargetState;
         private int mCharacterTargetStateLength;
@@ -17,6 +23,9 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
         private EffectiveDeterministicAutomaton mOwner;
 
 
+        /**
+         * Konstruktor.
+         */
         public MyState(EffectiveDeterministicAutomaton owner) {
             mCharacterTargetStateLength = DEFAULT_ARRAY_LENGTH;
             mCharacterTargetState = new MyState[mCharacterTargetStateLength];
@@ -31,46 +40,77 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
         }
 
 
+        /**
+         * Dodaje przejście wychodzące z tego stanu.
+         */
         private void addOutgoingTransition(OutgoingTransition transition) {
             mOutgoingTransitions.addElement(transition);
         }
 
 
+        /**
+         * Zwraca automat, do którego ten stan należy.
+         */
         public EffectiveDeterministicAutomaton getOwner() {
             return mOwner;
         }
 
 
+        /**
+         * Zwraca docelowy stan po epsilonie (lub null, jeśli nie ma przejścia
+         * po epsilonie).
+         */
         public MyState getEpsilonTargetState() {
             return mEpsilonTargetState;
         }
 
 
+        /**
+         * Zwraca listę wszystkich wychodzących przejść.
+         */
         public Vector<OutgoingTransition> getOutgoingTransitions() {
             return mOutgoingTransitions;
         }
 
 
+        /**
+         * Zwraca stan, do którego można przejść po podanym znaku (lub null
+         * jeśli przejścia po takim znaku nie ma).
+         */
         public MyState getTargetState(char c) {
             return (c < mCharacterTargetStateLength ? mCharacterTargetState[c] : null);
         }
 
 
+        /**
+         * Zwraca true, jeśli istnieje przynajmniej jedno przejście do innego
+         * stanu po znaku.
+         */
         public boolean hasCharacterTransition() {
             return mHasCharacterTransition;
         }
 
 
+        /**
+         * Zwraca true, jeśli istnieje przejście do innego stanu po epsilonie.
+         */
         public boolean hasEpsilonTransition() {
             return (mEpsilonTargetState != null);
         }
 
 
+        /**
+         * Zwraca true, jeśli stan jest akceptujący.
+         */
         public boolean isFinal() {
             return mIsFinal;
         }
 
 
+        /**
+         * Ustawia stan docelowy dla przejścia po epsilonie. W przypadku wykrycia
+         * niedeterminizu, wyrzuca UnsupportedOperationException.
+         */
         public void setEpsilonTargetState(MyState state) {
             if (mHasCharacterTransition
                || (mEpsilonTargetState != null && mEpsilonTargetState != state))
@@ -79,11 +119,18 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
         }
 
 
+        /**
+         * Zmienia stan na akceptujący lub nieakceptujący.
+         */
         public void setFinal(boolean value) {
             mIsFinal = value;
         }
 
 
+        /**
+         * Ustawia stan docelowy dla przejścia po danym znaku. W przypadku
+         * wykrycia niedeterminizmu wyrzuca UnsupportedOperationException.
+         */
         public void setTargetState(char c, MyState state) {
             if (mEpsilonTargetState != null)
                 throw new UnsupportedOperationException();
@@ -175,6 +222,13 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
     }
 
 
+    /**
+     * Sprawdza, czy podany jako argument stan jest poprawny, to znaczy,
+     * czy jest różny od null, czy jest instancją klasy MyState oraz czy
+     * należy do tego automatu. Jeśli pierwszy z warunków nie jest spełniony,
+     * wyrzuca NullPointerException, jeśli nie jest spełniony warunek drugi
+     * lub trzeci, wyrzuca IllegalArgumentException.
+     */
     private MyState assertStateValid(State state) {
         if (state != null) {
             if (state instanceof MyState) {
@@ -188,6 +242,9 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
     }
 
 
+    /**
+     * Konstruktor.
+     */
     public EffectiveDeterministicAutomaton() {
         mInitialState = null;
         mStates = new Vector<State>();
