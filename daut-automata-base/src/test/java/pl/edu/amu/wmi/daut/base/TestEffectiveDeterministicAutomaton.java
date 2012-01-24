@@ -166,13 +166,13 @@ public class TestEffectiveDeterministicAutomaton extends TestCase {
             assertTrue(true);
         }
     }
-    
+
     /**
      * 
      */
     public final void testBooleans() {
         EffectiveDeterministicAutomaton auto = new EffectiveDeterministicAutomaton();
         auto.addState();
-        
+
     } 
 }
