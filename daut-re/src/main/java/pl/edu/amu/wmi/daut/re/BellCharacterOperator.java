@@ -10,7 +10,7 @@ import pl.edu.amu.wmi.daut.base.NaiveAutomatonSpecification;
 public class BellCharacterOperator extends NullaryRegexpOperator {
     @Override
     public AutomatonSpecification createFixedAutomaton() {
-        return new NaiveAutomatonSpecification().makeOneTransitionAutomaton(('\7'));
+        return new NaiveAutomatonSpecification().makeOneTransitionAutomaton('\7');
     }
 
     /**
