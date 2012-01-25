@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 */
 //public class TestGrammarUtils extends TestCase {
 /**
- * Test sprawdzający działanie metody isChomsky(). 
+ * Test sprawdzający działanie metody isChomsky().
  */
   /*public final void testIsChomsky() {
 
