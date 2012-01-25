@@ -653,7 +653,7 @@ public class TestNaiveAutomatonSpecification extends TestCase {
 
         automat.addTransition(q0, q1, new CharTransitionLabel('a'));
         automat.addTransition(q1, q2, new EpsilonTransitionLabel());
-        automat.addTransition(q2, q3, new CharTransitionLabel('b')); 
+        automat.addTransition(q2, q3, new CharTransitionLabel('b'));
 
         automat.markAsFinal(q3);
         automat.markAsInitial(q0);
