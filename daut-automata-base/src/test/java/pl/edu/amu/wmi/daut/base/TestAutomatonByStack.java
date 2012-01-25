@@ -9,10 +9,10 @@ import junit.framework.TestCase;
  */
 public class TestAutomatonByStack extends TestCase {
 	
-	/**
-    * Test automatu deterministycznego badz niedeterministycznego
-    * akceptujacy napis pusty oraz napisy 'aa' i 'aaa'
-    */
+    /**
+     * Test automatu deterministycznego badz niedeterministycznego
+     * akceptujacy napis pusty oraz napisy 'aa' i 'aaa'
+     */
     public final void testKamils() {
     
 	final AutomatonSpecification spec = new NaiveAutomatonSpecification();
