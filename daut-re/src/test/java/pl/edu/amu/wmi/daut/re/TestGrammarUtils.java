@@ -7,9 +7,9 @@ import junit.framework.TestCase;
 */
 //public class TestGrammarUtils extends TestCase {
 /**
- * Test sprawdzający działanie metody isChomsky().
+ * Test sprawdzający działanie metody isChomsky() issue #560.
  */
-  /*public final void testIsChomsky() {
+/*  public final void testIsChomsky() {
 
         GrammarNonterminalSymbol startSymbol = new GrammarNonterminalSymbol('S');
         GrammarNonterminalSymbol symbolA = new GrammarNonterminalSymbol('A');
@@ -52,5 +52,43 @@ import junit.framework.TestCase;
         grammar2.addRule(new GrammarRule(symbolB2, symbolb2));
 
         assertTrue(GrammarUtils.isChomsky(grammar2));
+    }
+}*/
+/**
+ * Test sprawdzający działanie metody isGreibach() issue #561. 
+ */
+  /*public final void testIsGreibach() {
+
+        GrammarNonterminalSymbol startSymbol = new GrammarNonterminalSymbol('S');
+        GrammarNonterminalSymbol symbolA = new GrammarNonterminalSymbol('A');
+
+        GrammarTerminalSymbol symbola = new GrammarTerminalSymbol('a');
+
+        Grammar grammar = new Grammar(startSymbol);
+
+        List<GrammarSymbol> tmp = new ArrayList<GrammarSymbol>();
+        tmp.add(symbola);
+        tmp.add(symbolA);
+
+        grammar.addRule(new GrammarRule(startSymbol, tmp));
+
+        assertTrue(GrammarUtils.isGreibach(grammar));
+
+        GrammarNonterminalSymbol startSymbol2 = new GrammarNonterminalSymbol('S');
+        GrammarNonterminalSymbol symbolA2 = new GrammarNonterminalSymbol('A');
+
+        GrammarTerminalSymbol symbola2 = new GrammarTerminalSymbol('a');
+        GrammarTerminalSymbol symbolb2 = new GrammarTerminalSymbol('b');
+
+        Grammar grammar2 = new Grammar(startSymbol2);
+
+        List<GrammarSymbol> tmp2 = new ArrayList<GrammarSymbol>();
+        tmp.add(symbola2);
+        tmp.add(symbolb2);
+        tmp.add(symbolA2);
+
+        grammar2.addRule(new GrammarRule(startSymbol2, tmp2));
+
+        assertFalse(GrammarUtils.isGreeibach(grammar2));
     }
 }*/
