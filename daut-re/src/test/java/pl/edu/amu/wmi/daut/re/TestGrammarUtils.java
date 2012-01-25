@@ -55,7 +55,7 @@ import junit.framework.TestCase;
     }
 }*/
 /**
- * Test sprawdzający działanie metody isGreibach() issue #561. 
+ * Test sprawdzający działanie metody isGreibach() issue #561.
  */
   /*public final void testIsGreibach() {
 
