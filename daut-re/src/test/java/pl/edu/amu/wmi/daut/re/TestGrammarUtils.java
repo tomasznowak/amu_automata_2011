@@ -7,8 +7,8 @@ import junit.framework.TestCase;
 */
 //public class TestGrammarUtils extends TestCase {
 /**
-* Test sprawdzający działanie metody isChomsky(). 
-*/
+ * Test sprawdzający działanie metody isChomsky(). 
+ */
   /*public final void testIsChomsky() {
 
         GrammarNonterminalSymbol startSymbol = new GrammarNonterminalSymbol('S');
@@ -19,9 +19,9 @@ import junit.framework.TestCase;
         GrammarTerminalSymbol symbola = new GrammarTerminalSymbol('a');
         GrammarTerminalSymbol symbolb = new GrammarTerminalSymbol('b');
         GrammarTerminalSymbol symbolc = new GrammarTerminalSymbol('c');
-        
+
         Grammar grammar = new Grammar(startSymbol);
-        
+
         List<GrammarSymbol> tmp = new ArrayList<GrammarSymbol>();
         tmp.add(symbolA);
         tmp.add(symbolB);
@@ -31,18 +31,18 @@ import junit.framework.TestCase;
         grammar.addRule(new GrammarRule(symbolA, symbola));
         grammar.addRule(new GrammarRule(symbolB, symbolb));
         grammar.addRule(new GrammarRule(symbolC, symbolc));
-        
+
         assertFalse(GrammarUtils.isChomsky(grammar));
-        
+
         GrammarNonterminalSymbol startSymbol2 = new GrammarNonterminalSymbol('S');
         GrammarNonterminalSymbol symbolA2 = new GrammarNonterminalSymbol('A');
         GrammarNonterminalSymbol symbolB2 = new GrammarNonterminalSymbol('B');
 
         GrammarTerminalSymbol symbola2 = new GrammarTerminalSymbol('a');
         GrammarTerminalSymbol symbolb2 = new GrammarTerminalSymbol('b');
-        
+
         Grammar grammar2 = new Grammar(startSymbol2);
-        
+
         List<GrammarSymbol> tmp2 = new ArrayList<GrammarSymbol>();
         tmp.add(symbolA2);
         tmp.add(symbolB2);
@@ -54,5 +54,3 @@ import junit.framework.TestCase;
         assertTrue(GrammarUtils.isChomsky(grammar2));
     }
 }*/
-
-       
