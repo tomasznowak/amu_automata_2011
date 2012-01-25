@@ -73,7 +73,7 @@ public class HexSingleCharacterOperator extends NullaryRegexpOperator {
                 InvalidHexSingleCharacterOperatorException("Value was too high.");
             int i = Integer.parseInt(s, BASE16);
             char c = (char) i;
-            return new SingleCharacterOperator(c);
+            return new HexSingleCharacterOperator(c);
         }
     }
 }
