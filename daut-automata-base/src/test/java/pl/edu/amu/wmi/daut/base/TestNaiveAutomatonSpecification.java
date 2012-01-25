@@ -637,7 +637,36 @@ public class TestNaiveAutomatonSpecification extends TestCase {
         assertFalse(automat.isInfinite());
     }
 
-     /**
+
+    /**
+     * Test metody sprawdzającej, czy akceptowany język jest nieskończony dla
+     * automatu z epsilon-przejściami.
+     */
+    public final void testInfiniteForEpsilons() {
+        NaiveAutomatonSpecification automat = new NaiveAutomatonSpecification();
+
+        State q0 = automat.addState();
+        State q1 = automat.addState();
+        State q2 = automat.addState();
+        State q3 = automat.addState();
+        State q4 = automat.addState();
+
+        automat.addTransition(q0, q1, new CharTransitionLabel('a'));
+        automat.addTransition(q1, q2, new EpsilonTransitionLabel());
+        automat.addTransition(q2, q3, new CharTransitionLabel('b')); 
+
+        automat.markAsFinal(q3);
+        automat.markAsInitial(q0);
+
+        assertFalse(automat.isInfinite());
+
+        automat.addTransition(q3, q4, new EpsilonTransitionLabel());
+        automat.addTransition(q4, q2, new CharTransitionLabel('a'));
+
+        assertTrue(automat.isInfinite());
+    }
+
+    /**
      * Test metody testUnmark.
      */
     public final void testUnmark() {
