@@ -13,7 +13,7 @@ public class TestAutomatonByStack extends TestCase {
      * Test automatu deterministycznego badz niedeterministycznego
      * akceptujacy napis pusty oraz napisy 'aa' i 'aaa'
      */
-    public final void testKamils() {
+    public final void testEmptyWordOrTwoOrThreeA() {
     
 	final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 	
