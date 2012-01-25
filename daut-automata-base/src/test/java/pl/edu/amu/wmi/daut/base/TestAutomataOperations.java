@@ -271,6 +271,35 @@ public class TestAutomataOperations extends TestCase {
     }
 
     /**
+     * Testuje automat akceptujący domknięcie Kleene'ego
+     * języka akceptowanego przez dany automat.
+     */
+    public final void testGetKleeneStar() {
+        AutomatonSpecification automaton = new NaiveAutomatonSpecification();
+        State q0 = automaton.addState();
+        State q1 = automaton.addState();
+        State q2 = automaton.addState();
+        State q3 = automaton.addState();
+        State q4 = automaton.addState();
+        automaton.addTransition(q0, q1, new CharTransitionLabel('a'));
+        automaton.addTransition(q1, q2, new CharTransitionLabel('b'));
+        automaton.addTransition(q2, q3, new CharTransitionLabel('a'));
+        automaton.addTransition(q3, q4, new CharTransitionLabel('c'));
+        automaton.markAsInitial(q0);
+        automaton.markAsFinal(q4);
+        AutomatonSpecification result =
+                AutomataOperations.getKleeneStar(automaton);
+        NondeterministicAutomatonByThompsonApproach automatonKleeneStar = new
+                NondeterministicAutomatonByThompsonApproach(result);
+        assertTrue(automatonKleeneStar.accepts("abac"));
+        assertTrue(automatonKleeneStar.accepts("abacabacabacabacabacabac"));
+        assertTrue(automatonKleeneStar.accepts("abacabacabacabacabac"));
+        assertFalse(automatonKleeneStar.accepts("abacabacabacabbbbacabac"));
+        assertFalse(automatonKleeneStar.accepts("aba"));
+        assertFalse(automatonKleeneStar.accepts("bababc"));
+    }
+
+    /**
      * Test funkcji determinize2(). Automat akceptuje słowa postaci:
      * ((b)^2n)(a^m)(*), gdzie m,n >= 0, a (*) oznacza dowolny ciąg znaków.
      */
