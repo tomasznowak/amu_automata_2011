@@ -13,7 +13,6 @@ import java.util.List;
 /**
  * Test klasy FixedNumberOfOccurrencesOperator.
  */
-
 public class TestFixedNumberOfOccurrencesOperator extends TestCase {
 
     /**
@@ -39,7 +38,11 @@ public class TestFixedNumberOfOccurrencesOperator extends TestCase {
 
 
         assertTrue(result.accepts("aaaa"));
-        assertFalse(result.accepts("aaaaaaaaaaaaa"));
+        assertFalse(result.accepts(""));
+        assertFalse(result.accepts("a"));
+        assertFalse(result.accepts("aa"));
+        assertFalse(result.accepts("aaa"));
+        assertFalse(result.accepts("aaaaa"));
         assertFalse(result.accepts("ManchesterUnited"));
     }
 
@@ -79,6 +82,8 @@ public class TestFixedNumberOfOccurrencesOperator extends TestCase {
         assertTrue(result.accepts("acbacb"));
         assertTrue(result.accepts("abbababbab"));
         assertFalse(result.accepts("aacbc"));
+        assertFalse(result.accepts("aacdb"));
+        assertFalse(result.accepts("acbacbacb"));
         assertFalse(result.accepts("false"));
         assertFalse(result.accepts("ManchesterUnited"));
     }
@@ -87,7 +92,7 @@ public class TestFixedNumberOfOccurrencesOperator extends TestCase {
     /**
     * Test 3. Pusty automat.
     */
-public final void testEmptyAutomaton() {
+    public final void testEmptyAutomaton() {
 
           AutomatonSpecification automaton = new NaiveAutomatonSpecification();
 
@@ -106,10 +111,9 @@ public final void testEmptyAutomaton() {
     * przejścia do stanu do stanu q1 poprzez 'a' i do stanu q2 poprzez 'b'.
     * Stany q1 i q1 są stanami akceptowalnymi.
     */
+    public final void testThreeStatesTwoFinalStates() {
 
-public final void testThreeStatesTwoFinalStates() {
-
-     AutomatonSpecification automaton = new NaiveAutomatonSpecification();
+        AutomatonSpecification automaton = new NaiveAutomatonSpecification();
 
         State q0 = automaton.addState();
         State q1 = automaton.addState();
@@ -133,12 +137,42 @@ public final void testThreeStatesTwoFinalStates() {
         assertTrue(result.accepts("bba"));
         assertTrue(result.accepts("aab"));
         assertFalse(result.accepts("aabb"));
+        assertFalse(result.accepts("ab"));
+        assertFalse(result.accepts("b"));
         assertFalse(result.accepts("LechPoznan"));
 }
+
+    /**
+    * Test 5. Mnożnik n=0.
+    */
+    public final void testMultiplierEqualsZero() {
+ 
+        AutomatonSpecification automaton = new NaiveAutomatonSpecification();
+
+        State q0 = automaton.addState();
+        State q1 = automaton.addState();
+        automaton.addTransition(q0, q1, new CharTransitionLabel('x'));
+
+        automaton.markAsInitial(q0);
+        automaton.markAsFinal(q1);
+
+        FixedNumberOfOccurrencesOperator oper =
+                new FixedNumberOfOccurrencesOperator(0);
+
+        NondeterministicAutomatonByThompsonApproach result =
+                new NondeterministicAutomatonByThompsonApproach(
+                oper.createAutomatonFromOneAutomaton(automaton));
+
+        assertTrue(result.accepts(""));
+        assertFalse(result.accepts("ManchesterUnited"));
+        assertFalse(result.accepts("b"));
+        assertFalse(result.accepts("bbbb"));
+     }
+
     /**
      * Test fabryki.
      */
-  public void testFactory() {
+    public void testFactory() {
 
         RegexpOperatorFactory factory = new FixedNumberOfOccurrencesOperator.Factory();
         List<String> params = new ArrayList();
