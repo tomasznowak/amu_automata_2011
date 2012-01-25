@@ -793,16 +793,14 @@ public abstract class AutomatonSpecification implements Cloneable  {
      * Sprawdza, czy akceptowany język jest nieskończony.
      */
     public boolean isInfinite() {
-        return checkForLoop(getInitialState(), new ArrayList<State>());
+        return checkForLoop(getInitialState(), new ArrayList<State>(), false);
     }
 
-    private boolean checkForLoop(State state, List<State> history) {
+    private boolean checkForLoop(State state, List<State> history, boolean flag) {
 
-        for (State his : history) {
-            if (his == state) {
-                return findFinals(state, new ArrayList<State>());
-            }
-        }
+        for (State his : history)
+            if (his == state)
+                return findFinals(state, new ArrayList<State>(), flag);
 
         if (allOutgoingTransitions(state).isEmpty())
             return false;
@@ -811,21 +809,28 @@ public abstract class AutomatonSpecification implements Cloneable  {
 
         boolean result = false;
         for (OutgoingTransition child : allOutgoingTransitions(state)) {
+            if (!child.getTransitionLabel().canBeEpsilon())
+                flag = true;
             List<State> newHistory = new ArrayList<State>();
             for (State s : history)
                 newHistory.add(s);
-                result = result || checkForLoop(child.getTargetState(), newHistory);
+                result = result || checkForLoop(child.getTargetState(), newHistory, flag);
             if (result)
                 break;
         }
         return result;
     }
 
-    private boolean findFinals(State state, List<State> history) {
+    private boolean findFinals(State state, List<State> history, boolean flag) {
         boolean result = false;
 
-        if (isFinal(state))
-            return true;
+        if (isFinal(state)) {
+            for (OutgoingTransition transition : allOutgoingTransitions(state))
+                if (transition.getTargetState() == state)
+                    return !(transition.getTransitionLabel().canBeEpsilon());
+            return flag;
+        }
+
 
         for (State his : history)
             if (his == state)
@@ -833,11 +838,12 @@ public abstract class AutomatonSpecification implements Cloneable  {
 
         history.add(state);
 
+
         for (OutgoingTransition child : allOutgoingTransitions(state)) {
             List<State> newHistory = new ArrayList<State>();
             for (State s : history)
                 newHistory.add(s);
-            result = result || findFinals(child.getTargetState(), newHistory);
+            result = result || findFinals(child.getTargetState(), newHistory, flag);
             if (result)
                 break;
         }
