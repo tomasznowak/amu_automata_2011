@@ -87,4 +87,42 @@ public class RegexpOperatorTree {
         }
 
     }
+
+    /**
+     * Zwraca  drzewo w formie bardziej czytelnej,
+     * np. dla wyrażenia (ab)*|c wypisze:
+     * ALTERNATIVE [KLEENE_STAR [CONCATENATION [SINGLE_CHAR_a SINGLE_CHAR_b]] SINGLE_CHAR_c]
+     */
+
+    String getNaiveHumanReadableFormat() {
+        StringBuffer buffer = new StringBuffer();
+        List<RegexpOperatorTree> sub = new ArrayList<RegexpOperatorTree>();
+
+        buffer.append(this.getRoot().toString() + "[ ");
+
+        sub.addAll(getSubtrees());
+        for (RegexpOperatorTree tree : sub) {
+            doGetNaiveHumanReadableFormat(tree, buffer);
+            buffer.append(" ");
+        }
+        buffer.append("]");
+
+        return buffer.toString();
+    }
+
+    void doGetNaiveHumanReadableFormat(RegexpOperatorTree tree, StringBuffer buffer) {
+
+        buffer.append(tree.getRoot().toString());
+
+        if (tree.getRoot().arity() != 0)
+            buffer.append("[ ");
+
+        for (int j = 0; j < tree.getRoot().arity(); j++) {
+            doGetNaiveHumanReadableFormat(tree.getSubtrees().get(j), buffer);
+            buffer.append(" ");
+        }
+
+        if (tree.getRoot().arity() != 0)
+            buffer.append("]");
+    }
 }
