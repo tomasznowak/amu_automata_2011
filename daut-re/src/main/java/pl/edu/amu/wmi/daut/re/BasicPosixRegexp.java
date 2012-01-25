@@ -27,8 +27,10 @@ public class BasicPosixRegexp implements Acceptor{
             BasicPosixRegexpOperatorManager manager = new BasicPosixRegexpOperatorManager();
             RegexpOperatorTree Regexptree = RegexpOperatorTree.parse(Regexp, manager);
 
-            AutomatonSpecification automaton = RegexpUtilities.createAutomatonFromOperatorTree(Regexptree);
-            DeterministicAutomatonSpecification deterministicAutomaton = new EffectiveDeterministicAutomaton();
+            AutomatonSpecification automaton =
+                RegexpUtilities.createAutomatonFromOperatorTree(Regexptree);
+            DeterministicAutomatonSpecification deterministicAutomaton =
+                new EffectiveDeterministicAutomaton();
             AutomataOperations.determinize2(automaton, deterministicAutomaton);
             finalAutomaton = new DeterministicAutomaton(deterministicAutomaton);
 
