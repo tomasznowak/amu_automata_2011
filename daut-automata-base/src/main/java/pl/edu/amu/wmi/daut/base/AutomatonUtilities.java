@@ -11,7 +11,7 @@ public final class AutomatonUtilities {
     private AutomatonUtilities() {
     }
 
-    static Set<Character> getAlphabet(AutomatonSpecification automaton, Set<Character> superset) {
+    public static Set<Character> getAlphabet(AutomatonSpecification automaton, Set<Character> superset) {
 
         Set<Character> alphabet = new HashSet<Character>();
 
