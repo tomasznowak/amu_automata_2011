@@ -27,7 +27,9 @@ public class ExtendedPosixRegexp implements Acceptor {
     public ExtendedPosixRegexp(String inputRegex) {
         try {
 
-            ExtendedPosixRegexpOperatorManager manager = new ExtendedPosixRegexpOperatorManager();
+            this.inputRegex = inputRegex;
+
+            // ExtendedPosixRegexpOperatorManager manager = new ExtendedPosixRegexpOperatorManager();
 
             RegexpOperatorTree tree = new RegexpOperatorTree(null, null);
             //tree = RegexpOperatorTree.parse(inputRegex, manager);
