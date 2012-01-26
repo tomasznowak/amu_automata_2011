@@ -1,15 +1,14 @@
 package pl.edu.amu.wmi.daut.re;
 
 import junit.framework.TestCase;
-import java.util.ArrayList;
 
 /**
  * Testy klasy LinuxFileMask.
  */
 public class TestLinuxFileMask extends TestCase {
- 
+
     /**
-     * Test dla plikow o dowolnej nazwie
+     * Test dla plikow o dowolnej nazwie.
      */
     public final void testAllFilesMask() {
         LinuxFileMask linuxMask = new LinuxFileMask("*");
@@ -25,7 +24,7 @@ public class TestLinuxFileMask extends TestCase {
     }
 
     /**
-     * Test dla plikow, o nazwie skladajacej sie z dokladnie jednego znaku
+     * Test dla plikow, o nazwie skladajacej sie z dokladnie jednego znaku.
      */
     public final void testTwoCharFileMask() {
         LinuxFileMask linuxMask = new LinuxFileMask("??");
@@ -42,8 +41,8 @@ public class TestLinuxFileMask extends TestCase {
     }
 
     /**
-     * Test dla plikow, o nazwie skladajacej sie z jednego, niepustego znaku 
-     * i dowolnej ilosci innych znakow
+     * Test dla plikow, o nazwie skladajacej sie z jednego, niepustego znaku
+     * i dowolnej ilosci innych znakow.
      */
     public final void testCombinedOneCharAndAllFileMask() {
 
@@ -59,7 +58,7 @@ public class TestLinuxFileMask extends TestCase {
     }
 
     /**
-     * Test dla wszystkich plikow o dowolnej nazwie i dowolnym rozszerzeniu
+     * Test dla wszystkich plikow o dowolnej nazwie i dowolnym rozszerzeniu.
      */
     public final void testAllFilesAllExtentionsMask() {
 
@@ -81,7 +80,7 @@ public class TestLinuxFileMask extends TestCase {
     }
 
     /**
-     * Test dla wszystkich plikow o dowolnej nazwie i rozszerzeniu png
+     * Test dla wszystkich plikow o dowolnej nazwie i rozszerzeniu png.
      */
     public final void testAllFilesOfOneExtentionsMask() {
 
@@ -102,10 +101,10 @@ public class TestLinuxFileMask extends TestCase {
     }
 
     /**
-     * Test dla wszystkich plikow o nazwie image i dowolnym rozszerzeniu
+     * Test dla wszystkich plikow o nazwie image i dowolnym rozszerzeniu.
      */
     public final void testAllExtentionsOneFileNameMask() {
- 
+
         LinuxFileMask linuxMask = new LinuxFileMask("image.*");
 
         assertTrue(linuxMask.accepts("image.png"));
@@ -125,12 +124,12 @@ public class TestLinuxFileMask extends TestCase {
 
     /**
      * Test dla wszystkich plikow o nazwie plikX.txt, gdzie w miejsce X
-     * wstawiony moze byc dowolny symbol
+     * wstawiony moze byc dowolny symbol.
      */
     public final void testAllSimilarFilesNamesMask() {
 
         LinuxFileMask linuxMask = new LinuxFileMask("plik?.txt");
-       
+
         assertTrue(linuxMask.accepts("plik0.txt"));
         assertTrue(linuxMask.accepts("plik1.txt"));
         assertTrue(linuxMask.accepts("plik2.txt"));

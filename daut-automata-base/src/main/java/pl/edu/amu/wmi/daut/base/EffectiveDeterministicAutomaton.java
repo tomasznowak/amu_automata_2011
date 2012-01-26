@@ -7,8 +7,9 @@ import java.util.List;
 /**
  * Szybka, ale dość pamięciożerna, implementacja automatu deterministycznego.
  */
-public class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecification
-{
+public class EffectiveDeterministicAutomaton
+    extends DeterministicAutomatonSpecification {
+
     /**
      * Klasa reprezentująca stan.
      */
@@ -288,4 +289,3 @@ public class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpeci
         return myFrom.getTargetState(c);
     }
 }
-

@@ -4,14 +4,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 
+ * Pomocnicza klasa do automatow.
  */
 public final class AutomatonUtilities {
 
     private AutomatonUtilities() {
     }
 
-    public static Set<Character> getAlphabet(AutomatonSpecification automaton, Set<Character> superset) {
+    /**
+     * Ustala alfabet.
+     */
+    public static Set<Character> getAlphabet(
+        AutomatonSpecification automaton, Set<Character> superset) {
 
         Set<Character> alphabet = new HashSet<Character>();
 

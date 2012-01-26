@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class DeterministicAutomatonSpecification extends AutomatonSpecification {
+/**
+ * Abstrakcyjny opis automatu deterministycznego.
+ */
+public abstract class DeterministicAutomatonSpecification
+    extends AutomatonSpecification {
+
     /**
      * Zwraca stan, jaki zostanie osiągnięty przy przejściu ze stanu
      * from przez znak c. Zwraca null, jeśli nie istnieje przejście
@@ -118,7 +123,8 @@ public abstract class DeterministicAutomatonSpecification extends AutomatonSpeci
 
         for (State state : simStates.keySet()) {
             for (State state1 : simStates.keySet()) {
-                if ((similarStates.get(state) == similarStates.get(state1)) && !(state == state1)) {
+                if ((similarStates.get(state) == similarStates.get(state1))
+                    && !(state == state1)) {
                     if ((automatonToBeMinimized.getInitialState() == state1)
                             || (automatonToBeMinimized
                             .getInitialState() == similarStates.get(state1))) {
