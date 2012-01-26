@@ -21,7 +21,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         State q5 = spec.addState();
         State q6 = spec.addState();
         State q7 = spec.addState();
-        
+
         spec.addTransition(q0, q1, new CharTransitionLabel('N'));
         spec.addTransition(q1, q2, new CharTransitionLabel('O'));
         spec.addTransition(q2, q3, new CharTransitionLabel('O'));
