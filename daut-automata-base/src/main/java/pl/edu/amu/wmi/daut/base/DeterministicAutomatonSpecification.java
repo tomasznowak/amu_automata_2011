@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-abstract class DeterministicAutomatonSpecification extends AutomatonSpecification {
+public abstract class DeterministicAutomatonSpecification extends AutomatonSpecification {
     /**
      * Zwraca stan, jaki zostanie osiągnięty przy przejściu ze stanu
      * from przez znak c. Zwraca null, jeśli nie istnieje przejście
