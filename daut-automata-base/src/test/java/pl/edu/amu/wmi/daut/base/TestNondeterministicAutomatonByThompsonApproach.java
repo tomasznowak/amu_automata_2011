@@ -343,7 +343,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
 
     /**
      * Dziesiąty test (automat akceptuje poznańskie numery telefonów
-     * w postaci 61 XXX-XX-XX lub (61) XXX-XX-XX)
+     * w postaci 61 XXX-XX-XX lub (61) XXX-XX-XX).
      */
     public final void testPhoneNumbersPoznan() {
         final AutomatonSpecification spec = new NaiveAutomatonSpecification();
