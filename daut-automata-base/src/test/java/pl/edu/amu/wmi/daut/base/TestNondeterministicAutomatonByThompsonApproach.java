@@ -342,7 +342,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         assertFalse(automaton.accepts("-0302"));
     }
 
-	/**
+   /**
 	 *	Automat przyjmujący pola szachownicy.
 	 */
 
