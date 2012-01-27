@@ -340,7 +340,6 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         assertFalse(automaton.accepts("-0301"));
         assertFalse(automaton.accepts("-0302"));
     }
-}
 
     /**
      * Dziesiąty test (automat akceptuje poznańskie numery telefonów
@@ -409,3 +408,4 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         assertFalse(automaton.accepts("615555555"));
         assertFalse(automaton.accepts("615-555-555"));
     }
+}
