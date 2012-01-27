@@ -1329,5 +1329,41 @@ public class TestAutomatonSpecification extends TestCase {
         spec.unmarkAsFinalState(q3c);
         assertTrue(spec.isFinal(q1c));
     }
+	
+	/**
+     * Test metody firstAcceptedWord.
+     */
+    public final void testFirstAcceptedWord()
+    {
+       AutomatonSpecification spec = new NaiveAutomatonSpecification();
+        State initState = spec.addState();
+        State finalState = spec.addTransitionSequence(initState, "źdźbło");
+        spec.markAsInitial(initState);
+        spec.markAsFinal(finalState);
+
+
+
+        assertTrue(spec.firstAcceptedWord("aźdbłoj") == "źdźbło");
+		assertFalse(spec.firstAcceptedWord("dbłoj") == "źdźbło");
+
+//        assertTrue(spec.firstAcceptedWord("źdźbło") == "źdźbło");
+        // State q18 = spec.addState();
+//         State q19 = spec.addState();
+//         State q20 = spec.addState();
+//         State q21 = spec.addState();
+//         State q22 = spec.addState();
+//         spec.markAsInitial(q17);
+//         spec.markAsFinal(q18);
+//         spec.addTransition(q17, q18, new CharTransitionLabel('a'));
+//         spec.addTransition(q17, q19, new CharTransitionLabel('b'));
+//         spec.addTransition(q19, q20, new CharTransitionLabel('a'));
+//         spec.addTransition(q20, q21, new CharTransitionLabel('b'));
+//         spec.addTransition(q21, q22, new CharTransitionLabel('a'));
+
+//assertEquals(spec.firstAcceptedWord(""), "");
+//      assertEquals(spec.firstAcceptedWord("sdfgczbvk"), "dcv");
+
+    }
+
 
 }
