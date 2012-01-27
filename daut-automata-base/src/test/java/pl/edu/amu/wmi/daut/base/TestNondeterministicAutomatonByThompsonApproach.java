@@ -40,7 +40,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         spec.markAsFinal(q5a);
 
         final NondeterministicAutomatonByThompsonApproach automaton =
-        ?6c        new NondeterministicAutomatonByThompsonApproach(spec);
+                new NondeterministicAutomatonByThompsonApproach(spec);
 
         assertTrue(automaton.accepts("abc"));
         assertTrue(automaton.accepts("ba"));
@@ -82,7 +82,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
     /**
      * Trzeci test (pusty automat).
      */
-    public ?6c?6cfinal void testEmptyAutomaton() {
+    public final void testEmptyAutomaton() {
         final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
         final NondeterministicAutomatonByThompsonApproach automaton =
@@ -145,7 +145,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         assertFalse(automaton.accepts("ccc"));
         assertFalse(automaton.accepts(""));
         assertFalse(automaton.accepts("uam"));
-    }?6c
+    }
 
     /**
      * Piąty test (Do stanu końcowego prowadzą tylko epsilon przejścia.
@@ -187,7 +187,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
 
     /**
      * Szósty test (tylko jeden stan, brak przejść).
-     */?6c
+     */
     public final void testOneState() {
         final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
