@@ -346,7 +346,6 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
      * w postaci 61 XXX-XX-XX lub (61) XXX-XX-XX).
      */
     public final void testPhoneNumbersPoznan() {
-
         final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
         State q0a = spec.addState();
