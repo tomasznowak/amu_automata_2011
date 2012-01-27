@@ -345,7 +345,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
    /**
      * Automat przyjmujący pola szachownicy.
      */
-	public final void testChessFields() {
+    public final void testChessFields() {
 
         final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
