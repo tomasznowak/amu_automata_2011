@@ -40,7 +40,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         spec.markAsFinal(q5a);
 
         final NondeterministicAutomatonByThompsonApproach automaton =
-                new NondeterministicAutomatonByThompsonApproach(spec);
+        ?6c        new NondeterministicAutomatonByThompsonApproach(spec);
 
         assertTrue(automaton.accepts("abc"));
         assertTrue(automaton.accepts("ba"));
@@ -82,7 +82,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
     /**
      * Trzeci test (pusty automat).
      */
-    public final void testEmptyAutomaton() {
+    public ?6c?6cfinal void testEmptyAutomaton() {
         final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
         final NondeterministicAutomatonByThompsonApproach automaton =
@@ -145,7 +145,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         assertFalse(automaton.accepts("ccc"));
         assertFalse(automaton.accepts(""));
         assertFalse(automaton.accepts("uam"));
-    }
+    }?6c
 
     /**
      * Piąty test (Do stanu końcowego prowadzą tylko epsilon przejścia.
@@ -187,7 +187,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
 
     /**
      * Szósty test (tylko jeden stan, brak przejść).
-     */
+     */?6c
     public final void testOneState() {
         final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
@@ -341,11 +341,11 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         assertFalse(automaton.accepts("-0301"));
         assertFalse(automaton.accepts("-0302"));
     }
-	
+
 	/**
-	 *	Automat przyjmujący pola szachownicy
+	 *	Aut.omat przyjmujący pola szachownicy
 	 */
-	
+
 	public final void testChessFields() {
 
         final AutomatonSpecification spec = new NaiveAutomatonSpecification();
@@ -354,8 +354,8 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         State q1a = spec.addState();
         State q2a = spec.addState();
 
-        spec.addTransition(q0a, q1a, new CharRangeTransitionLabel('a','h'));
-        spec.addTransition(q1a, q2a, new CharRangeTransitionLabel('1','8'));
+        spec.addTransition(q0a, q1a, new CharRangeTransitionLabel('a', 'h'));
+        spec.addTransition(q1a, q2a, new CharRangeTransitionLabel('1', '8'));
 
         spec.markAsInitial(q0a);
         spec.markAsFinal(q2a);
