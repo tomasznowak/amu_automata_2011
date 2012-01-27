@@ -343,7 +343,7 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
     }
 
 	/**
-	 *	Aut.omat przyjmujący pola szachownicy
+	 *	Automat przyjmujący pola szachownicy.
 	 */
 
 	public final void testChessFields() {
