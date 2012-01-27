@@ -341,4 +341,31 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         assertFalse(automaton.accepts("-0301"));
         assertFalse(automaton.accepts("-0302"));
     }
+	
+	/**
+	 *	Automat przyjmujący pola szachownicy
+	 */
+	
+	public final void testChessFields() {
+
+        final AutomatonSpecification spec = new NaiveAutomatonSpecification();
+
+        State q0a = spec.addState();
+        State q1a = spec.addState();
+        State q2a = spec.addState();
+
+        spec.addTransition(q0a, q1a, new CharRangeTransitionLabel('a','h'));
+        spec.addTransition(q1a, q2a, new CharRangeTransitionLabel('1','8'));
+
+        spec.markAsInitial(q0a);
+        spec.markAsFinal(q2a);
+
+        final NondeterministicAutomatonByThompsonApproach automaton =
+                new NondeterministicAutomatonByThompsonApproach(spec);
+
+        assertFalse(automaton.accepts("1b"));
+        assertTrue(automaton.accepts("a2"));
+        assertTrue(automaton.accepts("c4"));
+        assertFalse(automaton.accepts("a"));
+    }
 }
