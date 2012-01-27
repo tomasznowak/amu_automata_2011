@@ -1,21 +1,32 @@
 package pl.edu.amu.wmi.daut.base;
+import java.util.HashSet;
 import java.util.Vector;
 import java.util.List;
 
 
-class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecification
-{
-    static class MyState implements State {
+/**
+ * Szybka, ale dość pamięciożerna, implementacja automatu deterministycznego.
+ */
+public class EffectiveDeterministicAutomaton
+    extends DeterministicAutomatonSpecification {
+
+    /**
+     * Klasa reprezentująca stan.
+     */
+    private static class MyState implements State {
         private static final int DEFAULT_ARRAY_LENGTH = 256;
         private MyState[] mCharacterTargetState;
         private int mCharacterTargetStateLength;
         private MyState mEpsilonTargetState;
-        private int mHasCharacterTransition;
+        private boolean mHasCharacterTransition;
         private boolean mIsFinal;
         private Vector<OutgoingTransition> mOutgoingTransitions;
         private EffectiveDeterministicAutomaton mOwner;
 
 
+        /**
+         * Konstruktor.
+         */
         public MyState(EffectiveDeterministicAutomaton owner) {
             mCharacterTargetStateLength = DEFAULT_ARRAY_LENGTH;
             mCharacterTargetState = new MyState[mCharacterTargetStateLength];
@@ -23,68 +34,121 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
                 mCharacterTargetState[i] = null;
             }
             mEpsilonTargetState = null;
-            mHasCharacterTransition = 0;
+            mHasCharacterTransition = false;
             mIsFinal = false;
             mOutgoingTransitions = new Vector<OutgoingTransition>();
             mOwner = owner;
         }
 
 
+        /**
+         * Dodaje przejście wychodzące z tego stanu.
+         */
         private void addOutgoingTransition(OutgoingTransition transition) {
             mOutgoingTransitions.addElement(transition);
         }
 
 
+        /**
+         * Zwraca automat, do którego ten stan należy.
+         */
         public EffectiveDeterministicAutomaton getOwner() {
             return mOwner;
         }
 
 
+        /**
+         * Zwraca docelowy stan po epsilonie (lub null, jeśli nie ma przejścia
+         * po epsilonie).
+         */
         public MyState getEpsilonTargetState() {
             return mEpsilonTargetState;
         }
 
 
+        /**
+         * Zwraca listę wszystkich wychodzących przejść.
+         */
         public Vector<OutgoingTransition> getOutgoingTransitions() {
             return mOutgoingTransitions;
         }
 
 
+        /**
+         * Zwraca stan, do którego można przejść po podanym znaku (lub null
+         * jeśli przejścia po takim znaku nie ma).
+         */
         public MyState getTargetState(char c) {
             return (c < mCharacterTargetStateLength ? mCharacterTargetState[c] : null);
         }
 
 
+        /**
+         * Zwraca true, jeśli istnieje przynajmniej jedno przejście do innego
+         * stanu po znaku.
+         */
         public boolean hasCharacterTransition() {
-            return (mHasCharacterTransition > 0);
+            return mHasCharacterTransition;
         }
 
 
+        /**
+         * Zwraca true, jeśli istnieje przejście do innego stanu po epsilonie.
+         */
         public boolean hasEpsilonTransition() {
             return (mEpsilonTargetState != null);
         }
 
 
+        /**
+         * Zwraca true, jeśli stan jest akceptujący.
+         */
         public boolean isFinal() {
             return mIsFinal;
         }
 
 
+        /**
+         * Ustawia stan docelowy dla przejścia po epsilonie. W przypadku wykrycia
+         * niedeterminizu, wyrzuca UnsupportedOperationException.
+         */
         public void setEpsilonTargetState(MyState state) {
+            if (mHasCharacterTransition
+               || (mEpsilonTargetState != null && mEpsilonTargetState != state))
+                throw new UnsupportedOperationException();
             mEpsilonTargetState = state;
         }
 
 
+        /**
+         * Zmienia stan na akceptujący lub nieakceptujący.
+         */
         public void setFinal(boolean value) {
             mIsFinal = value;
         }
 
 
+        /**
+         * Ustawia stan docelowy dla przejścia po danym znaku. W przypadku
+         * wykrycia niedeterminizmu wyrzuca UnsupportedOperationException.
+         */
         public void setTargetState(char c, MyState state) {
+            if (mEpsilonTargetState != null)
+                throw new UnsupportedOperationException();
+
             if (c >= mCharacterTargetStateLength) {
                 MyState[] oldArray = mCharacterTargetState;
                 int oldArrayLength = mCharacterTargetStateLength;
-                mCharacterTargetStateLength = c + 1;
+                if (mCharacterTargetStateLength == 0)
+                    mCharacterTargetStateLength = c + 1;
+                else while (true) {
+                    mCharacterTargetStateLength *= 2;
+                    if (mCharacterTargetStateLength >= c + 1) {
+                        if (mCharacterTargetStateLength > Character.MAX_VALUE)
+                            mCharacterTargetStateLength = Character.MAX_VALUE + 1;
+                        break;
+                    }
+                }
                 mCharacterTargetState = new MyState[mCharacterTargetStateLength];
                 for (int j = 0; j < oldArrayLength; ++j)
                     mCharacterTargetState[j] = oldArray[j];
@@ -92,13 +156,11 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
                     mCharacterTargetState[j] = null;
             }
 
-            if (state != mCharacterTargetState[c]) {
-                if (mCharacterTargetState[c] == null)
-                    ++mHasCharacterTransition;
-                else if (state == null)
-                    --mHasCharacterTransition;
-                mCharacterTargetState[c] = state;
-            }
+            if (mCharacterTargetState[c] != null && mCharacterTargetState[c] != state)
+                throw new UnsupportedOperationException();
+
+            mCharacterTargetState[c] = state;
+            mHasCharacterTransition = true;
         }
     }
 
@@ -122,27 +184,27 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
 
         MyState myFrom = assertStateValid(from);
         MyState myTo = assertStateValid(to);
-        for (int i = 0; i <= Character.MAX_VALUE; ++i) {
+
+        if (label instanceof CharTransitionLabel) {
+            CharTransitionLabel l = (CharTransitionLabel) label;
+            myFrom.setTargetState(l.getChar(), myTo);
+        } else if (label instanceof CharRangeTransitionLabel) {
+            CharRangeTransitionLabel l = (CharRangeTransitionLabel) label;
+            for (int i = l.getSecondChar(); i >= l.getFirstChar(); --i)
+                myFrom.setTargetState((char) i, myTo);
+        } else if (label instanceof CharSetTransitionLabel) {
+            CharSetTransitionLabel l = (CharSetTransitionLabel) label;
+            HashSet<Character> characters = l.getCharSet();
+            for (Character c : characters)
+                myFrom.setTargetState(c, myTo);
+        } else for (int i = 0; i <= Character.MAX_VALUE; ++i) {
             char c = (char) i;
-            if (label.canAcceptCharacter(c)) {
-                MyState currentTargetState = myFrom.getTargetState(c);
-                if (currentTargetState == null)
+            if (label.canAcceptCharacter(c))
                     myFrom.setTargetState(c, myTo);
-                else if (currentTargetState != myTo)
-                    throw new IllegalArgumentException();
-            }
         }
 
-        if (label.canBeEpsilon()) {
-            MyState epsilonTargetState = myFrom.getEpsilonTargetState();
-            if (epsilonTargetState == null)
-                myFrom.setEpsilonTargetState(myTo);
-            else if (epsilonTargetState != myTo)
-                throw new IllegalArgumentException();
-        }
-
-        if (myFrom.hasCharacterTransition() && myFrom.hasEpsilonTransition())
-            throw new IllegalArgumentException();
+        if (label.canBeEpsilon())
+            myFrom.setEpsilonTargetState(myTo);
 
         myFrom.addOutgoingTransition(new OutgoingTransition(label, to));
     }
@@ -161,6 +223,13 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
     }
 
 
+    /**
+     * Sprawdza, czy podany jako argument stan jest poprawny, to znaczy,
+     * czy jest różny od null, czy jest instancją klasy MyState oraz czy
+     * należy do tego automatu. Jeśli pierwszy z warunków nie jest spełniony,
+     * wyrzuca NullPointerException, jeśli nie jest spełniony warunek drugi
+     * lub trzeci, wyrzuca IllegalArgumentException.
+     */
     private MyState assertStateValid(State state) {
         if (state != null) {
             if (state instanceof MyState) {
@@ -174,6 +243,9 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
     }
 
 
+    /**
+     * Konstruktor.
+     */
     public EffectiveDeterministicAutomaton() {
         mInitialState = null;
         mStates = new Vector<State>();
@@ -217,4 +289,3 @@ class EffectiveDeterministicAutomaton extends DeterministicAutomatonSpecificatio
         return myFrom.getTargetState(c);
     }
 }
-

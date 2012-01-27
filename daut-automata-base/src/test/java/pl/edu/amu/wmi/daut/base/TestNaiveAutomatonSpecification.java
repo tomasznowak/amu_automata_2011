@@ -133,14 +133,11 @@ public class TestNaiveAutomatonSpecification extends TestCase {
      * Test metody tworzącej prosty automat.
      */
     public final void testmakeOneLoopAutomaton(char c) {
-        NaiveAutomatonSpecification spec = new NaiveAutomatonSpecification();
+        AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
         //budowanie
 
-        State s0 = spec.addState();
-        spec.addLoop(s0, new CharTransitionLabel('c'));
-        spec.markAsInitial(s0);
-        spec.markAsFinal(s0);
+        spec = spec.makeOneLoopAutomaton(c);
 
         //testowanie
 
@@ -459,7 +456,7 @@ public class TestNaiveAutomatonSpecification extends TestCase {
         automat.markAsInitial(s0);
         automat.markAsFinal(s4);
 
-        assertFalse(automat.isInfinite());
+        assertTrue(automat.isInfinite());
     }
 
     /**
@@ -607,5 +604,121 @@ public class TestNaiveAutomatonSpecification extends TestCase {
         assertTrue(automat.isInfinite());
     }
 
+    /**
+     * Test metody sprawdzającej czy podany język jest nieskończony dla
+     * automatu z pojedynczym stanem bez pętli.
+     */
+    public final void testInfiniteForOneStateWithoutLoop() {
+        NaiveAutomatonSpecification automat = new NaiveAutomatonSpecification();
 
+        State s0 = automat.addState();
+
+        automat.markAsInitial(s0);
+        automat.markAsFinal(s0);
+
+        assertFalse(automat.isInfinite());
+    }
+
+    /**
+     * Test metody sprawdzającej czy podany język jest nieskończony dla
+     * automatu ze stanem niefinalnym po pętli.
+     */
+    public final void testInfiniteForNotFinalStateAfterLoop() {
+        NaiveAutomatonSpecification automat = new NaiveAutomatonSpecification();
+
+        State s0 = automat.addState();
+        State s1 = automat.addState();
+
+        automat.markAsInitial(s0);
+
+        automat.addLoop(s0, new CharTransitionLabel('c'));
+        automat.addTransition(s0, s1, new CharTransitionLabel('b'));
+
+        assertFalse(automat.isInfinite());
+    }
+
+
+    /**
+     * Test metody sprawdzającej, czy akceptowany język jest nieskończony dla
+     * automatu z epsilon-przejściami.
+     */
+    public final void testInfiniteForEpsilons() {
+        NaiveAutomatonSpecification automat = new NaiveAutomatonSpecification();
+
+        State q0 = automat.addState();
+        State q1 = automat.addState();
+        State q2 = automat.addState();
+        State q3 = automat.addState();
+        State q4 = automat.addState();
+
+        automat.addTransition(q0, q1, new CharTransitionLabel('a'));
+        automat.addTransition(q1, q2, new EpsilonTransitionLabel());
+        automat.addTransition(q2, q3, new CharTransitionLabel('b'));
+
+        automat.markAsFinal(q3);
+        automat.markAsInitial(q0);
+
+        assertFalse(automat.isInfinite());
+
+        automat.addTransition(q3, q4, new EpsilonTransitionLabel());
+        automat.addTransition(q4, q2, new CharTransitionLabel('a'));
+
+        assertTrue(automat.isInfinite());
+    }
+
+    /**
+     * Test metody testUnmark.
+     */
+    public final void testUnmark() {
+        final AutomatonSpecification spec = new NaiveAutomatonSpecification();
+
+        //Test 1
+        State q0a = spec.addState();
+        State q1a = spec.addState();
+
+        spec.addTransition(q1a, q0a, new CharTransitionLabel(' '));
+
+        spec.markAsFinal(q1a);
+        spec.markAsInitial(q0a);
+
+        spec.unmarkAsFinalState(q1a);
+        assertFalse(spec.isFinal(q1a));
+
+        //test 2
+        State q0b = spec.addState();
+        State q1b = spec.addState();
+
+        spec.addTransition(q1b, q0b, new CharTransitionLabel(' '));
+
+        spec.markAsFinal(q0b);
+        spec.markAsInitial(q1b);
+
+        spec.unmarkAsFinalState(q1b);
+        assertTrue(spec.isFinal(q0b));
+
+        //test 3
+        State q0c = spec.addState();
+        State q1c = spec.addState();
+        State q2c = spec.addState();
+        State q3c = spec.addState();
+        State q4c = spec.addState();
+        State q5c = spec.addState();
+
+        spec.addTransition(q0c, q2c, new CharTransitionLabel('a'));
+        spec.addTransition(q3c, q4c, new CharTransitionLabel('a'));
+        spec.addTransition(q1c, q5c, new CharTransitionLabel('a'));
+
+
+        spec.markAsFinal(q5c);
+        spec.markAsInitial(q0c);
+
+        spec.unmarkAsFinalState(q5c);
+        assertFalse(spec.isFinal(q0c));
+
+        spec.markAsFinal(q1c);
+        spec.markAsInitial(q3c);
+
+        spec.unmarkAsFinalState(q3c);
+        assertTrue(spec.isFinal(q1c));
+    }
 }

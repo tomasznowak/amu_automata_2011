@@ -5,7 +5,7 @@ import pl.edu.amu.wmi.daut.base.AutomatonSpecification;
 
 /**
  * Klasa abstrakcyjna reprezentująca operator zeroargumentowy,
- * tj. generująca ustalony automat.
+ * tj. generująca ustalony, zawsze taki sam automat.
  */
 abstract class NullaryRegexpOperator extends RegexpOperator {
 
@@ -20,7 +20,7 @@ abstract class NullaryRegexpOperator extends RegexpOperator {
     }
 
     /**
-     * Właściwa metoda budująca automat na podstawie podautomatu.
+     * Właściwa metoda budująca automat.
      */
     public abstract AutomatonSpecification createFixedAutomaton();
 
