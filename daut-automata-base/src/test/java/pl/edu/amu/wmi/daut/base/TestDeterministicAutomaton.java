@@ -405,21 +405,17 @@ public class TestDeterministicAutomaton extends TestCase {
     */
     public void testAutomatonABC() {
         DeterministicAutomatonSpecification spec = new NaiveDeterministicAutomatonSpecification();
-        
         State q0 = spec.addState();
         State q1 = spec.addState();
         State q2 = spec.addState();
-        
         spec.addTransition(q0, q0, new CharTransitionLabel('a'));
         spec.addTransition(q0, q1, new CharTransitionLabel('b'));
         spec.addTransition(q1, q1, new CharTransitionLabel('b'));
         spec.addTransition(q1, q2, new CharTransitionLabel('c'));
         spec.addTransition(q2, q2, new CharTransitionLabel('c'));
-        
         spec.markAsInitial(q0);
         spec.markAsFinal(q1);
         spec.markAsFinal(q2);
-        
         DeterministicAutomaton automaton = new DeterministicAutomaton(spec);
         
         assertTrue(automaton.accepts("bc"));
