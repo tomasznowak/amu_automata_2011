@@ -416,7 +416,7 @@ public class TestDeterministicAutomaton extends TestCase {
         spec.markAsInitial(q0);
         spec.markAsFinal(q1);
         spec.markAsFinal(q2);
-        DeterministicAutomaton automaton = new DeterministicAutomaton(spec);        
+        DeterministicAutomaton automaton = new DeterministicAutomaton(spec);
         assertTrue(automaton.accepts("bc"));
         assertTrue(automaton.accepts("abc"));
         assertTrue(automaton.accepts("abbcc"));
