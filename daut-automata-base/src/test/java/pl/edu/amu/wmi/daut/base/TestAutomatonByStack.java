@@ -12,7 +12,7 @@ public class TestAutomatonByStack extends TestCase {
  * Test Kamil Sieron..
  */
 public final void testEmptyWordOrTwoOrThreeA() {
-	final AutomatonSpecification spec = new NaiveAutomatonSpecification();
+final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
 		State q0a = spec.addState();
 		State q1a = spec.addState();
