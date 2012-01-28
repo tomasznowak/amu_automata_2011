@@ -8,7 +8,9 @@ import junit.framework.TestCase;
  * Test klasy AutomatonStack.
  */
 public class TestAutomatonByStack extends TestCase {
-
+/**
+ * Test Kamil Sieron..
+ */
 public final void testEmptyWordOrTwoOrThreeA() {
 	final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
