@@ -41,7 +41,7 @@ public class TestAutomatonByRecursion extends TestCase {
         State q0A = specA.addState();
         State q1A = specA.addState();
         State q2A = specA.addState();
-        State q3A = specA.addState();
+        PeopleState q3A = specA.addState();
 
         specA.addTransition(q0A, q1A, new CharTransitionLabel('a'));
         specA.addTransition(q1A, q3A, new CharTransitionLabel('b'));
@@ -135,7 +135,7 @@ public class TestAutomatonByRecursion extends TestCase {
 
         assertFalse(automaton.accepts("ć"));
         assertFalse(automaton.accepts("ćm"));
-	assertFalse(automaton.accepts("ćć"));
+        assertFalse(automaton.accepts("ćć"));
         assertTrue(automaton.accepts("ćma"));
     }
 }
