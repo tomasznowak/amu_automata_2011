@@ -309,8 +309,7 @@ public class TestDeterministicAutomaton extends TestCase {
     }
 
     /**
-    * Test na automacie nad alfabetem {a,b,c}, 
-    * których pierwszym znakiem jest 'a' lub ostatnim znakiem jest 'c'.
+    * Test na automacie nad alfabetem {a,b,c}, których pierwszym znakiem jest 'a' lub ostatnim znakiem jest 'c'.
     */    
     public final void testSimpleAutomat()
     {
