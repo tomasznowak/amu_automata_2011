@@ -220,7 +220,7 @@ public class TestDeterministicAutomaton extends TestCase {
         assertEquals(4, automaton8.countStates());
     }
     /**
-     * Test na automacie akceptującym język skladajacy sie z 0 i 1
+     * Test na automacie akceptującym język skladajacy sie z 0 i 1,
      * gdzie liczba zer jest podzielna przez 5.
      */
     public final void testAutomatonAcceptingFiveZeros() {
