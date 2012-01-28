@@ -403,7 +403,7 @@ public class TestDeterministicAutomaton extends TestCase {
     /**
     ** Test ABC.
     */
-    public void testAutomatonABC(){
+    public void testAutomatonABC() {
         DeterministicAutomatonSpecification spec = new NaiveDeterministicAutomatonSpecification();
         
         State q0 = spec.addState();
