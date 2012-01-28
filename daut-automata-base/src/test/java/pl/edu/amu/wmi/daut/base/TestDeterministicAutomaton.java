@@ -400,12 +400,10 @@ public class TestDeterministicAutomaton extends TestCase {
         spec.unmarkAsFinalState(q3c);
         assertTrue(spec.isFinal(q1c));
     }
-    
-      /**
-     * Test ABC 
-     * @kasia1404.
-     */
-
+    /**
+    ** Test ABC
+    ** @kasia1404
+    */
       public void testAutomatonABC (){
         DeterministicAutomatonSpecification spec = new NaiveDeterministicAutomatonSpecification();
         
