@@ -137,5 +137,6 @@ public class TestAutomatonByRecursion extends TestCase {
         assertFalse(automaton.accepts("ćm"));
         assertFalse(automaton.accepts("ćć"));
         assertTrue(automaton.accepts("ćma"));
+        assertTrue(automaton.accepts(""));
     }
 }
