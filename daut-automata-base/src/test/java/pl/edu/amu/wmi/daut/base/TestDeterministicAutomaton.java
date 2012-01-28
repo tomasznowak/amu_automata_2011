@@ -314,12 +314,12 @@ public class TestDeterministicAutomaton extends TestCase {
     */    
     public final void testSimpleAutomat()
     {
-	DeterministicAutomatonSpecification spec = new NaiveDeterministicAutomatonSpecification();
-	State q0 = spec.addState();
-	State q1 = spec.addState();
-	State q2 = spec.addState();
-    	  
-    	spec.markAsInitial(q0); 	  
+        DeterministicAutomatonSpecification spec = new NaiveDeterministicAutomatonSpecification();
+        State q0 = spec.addState();
+        State q1 = spec.addState();
+        State q2 = spec.addState();
+
+        spec.markAsInitial(q0); 	  
         spec.markAsFinal(q1);
         spec.markAsFinal(q2);    	  
 	      	  
