@@ -423,30 +423,30 @@ public class TestDeterministicAutomaton extends TestCase {
         
         DeterministicAutomaton automaton = new DeterministicAutomaton(spec);
         
-        assertTrue(automaton.accepts("bc")); 
+        assertTrue(automaton.accepts("bc"));
         assertTrue(automaton.accepts("abc"));
         assertTrue(automaton.accepts("abbcc"));
-        assertTrue(automaton.accepts("aaaabc")); 
+        assertTrue(automaton.accepts("aaaabc"));
         assertTrue(automaton.accepts("abbcccccccccccccccccccccccccccccccccccccccc"));
         assertTrue(automaton.accepts("aaaab")); 
-        assertTrue(automaton.accepts("aaaaaaaaaabbc"));  
-	assertTrue(automaton.accepts("bbcc"));
+        assertTrue(automaton.accepts("aaaaaaaaaabbc"));
+        assertTrue(automaton.accepts("bbcc"));
         assertTrue(automaton.accepts("aaaabbbbbbbbbbbbbbbbbbbbb"));
-        assertTrue(automaton.accepts("aaaabbbbbb")); 
-	assertFalse(automaton.accepts("ccccccccabbbbbbc"));
-        assertFalse(automaton.accepts("aaaaaaaaaaaaaaaaaaa"));   
-	assertFalse(automaton.accepts("c")); 
+        assertTrue(automaton.accepts("aaaabbbbbb"));
+        assertFalse(automaton.accepts("ccccccccabbbbbbc"));
+        assertFalse(automaton.accepts("aaaaaaaaaaaaaaaaaaa"));
+        assertFalse(automaton.accepts("c"));
         assertFalse(automaton.accepts("cccccccccac"));
-        assertFalse(automaton.accepts("abcabc")); 
-        assertFalse(automaton.accepts("123")); 
+        assertFalse(automaton.accepts("abcabc"));
+        assertFalse(automaton.accepts("123"));
         assertFalse(automaton.accepts("c34"));
         assertFalse(automaton.accepts("de"));
-        assertFalse(automaton.accepts("cuio")); 
-        assertFalse(automaton.accepts("z")); 
+        assertFalse(automaton.accepts("cuio"));
+        assertFalse(automaton.accepts("z"));
         assertFalse(automaton.accepts("999"));
         assertFalse(automaton.accepts("6n"));
         assertFalse(automaton.accepts(" "));
         assertFalse(automaton.accepts("fabian"));
-        assertFalse(automaton.accepts("o2"));                
+        assertFalse(automaton.accepts("o2"));
     }
 }
