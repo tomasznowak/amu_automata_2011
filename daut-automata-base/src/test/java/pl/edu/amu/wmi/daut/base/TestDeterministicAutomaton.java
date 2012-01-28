@@ -311,8 +311,8 @@ public class TestDeterministicAutomaton extends TestCase {
     /**
     * Test nad {a,b,c}, których pierwszym znakiem jest 'a' lub ostatnim znakiem jest 'c'.
     */    
-    public final void testSimpleAutomat()
-    {
+    public final void testSimpleAutomat() {
+    	
         DeterministicAutomatonSpecification spec = new NaiveDeterministicAutomatonSpecification();
         State q0 = spec.addState();
         State q1 = spec.addState();
