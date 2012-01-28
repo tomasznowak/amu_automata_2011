@@ -9,7 +9,7 @@ import junit.framework.TestCase;
  */
 public class TestAutomatonByStack extends TestCase {
 
-	public final void testEmptyWordOrTwoOrThreeA() {
+public final void testEmptyWordOrTwoOrThreeA() {
 	final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
 		State q0a = spec.addState();
@@ -19,7 +19,7 @@ public class TestAutomatonByStack extends TestCase {
 
 		spec.addTransition(q0a, q1a, new CharTransitionLabel('a'));
 		spec.addTransition(q1a, q2a, new CharTransitionLabel('a'));
-		spec.addTransition(q2a, q3a, new CharTransitionLabel('a'));	
+		spec.addTransition(q2a, q3a, new CharTransitionLabel('a'));
 
 		spec.markAsInitial(q0a);
 		spec.markAsFinal(q0a);
