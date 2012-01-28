@@ -403,7 +403,7 @@ public class TestDeterministicAutomaton extends TestCase {
     /**
     ** Test ABC.
     */
-      public void testAutomatonABC (){
+    public void testAutomatonABC(){
         DeterministicAutomatonSpecification spec = new NaiveDeterministicAutomatonSpecification();
         
         State q0 = spec.addState();
@@ -427,7 +427,7 @@ public class TestDeterministicAutomaton extends TestCase {
         assertTrue(automaton.accepts("abbcc"));
         assertTrue(automaton.accepts("aaaabc"));
         assertTrue(automaton.accepts("abbcccccccccccccccccccccccccccccccccccccccc"));
-        assertTrue(automaton.accepts("aaaab")); 
+        assertTrue(automaton.accepts("aaaab"));
         assertTrue(automaton.accepts("aaaaaaaaaabbc"));
         assertTrue(automaton.accepts("bbcc"));
         assertTrue(automaton.accepts("aaaabbbbbbbbbbbbbbbbbbbbb"));
