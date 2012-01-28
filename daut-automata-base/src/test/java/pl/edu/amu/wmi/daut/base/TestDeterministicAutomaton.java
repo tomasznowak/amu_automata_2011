@@ -400,9 +400,13 @@ public class TestDeterministicAutomaton extends TestCase {
         spec.unmarkAsFinalState(q3c);
         assertTrue(spec.isFinal(q1c));
     }
+    
+      /**
+     * Test ABC 
+     * @kasia1404.
+     */
 
-      public final void testAutomatonABC (){
-        
+      public void testAutomatonABC (){
         DeterministicAutomatonSpecification spec = new NaiveDeterministicAutomatonSpecification();
         
         State q0 = spec.addState();
@@ -428,12 +432,12 @@ public class TestDeterministicAutomaton extends TestCase {
         assertTrue(automaton.accepts("abbcccccccccccccccccccccccccccccccccccccccc"));
         assertTrue(automaton.accepts("aaaab")); 
         assertTrue(automaton.accepts("aaaaaaaaaabbc"));  
-		assertTrue(automaton.accepts("bbcc"));
+	assertTrue(automaton.accepts("bbcc"));
         assertTrue(automaton.accepts("aaaabbbbbbbbbbbbbbbbbbbbb"));
         assertTrue(automaton.accepts("aaaabbbbbb")); 
-		assertFalse(automaton.accepts("ccccccccabbbbbbc"));
+	assertFalse(automaton.accepts("ccccccccabbbbbbc"));
         assertFalse(automaton.accepts("aaaaaaaaaaaaaaaaaaa"));   
-		assertFalse(automaton.accepts("c")); 
+	assertFalse(automaton.accepts("c")); 
         assertFalse(automaton.accepts("cccccccccac"));
         assertFalse(automaton.accepts("abcabc")); 
         assertFalse(automaton.accepts("123")); 
@@ -445,9 +449,6 @@ public class TestDeterministicAutomaton extends TestCase {
         assertFalse(automaton.accepts("6n"));
         assertFalse(automaton.accepts(" "));
         assertFalse(automaton.accepts("fabian"));
-        assertFalse(automaton.accepts("o2")); 
-                       
+        assertFalse(automaton.accepts("o2"));                
     }
-    
-
 }
