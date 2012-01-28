@@ -116,7 +116,7 @@ public class TestAutomatonByRecursion extends TestCase {
     /**
      * Automat akceptujący napis pusty oraz napis "ćma".
      */
-    public final void MothTest() {
+    public final void mothTest() {
 
         final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
@@ -134,7 +134,7 @@ public class TestAutomatonByRecursion extends TestCase {
         final AutomatonByRecursion automaton = new AutomatonByRecursion(spec);
 
         assertFalse(automaton.accepts("ć"));
-	assertFalse(automaton.accepts("ćm"));
+        assertFalse(automaton.accepts("ćm"));
 	assertFalse(automaton.accepts("ćć"));
         assertTrue(automaton.accepts("ćma"));
     }
