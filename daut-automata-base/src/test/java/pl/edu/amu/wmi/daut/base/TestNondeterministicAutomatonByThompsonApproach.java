@@ -230,7 +230,8 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         assertFalse(automaton.accepts("z"));
     }
 
-    /**Ósmy test
+    /**
+    * Ósmy test
     * automat z przynajmniej jednym epsilon-przejściem
     * akceptujący wszystkie napisy złożone z napisu "abcd"
     * powielonego dowolną liczbę razy (przynajmniej raz) 
@@ -240,18 +241,18 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
     {
         final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
-	State q0 = spec.addState();
+        State q0 = spec.addState();
         State q1 = spec.addState();
         State q2 = spec.addState();
         State q3 = spec.addState();
         State q4 = spec.addState();
 
-	spec.addTransition(q0, q1, new CharTransitionLabel('a'));
-	spec.addTransition(q1, q2, new CharTransitionLabel('b'));
-	spec.addTransition(q2, q3, new CharTransitionLabel('c'));
-	spec.addTransition(q3, q4, new CharTransitionLabel('d'));
-	spec.addTransition(q4, q0, new EpsilonTransitionLabel());
-	spec.addTransition(q4, q1, new CharTransitionLabel('a'));
+        spec.addTransition(q0, q1, new CharTransitionLabel('a'));
+        spec.addTransition(q1, q2, new CharTransitionLabel('b'));
+        spec.addTransition(q2, q3, new CharTransitionLabel('c'));
+        spec.addTransition(q3, q4, new CharTransitionLabel('d'));
+        spec.addTransition(q4, q0, new EpsilonTransitionLabel());
+        spec.addTransition(q4, q1, new CharTransitionLabel('a'));
 
         spec.markAsInitial(q0);
         spec.markAsFinal(q4);
@@ -264,22 +265,22 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
         assertTrue(automaton.accepts("abcdabcdabcd"));
         assertTrue(automaton.accepts("abcdabcdabcdabcd"));
         assertTrue(automaton.accepts("abcdabcdabcdabcdabcd"));
-        
+
         assertFalse(automaton.accepts("aabcd"));
         assertFalse(automaton.accepts("abbcd"));
         assertFalse(automaton.accepts("abccd"));
         assertFalse(automaton.accepts("abcdd"));
-	assertFalse(automaton.accepts("aabbccdd"));
-	assertFalse(automaton.accepts(" "));
-	assertFalse(automaton.accepts("abc"));
-	assertFalse(automaton.accepts("+"));
-	assertFalse(automaton.accepts("1234"));
-	assertFalse(automaton.accepts("fghi"));
-	assertFalse(automaton.accepts("dddd"));
-	assertFalse(automaton.accepts("a123"));
-	assertFalse(automaton.accepts("a"));
-	assertFalse(automaton.accepts("b"));
-	assertFalse(automaton.accepts("c"));
-	assertFalse(automaton.accepts("d"));
+        assertFalse(automaton.accepts("aabbccdd"));
+        assertFalse(automaton.accepts(" "));
+        assertFalse(automaton.accepts("abc"));
+        assertFalse(automaton.accepts("+"));
+        assertFalse(automaton.accepts("1234"));
+        assertFalse(automaton.accepts("fghi"));
+        assertFalse(automaton.accepts("dddd"));
+        assertFalse(automaton.accepts("a123"));
+        assertFalse(automaton.accepts("a"));
+        assertFalse(automaton.accepts("b"));
+        assertFalse(automaton.accepts("c"));
+        assertFalse(automaton.accepts("d"));
     }
 }
