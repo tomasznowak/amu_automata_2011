@@ -322,15 +322,15 @@ public class TestDeterministicAutomaton extends TestCase {
         spec.markAsFinal(q1);
         spec.markAsFinal(q2);    	  
 	      	  
-    	spec.addTransition(q0, q1, new CharTransitionLabel('a'));
-    	spec.addLoop(q1, new CharTransitionLabel('a'));
-    	spec.addLoop(q1, new CharTransitionLabel('b'));
-    	spec.addLoop(q1, new CharTransitionLabel('c'));
-    	spec.addTransition(q0, q2, new CharTransitionLabel('b'));
-    	spec.addLoop(q2, new CharTransitionLabel('a'));
-    	spec.addLoop(q2, new CharTransitionLabel('b'));
-    	spec.addTransition(q2, q1, new CharTransitionLabel('c'));
-    	    
+        spec.addTransition(q0, q1, new CharTransitionLabel('a'));
+        spec.addLoop(q1, new CharTransitionLabel('a'));
+        spec.addLoop(q1, new CharTransitionLabel('b'));
+        spec.addLoop(q1, new CharTransitionLabel('c'));
+        spec.addTransition(q0, q2, new CharTransitionLabel('b'));
+        spec.addLoop(q2, new CharTransitionLabel('a'));
+        spec.addLoop(q2, new CharTransitionLabel('b'));
+        spec.addTransition(q2, q1, new CharTransitionLabel('c'));
+
         AutomatonByRecursion automaton = new AutomatonByRecursion(spec);
         assertTrue(automaton.accepts("aa"));
         assertTrue(automaton.accepts("ab"));
