@@ -307,7 +307,7 @@ public class TestDeterministicAutomaton extends TestCase {
 
         assertEquals(spec.countStates(), 2);
     }
-    
+
     /**
     * Test na automacie nad alfabetem {a,b,c}, 
     * których pierwszym znakiem jest 'a' lub ostatnim znakiem jest 'c'.
