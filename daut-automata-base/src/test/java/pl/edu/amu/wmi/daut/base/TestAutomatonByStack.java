@@ -8,12 +8,9 @@ import junit.framework.TestCase;
  * Test klasy AutomatonStack.
  */
 public class TestAutomatonByStack extends TestCase {
-/**
-* Test automatu deterministycznego badz niedeterministycznego
-* akceptujacy napis pusty oraz napisy 'aa' i 'aaa'
-*/
-    public final void testEmptyWordOrTwoOrThreeA() {
-    	final AutomatonSpecification spec = new NaiveAutomatonSpecification();
+
+	public final void testEmptyWordOrTwoOrThreeA() {
+	final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
 		State q0a = spec.addState();
 		State q1a = spec.addState();
