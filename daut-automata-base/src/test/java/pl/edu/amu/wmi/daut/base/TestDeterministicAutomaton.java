@@ -401,8 +401,7 @@ public class TestDeterministicAutomaton extends TestCase {
         assertTrue(spec.isFinal(q1c));
     }
     /**
-    ** Test ABC
-    ** @kasia1404
+    ** Test ABC.
     */
       public void testAutomatonABC (){
         DeterministicAutomatonSpecification spec = new NaiveDeterministicAutomatonSpecification();
