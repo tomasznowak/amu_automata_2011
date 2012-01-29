@@ -234,7 +234,7 @@ public class TestAutomatonByRecursion extends TestCase {
     /**
      * Automat akceptujący napis pusty oraz napis "ćma".
      */
-    public final void mothTest() {
+    public final void testMoth() {
 
         final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
