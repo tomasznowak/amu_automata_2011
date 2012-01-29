@@ -5,10 +5,9 @@ use strict;
 my %links;
 
 while ( my $line = <> ) {
-  while( $line =~ /(?<link>   \[\[(?<value>(?:[^\]]++|\][^\]])*+)\]\])
-                   |(?<char>  .)/msxg ) {
-    next if ( defined $+{'char'} );
-    my ($dst) = split(/\|/, $+{'value'});
+  while( $line =~ /\[\[(.+?)\]\]|./sg ) {
+    next unless ( defined $1 );
+    my ($dst) = split(/\|/, $1);
     $links{$dst} = 1 if ( $dst !~ /[#<>[\]|{}:]/ );
   }
 }
