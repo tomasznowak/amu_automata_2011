@@ -400,5 +400,47 @@ public class TestDeterministicAutomaton extends TestCase {
         spec.unmarkAsFinalState(q3c);
         assertTrue(spec.isFinal(q1c));
     }
-
+    /**
+    ** Test ABC.
+    */
+    public void testAutomatonABC() {
+        DeterministicAutomatonSpecification spec = new NaiveDeterministicAutomatonSpecification();
+        State q0 = spec.addState();
+        State q1 = spec.addState();
+        State q2 = spec.addState();
+        spec.addTransition(q0, q0, new CharTransitionLabel('a'));
+        spec.addTransition(q0, q1, new CharTransitionLabel('b'));
+        spec.addTransition(q1, q1, new CharTransitionLabel('b'));
+        spec.addTransition(q1, q2, new CharTransitionLabel('c'));
+        spec.addTransition(q2, q2, new CharTransitionLabel('c'));
+        spec.markAsInitial(q0);
+        spec.markAsFinal(q1);
+        spec.markAsFinal(q2);
+        DeterministicAutomaton automaton = new DeterministicAutomaton(spec);
+        assertTrue(automaton.accepts("bc"));
+        assertTrue(automaton.accepts("abc"));
+        assertTrue(automaton.accepts("abbcc"));
+        assertTrue(automaton.accepts("aaaabc"));
+        assertTrue(automaton.accepts("abbcccccccccccccccccccccccccccccccccccccccc"));
+        assertTrue(automaton.accepts("aaaab"));
+        assertTrue(automaton.accepts("aaaaaaaaaabbc"));
+        assertTrue(automaton.accepts("bbcc"));
+        assertTrue(automaton.accepts("aaaabbbbbbbbbbbbbbbbbbbbb"));
+        assertTrue(automaton.accepts("aaaabbbbbb"));
+        assertFalse(automaton.accepts("ccccccccabbbbbbc"));
+        assertFalse(automaton.accepts("aaaaaaaaaaaaaaaaaaa"));
+        assertFalse(automaton.accepts("c"));
+        assertFalse(automaton.accepts("cccccccccac"));
+        assertFalse(automaton.accepts("abcabc"));
+        assertFalse(automaton.accepts("123"));
+        assertFalse(automaton.accepts("c34"));
+        assertFalse(automaton.accepts("de"));
+        assertFalse(automaton.accepts("cuio"));
+        assertFalse(automaton.accepts("z"));
+        assertFalse(automaton.accepts("999"));
+        assertFalse(automaton.accepts("6n"));
+        assertFalse(automaton.accepts(" "));
+        assertFalse(automaton.accepts("fabian"));
+        assertFalse(automaton.accepts("o2"));
+    }
 }
