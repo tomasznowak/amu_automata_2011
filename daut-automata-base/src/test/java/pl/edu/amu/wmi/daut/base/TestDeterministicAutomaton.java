@@ -246,7 +246,6 @@ public class TestDeterministicAutomaton extends TestCase {
         spec.addLoop(q4, new CharTransitionLabel('1'));
         spec.addLoop(q5, new CharTransitionLabel('1'));
         
-        
         spec.markAsInitial(q0);
         spec.markAsFinal(q5);
         
