@@ -231,8 +231,7 @@ public class TestDeterministicAutomaton extends TestCase {
         State q2 = spec.addState();
         State q3 = spec.addState();
         State q4 = spec.addState();
-        State q5 = spec.addState();
-        
+        State q5 = spec.addState();        
         spec.addLoop(q0, new CharTransitionLabel('1'));
         spec.addTransition(q0, q1, new CharTransitionLabel('0'));
         spec.addTransition(q1, q2, new CharTransitionLabel('0'));
@@ -245,10 +244,8 @@ public class TestDeterministicAutomaton extends TestCase {
         spec.addLoop(q3, new CharTransitionLabel('1'));
         spec.addLoop(q4, new CharTransitionLabel('1'));
         spec.addLoop(q5, new CharTransitionLabel('1'));
-        
         spec.markAsInitial(q0);
         spec.markAsFinal(q5);
-        
         AutomatonByRecursion automaton = new AutomatonByRecursion(spec);
         assertTrue(automaton.accepts("00000"));
         assertTrue(automaton.accepts("100000"));
@@ -262,6 +259,7 @@ public class TestDeterministicAutomaton extends TestCase {
         assertFalse(automaton.accepts("bdaasrweewrgsdf"));
         assertFalse(automaton.accepts("$@%%@#$@#!@"));
         assertFalse(automaton.accepts("章"));
+        
     }
 }
 
