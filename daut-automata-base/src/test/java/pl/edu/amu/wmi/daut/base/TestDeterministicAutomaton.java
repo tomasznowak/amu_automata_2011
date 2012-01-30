@@ -231,7 +231,7 @@ public class TestDeterministicAutomaton extends TestCase {
         State q2 = spec.addState();
         State q3 = spec.addState();
         State q4 = spec.addState();
-        State q5 = spec.addState();        
+        State q5 = spec.addState();
         spec.addLoop(q0, new CharTransitionLabel('1'));
         spec.addTransition(q0, q1, new CharTransitionLabel('0'));
         spec.addTransition(q1, q2, new CharTransitionLabel('0'));
@@ -259,7 +259,5 @@ public class TestDeterministicAutomaton extends TestCase {
         assertFalse(automaton.accepts("bdaasrweewrgsdf"));
         assertFalse(automaton.accepts("$@%%@#$@#!@"));
         assertFalse(automaton.accepts("章"));
-        
     }
 }
-
