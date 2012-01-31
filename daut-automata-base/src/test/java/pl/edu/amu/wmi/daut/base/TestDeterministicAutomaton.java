@@ -309,35 +309,37 @@ public class TestDeterministicAutomaton extends TestCase {
     }
 
     /**
-    * Test nad {a,b,c}, których pierwszym znakiem jest 'a' lub ostatnim znakiem jest 'c'.
-    */    
+     * Test na {a,b,c} akceptujacy slowa zaczynajace sie na a lub konczace na c.
+     */
     public final void testSimpleAutomat() {
-        
-        DeterministicAutomatonSpecification spec = new NaiveDeterministicAutomatonSpecification();
-        State q0 = spec.addState();
-        State q1 = spec.addState();
-        State q2 = spec.addState();
 
-        spec.markAsInitial(q0); 	  
-        spec.markAsFinal(q1);
-        spec.markAsFinal(q2);    	  
-	      	  
+    	DeterministicAutomatonSpecification spec = new NaiveDeterministicAutomatonSpecification();
+    	State q0 = spec.addState();
+    	State q1 = spec.addState();
+    	State q2 = spec.addState();
+    	State q3 = spec.addState();
+
+    	spec.markAsInitial(q0);
+    	spec.markAsFinal(q1);
+        spec.markAsFinal(q3);
+
         spec.addTransition(q0, q1, new CharTransitionLabel('a'));
-        spec.addLoop(q1, new CharTransitionLabel('a'));
-        spec.addLoop(q1, new CharTransitionLabel('b'));
-        spec.addLoop(q1, new CharTransitionLabel('c'));
-        spec.addTransition(q0, q2, new CharTransitionLabel('b'));
-        spec.addLoop(q2, new CharTransitionLabel('a'));
-        spec.addLoop(q2, new CharTransitionLabel('b'));
-        spec.addTransition(q2, q1, new CharTransitionLabel('c'));
+    	spec.addLoop(q1, new CharTransitionLabel('a'));
+    	spec.addLoop(q1, new CharTransitionLabel('b'));
+    	spec.addLoop(q1, new CharTransitionLabel('c'));
+    	spec.addTransition(q0, q2, new CharTransitionLabel('b'));
+    	spec.addLoop(q2, new CharTransitionLabel('a'));
+    	spec.addLoop(q2, new CharTransitionLabel('b'));
+    	spec.addTransition(q2, q3, new CharTransitionLabel('c'));
 
-        AutomatonByRecursion automaton = new AutomatonByRecursion(spec);
+    	AutomatonByRecursion automaton = new AutomatonByRecursion(spec);
+        assertFalse(automaton.accepts("bca"));
         assertTrue(automaton.accepts("aa"));
         assertTrue(automaton.accepts("ab"));
         assertTrue(automaton.accepts("ac"));
-        assertTrue(automaton.accepts("b"));
-        assertTrue(automaton.accepts("bb"));
-        assertTrue(automaton.accepts("bab"));
+        assertFalse(automaton.accepts("b"));
+        assertFalse(automaton.accepts("bb"));
+        assertFalse(automaton.accepts("bab"));
         assertTrue(automaton.accepts("bababc"));
         assertFalse(automaton.accepts("bababc\n"));
         assertFalse(automaton.accepts("d"));
@@ -347,5 +349,5 @@ public class TestDeterministicAutomaton extends TestCase {
         assertFalse(automaton.accepts("cccccccccaaaaaa"));
         assertFalse(automaton.accepts("aaaaaaaaaaaaaa bbbbbbbb"));
         assertTrue(automaton.accepts("aaaaaabbbbbbbbbbbbbcccccccccccc"));
-    }    
+      }    
 }
