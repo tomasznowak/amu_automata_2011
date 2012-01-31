@@ -317,7 +317,7 @@ public class TestDeterministicAutomaton extends TestCase {
         State q0 = spec.addState();
         State q1 = spec.addState();
         State q2 = spec.addState();
-    	State q3 = spec.addState();
+        State q3 = spec.addState();
 
         spec.markAsInitial(q0);
         spec.markAsFinal(q1);
@@ -332,7 +332,7 @@ public class TestDeterministicAutomaton extends TestCase {
         spec.addLoop(q2, new CharTransitionLabel('b'));
         spec.addTransition(q2, q3, new CharTransitionLabel('c'));
 
-    	AutomatonByRecursion automaton = new AutomatonByRecursion(spec);
+        AutomatonByRecursion automaton = new AutomatonByRecursion(spec);
         assertFalse(automaton.accepts("bca"));
         assertTrue(automaton.accepts("aa"));
         assertTrue(automaton.accepts("ab"));
