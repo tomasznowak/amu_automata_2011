@@ -349,5 +349,5 @@ public class TestDeterministicAutomaton extends TestCase {
         assertFalse(automaton.accepts("cccccccccaaaaaa"));
         assertFalse(automaton.accepts("aaaaaaaaaaaaaa bbbbbbbb"));
         assertTrue(automaton.accepts("aaaaaabbbbbbbbbbbbbcccccccccccc"));
-      }    
+    }
 }
