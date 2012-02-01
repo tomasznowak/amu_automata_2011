@@ -231,14 +231,11 @@ public class TestNondeterministicAutomatonByThompsonApproach extends TestCase {
     }
 
     /**
-    * Ósmy test
-    * automat z przynajmniej jednym epsilon-przejściem
-    * akceptujący wszystkie napisy złożone z napisu "abcd"
-    * powielonego dowolną liczbę razy (przynajmniej raz) 
-    */
-
-    public final void testNondeterministicAutomatonWithEpsilonTransition()
-    {
+     * Ósmy test (automat z przynajmniej jednym epsilon-przejściem
+     * akceptujący wszystkie napisy złożone z napisu "abcd"
+     * powielonego dowolną liczbę razy przynajmniej raz).
+     */
+    public final void testNondeterministicAutomatonWithEpsilonTransition() {
         final AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
         State q0 = spec.addState();
