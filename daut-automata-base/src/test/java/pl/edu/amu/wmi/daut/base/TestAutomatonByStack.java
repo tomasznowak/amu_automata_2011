@@ -9,6 +9,35 @@ import junit.framework.TestCase;
  */
 public class TestAutomatonByStack extends TestCase {
 /**
+ * Test Kamil Sieron..
+ */
+    public final void testEmptyWordOrTwoOrThreeA() {
+        final AutomatonSpecification spec = new NaiveAutomatonSpecification();
+
+        State q0a = spec.addState();
+        State q1a = spec.addState();
+        State q2a = spec.addState();
+        State q3a = spec.addState();
+
+        spec.addTransition(q0a, q1a, new CharTransitionLabel('a'));
+        spec.addTransition(q1a, q2a, new CharTransitionLabel('a'));
+        spec.addTransition(q2a, q3a, new CharTransitionLabel('a'));
+
+        spec.markAsInitial(q0a);
+        spec.markAsFinal(q0a);
+        spec.markAsFinal(q2a);
+        spec.markAsFinal(q3a);
+
+        final AutomatonByStack automaton = new AutomatonByStack(spec);
+
+        assertTrue(automaton.accepts(""));
+        assertTrue(automaton.accepts("aa"));
+        assertTrue(automaton.accepts("aaa"));
+        assertFalse(automaton.accepts("a"));
+        assertFalse(automaton.accepts("aaaa"));
+        assertFalse(automaton.accepts("aaaaaaaaaaaa"));
+    }
+/**
  * Pierwszy test.
  */
     public final void test1() {
@@ -330,6 +359,7 @@ public class TestAutomatonByStack extends TestCase {
         assertFalse(automaton.accepts("bcaca"));
         assertFalse(automaton.accepts("acca"));
     }
+
 
 /**
  * Siodmy test #362.
