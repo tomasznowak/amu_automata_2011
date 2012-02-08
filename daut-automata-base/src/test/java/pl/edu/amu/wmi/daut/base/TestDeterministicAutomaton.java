@@ -408,6 +408,8 @@ public class TestDeterministicAutomaton extends TestCase {
         State q0 = spec.addState();
         State q1 = spec.addState();
         State q2 = spec.addState();
+
+
         spec.addTransition(q0, q0, new CharTransitionLabel('a'));
         spec.addTransition(q0, q1, new CharTransitionLabel('b'));
         spec.addTransition(q1, q1, new CharTransitionLabel('b'));
@@ -484,5 +486,50 @@ public class TestDeterministicAutomaton extends TestCase {
         assertFalse(automaton.accepts("bdaasrweewrgsdf"));
         assertFalse(automaton.accepts("$@%%@#$@#!@"));
         assertFalse(automaton.accepts("章"));
+    }
+
+    /**
+     * Test na {a,b,c} akceptujacy slowa zaczynajace sie na a lub konczace na c.
+     */
+    public final void testSimpleAutomat() {
+
+        DeterministicAutomatonSpecification spec = new NaiveDeterministicAutomatonSpecification();
+        State q0 = spec.addState();
+        State q1 = spec.addState();
+        State q2 = spec.addState();
+        State q3 = spec.addState();
+
+        spec.markAsInitial(q0);
+        spec.markAsFinal(q1);
+        spec.markAsFinal(q3);
+
+        spec.addTransition(q0, q1, new CharTransitionLabel('a'));
+        spec.addLoop(q1, new CharTransitionLabel('a'));
+        spec.addLoop(q1, new CharTransitionLabel('b'));
+        spec.addLoop(q1, new CharTransitionLabel('c'));
+        spec.addTransition(q0, q2, new CharTransitionLabel('b'));
+        spec.addLoop(q2, new CharTransitionLabel('a'));
+        spec.addLoop(q2, new CharTransitionLabel('b'));
+        spec.addTransition(q2, q3, new CharTransitionLabel('c'));
+        spec.addTransition(q0, q3, new CharTransitionLabel('c'));
+
+        AutomatonByRecursion automaton = new AutomatonByRecursion(spec);
+        assertTrue(automaton.accepts("c"));
+        assertFalse(automaton.accepts("bca"));
+        assertTrue(automaton.accepts("aa"));
+        assertTrue(automaton.accepts("ab"));
+        assertTrue(automaton.accepts("ac"));
+        assertFalse(automaton.accepts("b"));
+        assertFalse(automaton.accepts("bb"));
+        assertFalse(automaton.accepts("bab"));
+        assertTrue(automaton.accepts("bababc"));
+        assertFalse(automaton.accepts("bababc\n"));
+        assertFalse(automaton.accepts("d"));
+        assertFalse(automaton.accepts("cba"));
+        assertTrue(automaton.accepts("aaaaaaaaac"));
+        assertTrue(automaton.accepts("bbbbbbbbbc"));
+        assertFalse(automaton.accepts("cccccccccaaaaaa"));
+        assertFalse(automaton.accepts("aaaaaaaaaaaaaa bbbbbbbb"));
+        assertTrue(automaton.accepts("aaaaaabbbbbbbbbbbbbcccccccccccc"));
     }
 }
