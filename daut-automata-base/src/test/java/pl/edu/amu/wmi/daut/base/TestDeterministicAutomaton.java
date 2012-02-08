@@ -408,8 +408,6 @@ public class TestDeterministicAutomaton extends TestCase {
         State q0 = spec.addState();
         State q1 = spec.addState();
         State q2 = spec.addState();
-
-
         spec.addTransition(q0, q0, new CharTransitionLabel('a'));
         spec.addTransition(q0, q1, new CharTransitionLabel('b'));
         spec.addTransition(q1, q1, new CharTransitionLabel('b'));
