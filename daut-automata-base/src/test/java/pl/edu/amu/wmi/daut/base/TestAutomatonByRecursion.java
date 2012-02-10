@@ -229,5 +229,32 @@ public class TestAutomatonByRecursion extends TestCase {
         assertFalse(automatonClock.accepts(":::::"));
         assertFalse(automatonClock.accepts("666666"));
         assertFalse(automatonClock.accepts("true"));
+      }
+
+    /**
+     * Automat akceptujący napis pusty oraz napis "ćma".
+     */
+    public final void testMoth() {
+
+        final AutomatonSpecification spec = new NaiveAutomatonSpecification();
+
+        State q0a = spec.addState();
+        State q1a = spec.addState();
+        State q2a = spec.addState();
+
+        spec.addTransition(q0a, q1a, new CharTransitionLabel('ć'));
+        spec.addTransition(q1a, q2a, new CharTransitionLabel('m'));
+        spec.addTransition(q2a, q0a, new CharTransitionLabel('a'));
+
+        spec.markAsInitial(q0a);
+        spec.markAsFinal(q0a);
+
+        final AutomatonByRecursion automaton = new AutomatonByRecursion(spec);
+
+        assertFalse(automaton.accepts("ć"));
+        assertFalse(automaton.accepts("ćm"));
+        assertFalse(automaton.accepts("ćć"));
+        assertTrue(automaton.accepts("ćma"));
+        assertTrue(automaton.accepts(""));
     }
 }
