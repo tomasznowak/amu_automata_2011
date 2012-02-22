@@ -92,7 +92,7 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Test metody acceptEmptyWord dla automatu z pêtl¹.
+     * Test metody acceptEmptyWord dla automatu z pÄ™tlÄ….
      */
     public final void testAcceptEmptyWordForAutomatonWithLoop() {
 
@@ -166,18 +166,18 @@ public class TestAutomatonSpecification extends TestCase {
      * Testy dla metody addTransitionSequence().
      */
     public final void testAddTransitionSequence() {
-        // Tworzymy automat do testów
+        // Tworzymy automat do testÃ³w
         AutomatonSpecification spec = new NaiveAutomatonSpecification();
 
-        // Proste testy iloœci stanów i przejœæ
-        // Pusty ci¹g przejœæ
+        // Proste testy iloÅ›ci stanÃ³w i przejÅ›Ä‡
+        // Pusty ciÄ…g przejÅ›Ä‡
         State s0 = spec.addState();
         spec.markAsInitial(s0);
         spec.addTransitionSequence(s0, "");
         assertEquals(0, spec.countTransitions());
         assertEquals(1, spec.countStates());
 
-        // Ci¹g przejœæ sk³adaj¹cy siê z jednego znaku
+        // CiÄ…g przejÅ›Ä‡ skÅ‚adajÄ…cy siÄ™ z jednego znaku
         spec = new NaiveAutomatonSpecification();
         s0 = spec.addState();
         spec.markAsInitial(s0);
@@ -185,8 +185,8 @@ public class TestAutomatonSpecification extends TestCase {
         assertEquals(1, spec.countTransitions());
         assertEquals(2, spec.countStates());
 
-        // Ci¹g przejœæ sk³adaj¹cy siê z jednego znaku
-        // i dodanie stanu na podstawie tego co zwróci³a
+        // CiÄ…g przejÅ›Ä‡ skÅ‚adajÄ…cy siÄ™ z jednego znaku
+        // i dodanie stanu na podstawie tego co zwrÃ³ciÅ‚a
         // metoda addTransitionSequence()
         spec = new NaiveAutomatonSpecification();
         s0 = spec.addState();
@@ -196,7 +196,7 @@ public class TestAutomatonSpecification extends TestCase {
         assertEquals(2, spec.countTransitions());
         assertEquals(3, spec.countStates());
 
-        // Ci¹g przejœæ sk³adaj¹cy siê z takich samych znaków
+        // CiÄ…g przejÅ›Ä‡ skÅ‚adajÄ…cy siÄ™ z takich samych znakÃ³w
         spec = new NaiveAutomatonSpecification();
         s0 = spec.addState();
         spec.markAsInitial(s0);
@@ -204,7 +204,7 @@ public class TestAutomatonSpecification extends TestCase {
         assertEquals(2, spec.countTransitions());
         assertEquals(3, spec.countStates());
 
-        // Ci¹g przejœæ sk³adaj¹cy siê z ró¿nych znaków
+        // CiÄ…g przejÅ›Ä‡ skÅ‚adajÄ…cy siÄ™ z rÃ³Å¼nych znakÃ³w
         spec = new NaiveAutomatonSpecification();
         s0 = spec.addState();
         spec.markAsInitial(s0);
@@ -212,16 +212,16 @@ public class TestAutomatonSpecification extends TestCase {
         assertEquals(3, spec.countTransitions());
         assertEquals(4, spec.countStates());
 
-        // Sprawdzamy czy przejœcia maj¹ odpowiednie oznaczenia oraz
-        // akceptuj¹ odpowiednie znaki, dla ci¹gu "abc"
+        // Sprawdzamy czy przejÅ›cia majÄ… odpowiednie oznaczenia oraz
+        // akceptujÄ… odpowiednie znaki, dla ciÄ…gu "abc"
         State s;
         List<OutgoingTransition> sOuts;
 
-        // Dla jasnoœci pobieramy stan pocz¹tkowy automatu
+        // Dla jasnoÅ›ci pobieramy stan poczÄ…tkowy automatu
         s = spec.getInitialState();
 
-        // Sprawdzamy mo¿liwe przejœcia ze stanu pocz¹tkowego,
-        // sprawdzamy ich iloœæ, oznaczenia oraz jakie znaki akceptuj¹
+        // Sprawdzamy moÅ¼liwe przejÅ›cia ze stanu poczÄ…tkowego,
+        // sprawdzamy ich iloÅ›Ä‡, oznaczenia oraz jakie znaki akceptujÄ…
         // (oczekujemy a)
         sOuts = spec.allOutgoingTransitions(s);
         assertEquals(1, sOuts.size());
@@ -231,7 +231,7 @@ public class TestAutomatonSpecification extends TestCase {
         assertFalse(((CharTransitionLabel) sOuts.get(0).getTransitionLabel())
                 .canAcceptCharacter('c'));
 
-        // Kolejne przejœcie (oczekujemy b)
+        // Kolejne przejÅ›cie (oczekujemy b)
         s = sOuts.get(0).getTargetState();
         sOuts = spec.allOutgoingTransitions(s);
         assertEquals(1, sOuts.size());
@@ -243,7 +243,7 @@ public class TestAutomatonSpecification extends TestCase {
         assertFalse(((CharTransitionLabel) sOuts.get(0).getTransitionLabel())
                 .canAcceptCharacter('c'));
 
-        // Kolejne przejœcie (oczekujemy c)
+        // Kolejne przejÅ›cie (oczekujemy c)
         s = sOuts.get(0).getTargetState();
         sOuts = spec.allOutgoingTransitions(s);
         assertEquals(1, sOuts.size());
@@ -338,20 +338,20 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Testuje dzia³anie metody toString().
+     * Testuje dziaÅ‚anie metody toString().
      */
     public final void testToString() {
         /**
          * Pozwala na wygenerowanie tekstu "oszukanego" automatu
-         * na podstawie stanów i krawêdzi wprowadzonych jako tekst.
-         * Imitacja dzia³ania metody toString() dla automatu.
+         * na podstawie stanÃ³w i krawÄ™dzi wprowadzonych jako tekst.
+         * Imitacja dziaÅ‚ania metody toString() dla automatu.
          */
         class AutomatonString {
 
             private String states, transitions, istates, fstates;
 
             /**
-             * Ustala stany, przejœcia, stan pocz¹tkowy oraz stany koñcowe
+             * Ustala stany, przejÅ›cia, stan poczÄ…tkowy oraz stany koÅ„cowe
              */
             public AutomatonString(String states, String transitions,
                     String istates, String fstates) {
@@ -387,7 +387,7 @@ public class TestAutomatonSpecification extends TestCase {
         }
 
         // Pierwszy testowy automat:
-        // Jeden stan z krawêdzi¹
+        // Jeden stan z krawÄ™dziÄ…
         NaiveAutomatonSpecification ta1 = new NaiveAutomatonSpecification();
 
         State ta1s0 = ta1.addState();
@@ -401,7 +401,7 @@ public class TestAutomatonSpecification extends TestCase {
         assertEquals(str.toString(), ta1.toString());
 
         // Drugi testowy automat:
-        // Dwa stany, krawêdzie jak w przypadku NFA
+        // Dwa stany, krawÄ™dzie jak w przypadku NFA
         NaiveAutomatonSpecification ta2 = new NaiveAutomatonSpecification();
 
         State ta2s0 = ta2.addState();
@@ -417,7 +417,7 @@ public class TestAutomatonSpecification extends TestCase {
         assertEquals(str.toString(), ta2.toString());
 
         // Trzeci testowy automat:
-        // Dwa stany, dwa ró¿ne rodzaje krawêdzi
+        // Dwa stany, dwa rÃ³Å¼ne rodzaje krawÄ™dzi
         NaiveAutomatonSpecification ta3 = new NaiveAutomatonSpecification();
 
         State ta3s0 = ta3.addState();
@@ -440,8 +440,8 @@ public class TestAutomatonSpecification extends TestCase {
         str = new AutomatonString("", "", "", "");
         assertEquals(str.toString(), ta4.toString());
 
-        // Pi¹ty testowy automat:
-        // Brak stanów pocz¹tkowych i koñcowych
+        // PiÄ…ty testowy automat:
+        // Brak stanÃ³w poczÄ…tkowych i koÅ„cowych
         NaiveAutomatonSpecification ta5 = new NaiveAutomatonSpecification();
 
         State ta5s0 = ta5.addState();
@@ -452,7 +452,7 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Klasa pomocnicza do testów funkcji getDotGraph().
+     * Klasa pomocnicza do testÃ³w funkcji getDotGraph().
      */
     class FakeDotGraphGenerator {
 
@@ -469,7 +469,7 @@ public class TestAutomatonSpecification extends TestCase {
         }
 
         /**
-         * Zwraca ¿¹dany przez testera graf w postaci String'a.
+         * Zwraca Å¼Ä…dany przez testera graf w postaci String'a.
          */
         @Override
         public String toString() {
@@ -484,7 +484,7 @@ public class TestAutomatonSpecification extends TestCase {
                     + "    node [shape = doublecircle style=filled "
                     + "fillcolor=\"#00000000\"];\n    ");
 
-            //Stany koñcowe
+            //Stany koÅ„cowe
             String[] endStates = ends.split(" ");
             for (String state : endStates) {
                 dotGraphString.append("\"State #" + state + "\" ");
@@ -492,7 +492,7 @@ public class TestAutomatonSpecification extends TestCase {
 
             dotGraphString.append(";\n    node [shape = circle];\n");
 
-            //Przejœcia
+            //PrzejÅ›cia
             for (String transition : transitions.split(" ")) {
                 String[] splitedTransition = transition.split("-");
                 dotGraphString.append("    \"State #" + splitedTransition[0] + "\"");
@@ -519,24 +519,24 @@ public class TestAutomatonSpecification extends TestCase {
         boolean isItProper(String dotGraphFromAutomaton) {
             String fakeDotGraph = this.toString();
 
-            //Pierwszy krok testu - porównanie ich d³ugoœci
+            //Pierwszy krok testu - porÃ³wnanie ich dÅ‚ugoÅ›ci
             if (dotGraphFromAutomaton.length() != fakeDotGraph.length())
                 return false;
 
-            //Podzia³ obu stringów na linie
+            //PodziaÅ‚ obu stringÃ³w na linie
             String[] dotGraphTab = dotGraphFromAutomaton.split("\n");
             String[] exampleOfDotGraphTab = fakeDotGraph.split("\n");
 
-            //Porównanie iloœci linii w obu Stringach
+            //PorÃ³wnanie iloÅ›ci linii w obu Stringach
             if (dotGraphTab.length != exampleOfDotGraphTab.length)
                 return false;
 
-            //Porównanie 1: dok³adnie ten sam porz¹dek linii
+            //PorÃ³wnanie 1: dokÅ‚adnie ten sam porzÄ…dek linii
             for (int i = 0; i < 6; i++)
                 if (!dotGraphTab[i].equals(exampleOfDotGraphTab[i]))
                     return false;
 
-            //Porównanie 2: stany koñcowe
+            //PorÃ³wnanie 2: stany koÅ„cowe
             int numberOfEndStates = ends.split(" ").length;
             for (int i = 6; i < 6 + numberOfEndStates; i++) {
                 boolean doThisLineExist = false;
@@ -550,7 +550,7 @@ public class TestAutomatonSpecification extends TestCase {
                     return false;
             }
 
-            //Porównanie 3: linie mog¹ ró¿niæ siê kolejnoœci¹
+            //PorÃ³wnanie 3: linie mogÄ… rÃ³Å¼niÄ‡ siÄ™ kolejnoÅ›ciÄ…
             for (int i = 6 + numberOfEndStates; i < exampleOfDotGraphTab.length; i++) {
                 boolean doThisLineExist = false;
                 for (int j = 6 + numberOfEndStates; j < exampleOfDotGraphTab.length; j++) {
@@ -568,8 +568,8 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Pierwszy test metody getDotGraph(). Prosty automat. Akceptuje tylko s³owo puste
-     * oraz s³owo "one".
+     * Pierwszy test metody getDotGraph(). Prosty automat. Akceptuje tylko sÅ‚owo puste
+     * oraz sÅ‚owo "one".
      */
     public final void testGetDotGraph0EasyAutomaton() {
         AutomatonSpecification testAutomaton = new NotNaiveAutomatonSpecification();
@@ -581,7 +581,7 @@ public class TestAutomatonSpecification extends TestCase {
         testAutomaton.markAsFinal(qBegin);
         testAutomaton.markAsFinal(qEnd);
 
-        //Tworzenie obu Stringów: przez toDotGraph() i "k³amliw¹" funkcjê
+        //Tworzenie obu StringÃ³w: przez toDotGraph() i "kÅ‚amliwÄ…" funkcjÄ™
         String dotGraph = testAutomaton.getDotGraph();
         FakeDotGraphGenerator exampleOfDotGraph = new FakeDotGraphGenerator("0 1 2 3 4", "0-o-1"
                 + " 1-n-2 2-e-3 3-1,2-4", "0", "0 3", true);
@@ -589,8 +589,8 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Drugi test metody getDotGraph(). Ze wszystkich s³ów nad alfabetem {a,b,c} zawieraj¹cych
-     * parzyst¹ liczbê wyst¹pieñ podci¹gu "ab" i w których liczba wyst¹pieñ litery c jest
+     * Drugi test metody getDotGraph(). Ze wszystkich sÅ‚Ã³w nad alfabetem {a,b,c} zawierajÄ…cych
+     * parzystÄ… liczbÄ™ wystÄ…pieÅ„ podciÄ…gu "ab" i w ktÃ³rych liczba wystÄ…pieÅ„ litery c jest
      * podzielna przez trzy.
      */
     public final void testGetDotGraph1BigAutomaton() {
@@ -635,7 +635,7 @@ public class TestAutomatonSpecification extends TestCase {
         testAutomaton.markAsInitial(qBegin);
         testAutomaton.markAsFinal(qBegin);
 
-        //Tworzenie obu Stringów: przez toDotGraph() i "k³amliw¹" funkcjê
+        //Tworzenie obu StringÃ³w: przez toDotGraph() i "kÅ‚amliwÄ…" funkcjÄ™
         String dotGraph = testAutomaton.getDotGraph();
         FakeDotGraphGenerator exampleOfDotGraph = new FakeDotGraphGenerator("0 1 2 3 4 5 6 7 8 9"
                 + " 10 11", "0-a-3 0-b-0 0-c-1 1-a-4 1-b-1 1-c-2 2-a-5 2-b-2 2-c-0 3-a-3 3-b-6"
@@ -646,8 +646,8 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Pierwszy test metody getDotGraph(). Automat sprawdzaj¹cy poprawnoœæ dzia³ania funkcji
-     * dla automatów zawieraj¹cych przejœcia po dowolnym znaku.
+     * Pierwszy test metody getDotGraph(). Automat sprawdzajÄ…cy poprawnoÅ›Ä‡ dziaÅ‚ania funkcji
+     * dla automatÃ³w zawierajÄ…cych przejÅ›cia po dowolnym znaku.
      */
     public final void testGetDotGraph2AutomatonWithAnyTransitionLabel() {
         AutomatonSpecification testAutomaton = new NaiveAutomatonSpecification();
@@ -656,7 +656,7 @@ public class TestAutomatonSpecification extends TestCase {
         testAutomaton.markAsInitial(qBegin);
         testAutomaton.markAsFinal(qEnd);
 
-        //Tworzenie obu Stringów: przez toDotGraph() i "k³amliw¹" funkcjê
+        //Tworzenie obu StringÃ³w: przez toDotGraph() i "kÅ‚amliwÄ…" funkcjÄ™
         String dotGraph = testAutomaton.getDotGraph();
         FakeDotGraphGenerator exampleOfDotGraph = new FakeDotGraphGenerator("0 1", "0-ANY-1", "0",
                 "1", false);
@@ -664,7 +664,7 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Testuje dzia³anie metody testPrefixChecker().
+     * Testuje dziaÅ‚anie metody testPrefixChecker().
      */
     public final void testPrefixChecker() {
         AutomatonSpecification spec = new NaiveAutomatonSpecification();
@@ -694,7 +694,7 @@ public class TestAutomatonSpecification extends TestCase {
         spec.addTransition(q3, q0, new CharTransitionLabel('b'));
         spec.addTransition(q3, q4, new CharTransitionLabel('c'));
 
-        // Stan 4 jest pu³apk¹
+        // Stan 4 jest puÅ‚apkÄ…
 
         spec.addLoop(q4, new CharTransitionLabel('a'));
         spec.addLoop(q4, new CharTransitionLabel('b'));
@@ -715,8 +715,8 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Testuje dzia³anie metody checkPrefix().
-     * Bazuje bezpoœrednio na teœcie metody prefixChecker()
+     * Testuje dziaÅ‚anie metody checkPrefix().
+     * Bazuje bezpoÅ›rednio na teÅ›cie metody prefixChecker()
      */
     public final void testCheckPrefix() {
         AutomatonSpecification spec = new NaiveAutomatonSpecification();
@@ -748,7 +748,7 @@ public class TestAutomatonSpecification extends TestCase {
         spec.addTransition(q3, q0, new CharTransitionLabel('b'));
         spec.addTransition(q3, q4, new CharTransitionLabel('c'));
 
-        // Stan 4 jest pu³apk¹
+        // Stan 4 jest puÅ‚apkÄ…
 
         spec.addLoop(q4, new CharTransitionLabel('a'));
         spec.addLoop(q4, new CharTransitionLabel('b'));
@@ -796,31 +796,31 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Test wariacji metody addTransition, w której tworzyony jest nowy stan.
+     * Test wariacji metody addTransition, w ktÃ³rej tworzyony jest nowy stan.
      */
     public final void testAddTransitionWithAddingState() {
         AutomatonSpecification automat = new NaiveAutomatonSpecification();
         State s0 = automat.addState();
 
-        //Sprawdzam iloœæ stanów oraz przejœæ w automacie przed zastosowaniem metody.
+        //Sprawdzam iloÅ›Ä‡ stanÃ³w oraz przejÅ›Ä‡ w automacie przed zastosowaniem metody.
         int numberOfStates1 = automat.countStates();
         int numberOfTransitions1 = automat.countTransitions();
 
-        //Dodajê nowy stan i przejœcie u¿ywaj¹c metody addTransition i sprawdzam
-        //ponownie iloœæ stanów oraz przejœæ.
+        //DodajÄ™ nowy stan i przejÅ›cie uÅ¼ywajÄ…c metody addTransition i sprawdzam
+        //ponownie iloÅ›Ä‡ stanÃ³w oraz przejÅ›Ä‡.
         State s1 = automat.addTransition(s0, new CharTransitionLabel('a'));
         int numberOfStates2 = automat.countStates();
         int numberOfTransitions2 = automat.countTransitions();
 
-        //Sprawdzam, czy iloœci stanów oraz przejsæ nie s¹ równe oraz czy ze stanu
-        //s0 da sie przejœæ do stanu s1.
+        //Sprawdzam, czy iloÅ›ci stanÃ³w oraz przejsÄ‡ nie sÄ… rÃ³wne oraz czy ze stanu
+        //s0 da sie przejÅ›Ä‡ do stanu s1.
         assertFalse(numberOfStates1 == numberOfStates2);
         assertFalse(numberOfTransitions1 == numberOfTransitions2);
         assertTrue(automat.allOutgoingTransitions(s0).get(0).getTargetState() == s1);
     }
 
     /**
-     * test metody insert: testuje zwyk³e u¿ycie.
+     * test metody insert: testuje zwykÅ‚e uÅ¼ycie.
      */
     public final void testInsertSimpleTest() {
         AutomatonSpecification firstAutomaton = new NaiveAutomatonSpecification();
@@ -833,7 +833,7 @@ public class TestAutomatonSpecification extends TestCase {
         try {
             second.fromString(fromString);
         } catch (Exception e) {
-            fail("Nie uda³o siê stworzyæ automatu.");
+            fail("Nie udaÅ‚o siÄ™ stworzyÄ‡ automatu.");
         }
 
         firstAutomaton.insert(firstState, second);
@@ -861,7 +861,7 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * testuje metodê insert, ale dodaje automat bez jakichkolwiek przejœæ.
+     * testuje metodÄ™ insert, ale dodaje automat bez jakichkolwiek przejÅ›Ä‡.
      */
     public final void testInsertNoTransitions() {
         final int automatonSize = 300;
@@ -881,7 +881,7 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Testuje dzia³anie metody clone(). Test 1.
+     * Testuje dziaÅ‚anie metody clone(). Test 1.
      */
     public final void testCloneMiniAutomaton() {
 
@@ -911,7 +911,7 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Testuje dzia³anie metody clone(). Test 2.
+     * Testuje dziaÅ‚anie metody clone(). Test 2.
      */
     public final void testCloneMini2Automaton() {
 
@@ -950,7 +950,7 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Testuje dzia³anie metody clone(). Test 3.
+     * Testuje dziaÅ‚anie metody clone(). Test 3.
      */
     public final void testCloneMini3Automaton() {
 
@@ -981,7 +981,7 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Testuje dzia³anie metody clone(). Test 4.
+     * Testuje dziaÅ‚anie metody clone(). Test 4.
      */
     public final void testCloneMini4Automaton() {
 
@@ -1023,15 +1023,15 @@ public class TestAutomatonSpecification extends TestCase {
      * Prosty test metody getEpsilonClosure(State).
      */
     public final void testSimpleGetEpsilonClosure() {
-        // Automat z tylko jednym stanem (pocz¹tkowy i koñcowy).
-        // Tylko jedne mo¿liwe przejœcie (czytanie znaku pustego
+        // Automat z tylko jednym stanem (poczÄ…tkowy i koÅ„cowy).
+        // Tylko jedne moÅ¼liwe przejÅ›cie (czytanie znaku pustego
         // i wracanie na ten sam stan).
         NaiveAutomatonSpecification automat = new NaiveAutomatonSpecification();
-        // Nowy automat ma ju¿ stan pocz¹tkowy i ustawiamy przejœcie.
+        // Nowy automat ma juÅ¼ stan poczÄ…tkowy i ustawiamy przejÅ›cie.
         automat.addTransition(automat.getInitialState(),
                 automat.getInitialState(),
                 new EpsilonTransitionLabel());
-        // Zaznaczamy stan pocz¹tkowy jako koñcowy.
+        // Zaznaczamy stan poczÄ…tkowy jako koÅ„cowy.
         automat.markAsFinal(automat.getInitialState());
         Set<State> zbior = new HashSet<State>();
         zbior.add(automat.getInitialState());
@@ -1052,14 +1052,14 @@ public class TestAutomatonSpecification extends TestCase {
         s3 = automat.addState();
         automat.markAsFinal(s3);
 
-        // Dodajmy jakieœ "normalne" przejœcia.
+        // Dodajmy jakieÅ› "normalne" przejÅ›cia.
         automat.addTransition(s0, s1, new CharTransitionLabel('a'));
         automat.addTransition(s0, s2, new CharTransitionLabel('b'));
         automat.addTransition(s1, s3, new CharTransitionLabel('a'));
         automat.addTransition(s1, s3, new CharTransitionLabel('b'));
         automat.addTransition(s2, s1, new CharTransitionLabel('b'));
 
-        // Dodajemy epsilon przejœcia.
+        // Dodajemy epsilon przejÅ›cia.
         automat.addTransition(s2, s3, new EpsilonTransitionLabel());
         automat.addTransition(s3, s1, new EpsilonTransitionLabel());
         automat.addTransition(s3, s0, new EpsilonTransitionLabel());
@@ -1076,7 +1076,7 @@ public class TestAutomatonSpecification extends TestCase {
         zbior.add(s3);
         assertEquals(zbior, automat.getEpsilonClosure(s2));
 
-        // Tu jest pêtla.
+        // Tu jest pÄ™tla.
         zbior = new HashSet<State>();
         zbior.add(s0);
         zbior.add(s1);
@@ -1085,7 +1085,7 @@ public class TestAutomatonSpecification extends TestCase {
     }
 
     /**
-     * Testuje metodê isNotEmpty.
+     * Testuje metodÄ™ isNotEmpty.
      */
     public final void testIsNotEmpty() {
         NaiveAutomatonSpecification spec = new NaiveAutomatonSpecification();
@@ -1224,14 +1224,14 @@ public class TestAutomatonSpecification extends TestCase {
         //test2.1 - normalny na 3 stanach z pojedynczymi przejsciami
         spec.addTransition(q1, q2, new CharTransitionLabel('b'));
         assertEquals(spec.maxWordLength(), 2);
-        //test 3 - pêtla w ramach jednego stanu.
+        //test 3 - pÄ™tla w ramach jednego stanu.
         NaiveAutomatonSpecification specLoop = new NaiveAutomatonSpecification();
         State loop = specLoop.addState();
         specLoop.markAsInitial(loop);
         specLoop.markAsFinal(loop);
         specLoop.addLoop(loop, new CharTransitionLabel('c'));
         assertEquals(specLoop.maxWordLength(), -2);
-        //test 4 same epsilon przejœcia
+        //test 4 same epsilon przejÅ›cia
         NaiveAutomatonSpecification spec2 = new NaiveAutomatonSpecification();
         State q7 = spec2.addState();
         State q8 = spec2.addState();
@@ -1248,15 +1248,15 @@ public class TestAutomatonSpecification extends TestCase {
         spec2.addTransition(q9, q10, new CharTransitionLabel('a'));
         spec2.addTransition(q10, q11, new CharTransitionLabel('b'));
         assertEquals(spec2.maxWordLength(), 2);
-        //test 4.2 - droga z epsilon przejsciami wiedzie przez wiecej stanów
-        //wiec liczac epsilony jest d³uzsza.
+        //test 4.2 - droga z epsilon przejsciami wiedzie przez wiecej stanÃ³w
+        //wiec liczac epsilony jest dÅ‚uzsza.
         State q12 = spec2.addState();
         State q13 = spec2.addState();
         spec2.addTransition(q9, q12, new EpsilonTransitionLabel());
         spec2.addTransition(q12, q13, new EpsilonTransitionLabel());
         spec2.addTransition(q13, q11, new EpsilonTransitionLabel());
         assertEquals(spec2.maxWordLength(), 2);
-        //test 6 jedna z galezi automatu wysuwa siê dalej niz stan koncowy.
+        //test 6 jedna z galezi automatu wysuwa siÄ™ dalej niz stan koncowy.
         NaiveAutomatonSpecification spec4 = new NaiveAutomatonSpecification();
         State q17 = spec4.addState();
         State q18 = spec4.addState();
@@ -1345,11 +1345,11 @@ public class TestAutomatonSpecification extends TestCase {
         State q5 = spec.addState();
         State q6 = spec.addState();
         
-        spec.addTransition(q0, q1, new CharTransitionLabel('Ÿ'));
+        spec.addTransition(q0, q1, new CharTransitionLabel('\u017A'));
         spec.addTransition(q1, q2, new CharTransitionLabel('d'));
-        spec.addTransition(q2, q3, new CharTransitionLabel('Ÿ'));
+        spec.addTransition(q2, q3, new CharTransitionLabel('\u017A'));
         spec.addTransition(q3, q4, new CharTransitionLabel('b'));
-        spec.addTransition(q4, q5, new CharTransitionLabel('³'));
+        spec.addTransition(q4, q5, new CharTransitionLabel('\u0142'));
         spec.addTransition(q5, q6, new CharTransitionLabel('o'));
 
         spec.markAsInitial(q0);
@@ -1357,14 +1357,14 @@ public class TestAutomatonSpecification extends TestCase {
         
         AutomatonByRecursion automaton = new AutomatonByRecursion(spec);
         
-        assertTrue(automaton.accepts("ŸdŸb³o"));
-        assertFalse(automaton.accepts("ŸbŸd³o"));
-        assertFalse(automaton.accepts("ŸdŸb³"));
-        assertFalse(automaton.accepts("oŸdŸb³"));
-        assertFalse(automaton.accepts("ŸdŸb³oŸdŸb³o"));
-        assertFalse(automaton.accepts("ŸŸdŸb³o"));
+        assertTrue(automaton.accepts("\u017Ad\u017Ab\u0142o"));
+        assertFalse(automaton.accepts("\u017Ab\u017Ad\u0142o"));
+        assertFalse(automaton.accepts("\u017A\u017Ad\u017Ab\u0142o"));
+        assertFalse(automaton.accepts("\u017Ad\u017Ab\u0142"));
+        assertFalse(automaton.accepts("o\u017Ad\u017Ab\u0142"));
+        assertFalse(automaton.accepts("\u017Ad\u017Ab\u0142o\u017Ad\u017Ab\u0142o"));
         assertFalse(automaton.accepts("zdzblo"));
-        assertFalse(automaton.accepts("¿d¿b³o"));
+        assertFalse(automaton.accepts("\u017Ad\u017Ad\u017Ab\u0142o"));
         assertFalse(automaton.accepts(""));
         assertFalse(automaton.accepts("123"));
     }
