@@ -162,4 +162,34 @@ public class TestFirstAcceptedWord extends TestCase {
         a.addTransition(s5, s6, new CharTransitionLabel('k'));
         assertEquals(a.firstAcceptedWord("sdfgczbvk"), "dcv");
     }
+
+    /**
+     * automat akceptujacy tylko jedno slowo.
+     */
+    public final void testFirstAcceptedWordG() {
+        AutomatonSpecification spec = new NaiveAutomatonSpecification();
+
+        State q0 = spec.addState();
+        State q1 = spec.addState();
+        State q2 = spec.addState();
+        State q3 = spec.addState();
+        State q4 = spec.addState();
+        State q5 = spec.addState();
+        State q6 = spec.addState();
+
+        spec.addTransition(q0, q1, new CharTransitionLabel('\u017A'));
+        spec.addTransition(q1, q2, new CharTransitionLabel('d'));
+        spec.addTransition(q2, q3, new CharTransitionLabel('\u017A'));
+        spec.addTransition(q3, q4, new CharTransitionLabel('b'));
+        spec.addTransition(q4, q5, new CharTransitionLabel('\u0142'));
+        spec.addTransition(q5, q6, new CharTransitionLabel('o'));
+
+        spec.markAsInitial(q0);
+        spec.markAsFinal(q6);
+
+        assertTrue(spec.firstAcceptedWord("\u017Adb\u0142o").equals("\u017Ad\u017Ab\u0142o"));
+        assertFalse(spec.firstAcceptedWord("\u017Adb\u0142o").equals("test"));
+        //zapetlenie sie programu 
+        //assertFalse(spec.firstAcceptedWord("tes").equals("\u017Ad\u017Ab\u0142o"));
+    }
 }

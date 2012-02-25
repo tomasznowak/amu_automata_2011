@@ -1329,41 +1329,4 @@ public class TestAutomatonSpecification extends TestCase {
         spec.unmarkAsFinalState(q3c);
         assertTrue(spec.isFinal(q1c));
     }
-    /**
-     * Test metody firstAcceptedWord.
-     */
-    public final void testFirstAcceptedWord() {
-        AutomatonSpecification spec = new NaiveAutomatonSpecification();
-
-        State q0 = spec.addState();
-        State q1 = spec.addState();
-        State q2 = spec.addState();
-        State q3 = spec.addState();
-        State q4 = spec.addState();
-        State q5 = spec.addState();
-        State q6 = spec.addState();
-
-        spec.addTransition(q0, q1, new CharTransitionLabel('\u017A'));
-        spec.addTransition(q1, q2, new CharTransitionLabel('d'));
-        spec.addTransition(q2, q3, new CharTransitionLabel('\u017A'));
-        spec.addTransition(q3, q4, new CharTransitionLabel('b'));
-        spec.addTransition(q4, q5, new CharTransitionLabel('\u0142'));
-        spec.addTransition(q5, q6, new CharTransitionLabel('o'));
-
-        spec.markAsInitial(q0);
-        spec.markAsFinal(q6);
-
-        AutomatonByRecursion automaton = new AutomatonByRecursion(spec);
-
-        assertTrue(automaton.accepts("\u017Ad\u017Ab\u0142o"));
-        assertFalse(automaton.accepts("\u017Ab\u017Ad\u0142o"));
-        assertFalse(automaton.accepts("\u017A\u017Ad\u017Ab\u0142o"));
-        assertFalse(automaton.accepts("\u017Ad\u017Ab\u0142"));
-        assertFalse(automaton.accepts("o\u017Ad\u017Ab\u0142"));
-        assertFalse(automaton.accepts("\u017Ad\u017Ab\u0142o\u017Ad\u017Ab\u0142o"));
-        assertFalse(automaton.accepts("zdzblo"));
-        assertFalse(automaton.accepts("\u017Ad\u017Ad\u017Ab\u0142o"));
-        assertFalse(automaton.accepts(""));
-        assertFalse(automaton.accepts("123"));
-    }
 }
