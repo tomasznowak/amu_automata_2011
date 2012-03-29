@@ -196,6 +196,6 @@ public class TestFirstAcceptedWord extends TestCase {
         assertFalse(spec.firstAcceptedWord("\u017Adb\u0142o").equals("\u017Ad\u017Ab\u0142"));
         assertFalse(spec.firstAcceptedWord("\u017Adb\u0142o").equals("???"));
 //zapetlenie sie programu;
-//assertFalse(spec.firstAcceptedWord("tes").equals("\u017Ad\u017Ab\u0142o"));
+//assertFalse(spec.firstAcceptedWord("\u017Adbo").equals("\u017Ad\u017Ab\u0142o"));
     }
 }
